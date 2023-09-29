@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>睿火打字练习 - 自定义</title>
+
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+		<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+
+		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+		<script src="./js/cookie.js"></script>
+		<script src="./js/replacehhf.js"></script>
+	</head>
+	<body>
+		<div>
+			<div class="main1">
+				<div class="main2">
+					<div class="titlebar">
+						<label for="exampleFormControlTextarea1" class="form-label">要打字的内容：</label>
+					</div>
+					<div class="mb-3">
+						<textarea class="form-control myarticle" id="exampleFormControlTextarea1" rows="3"></textarea>
+					</div>
+					<div class="buttonbar">
+						<button type="button" class="btn btn-primary" onclick="mystart()">开始！</button>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		function createpage() {
+			let titlebar = document.getElementsByClassName("titlebar")[0];
+			let myarticle = document.getElementsByClassName("myarticle")[0];
+			let buttonbar = document.getElementsByClassName("buttonbar")[0];
+
+			let windowheight = window.innerHeight;
+			let titlebarheight = titlebar.scrollHeight;
+			let buttonbarheight = buttonbar.scrollHeight;
+			let myarticleheight = windowheight - titlebarheight - buttonbarheight - 50;
+			let myarticleheightmix = 1;
+			if (myarticleheight < myarticleheightmix) {
+				myarticleheight = myarticleheightmix;
+			}
+
+			$(".myarticle").height(myarticleheight);
+
+
+		}
+		createpage();
+
+		window.onresize = function() {
+			createpage();
+		}
+		
+		function mystart(){
+			let article = $(".myarticle").val();
+			//console.log(myarticle);
+			let articlehhftobr = replacehhftobr(article);
+			setCookie("article",articlehhftobr,36500);
+			setCookie("entered","",36500);
+			setCookie("articletitle","自定义打字",36500);
+			setCookie("time", 0, 36500);
+			setCookie("autonextline",true,36500);
+			window.location.href = "type.html";
+		}
+	</script>
+</html>
