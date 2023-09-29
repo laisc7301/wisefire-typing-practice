@@ -1,1 +1,10 @@
-[{"name":"冰灯","url":"./article/chinese/冰灯.txt"}]
+[
+    {
+        "name": "冰灯",
+        "url": "./article/chinese/冰灯.txt"
+    },
+	{
+        "name": "朝鲜族风俗",
+        "url": "./article/chinese/朝鲜族风俗.txt"
+    }
+]
