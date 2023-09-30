@@ -12,12 +12,10 @@
 		<style>
 			.main {
 				background-color: chartreuse;
-
 			}
 
 			.main2 {
 				/* background-color: deepskyblue; */
-
 				background-color: lightskyblue;
 
 				overflow: auto;
@@ -178,14 +176,15 @@
 
 			var iscolorreg = /^#[0-9A-F]{6}$/i;
 
-			setCookie("isshowspeed", true, 36500);
+			
 
 			var isShowSpeed0 = getCookie("isshowspeed");
 
 			var isShowSpeed = true;
 
-			if (isShowSpeed0 == "true") {
+			if (isShowSpeed0 == "true"||isShowSpeed0 == true||isShowSpeed0 == "") {
 				isShowSpeed = true;
+				setCookie("isshowspeed", true, 0);
 			} else {
 				isShowSpeed = false;
 			}
@@ -1086,6 +1085,14 @@
 			} else {
 				setCookie("line2color", "", 0);
 			}
+			
+			let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
+			if(ifShowSpeedCheckbox.checked){
+				setCookie("isshowspeed",true,0);
+			}else{
+				setCookie("isshowspeed",false,36500);
+			}
+			
 
 
 			location.reload();
