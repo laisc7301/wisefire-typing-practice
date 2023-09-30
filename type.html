@@ -176,13 +176,13 @@
 
 			var iscolorreg = /^#[0-9A-F]{6}$/i;
 
-			
+
 
 			var isShowSpeed0 = getCookie("isshowspeed");
 
 			var isShowSpeed = true;
 
-			if (isShowSpeed0 == "true"||isShowSpeed0 == true||isShowSpeed0 == "") {
+			if (isShowSpeed0 == "true" || isShowSpeed0 == true || isShowSpeed0 == "") {
 				isShowSpeed = true;
 				setCookie("isshowspeed", true, 0);
 			} else {
@@ -191,11 +191,9 @@
 
 
 
-			var speedTimes = 0;
-
 			var speedLengthArray = new Array(); //记录每秒输入字符长度
 
-			var speedSpacing = 20; //测试速度间隔
+			var speedSpacing = 15; //测试速度间隔
 
 			for (let i = 0; i <= speedSpacing; i++) {
 				speedLengthArray[i] = entered.length;
@@ -970,8 +968,17 @@
 			}
 
 			let timeoutput = secondstotime(mytime);
+
+			let speedStrOut = "";
+
+			if (isShowSpeed) {
+				let speedStr1 = "速度：";
+				let speedStr2 = "char/min&nbsp;&nbsp;";
+				speedStrOut = speedStr1 + speed + speedStr2;
+			}
+
 			let titleoutput = mytitle + "&nbsp;&nbsp;已用时间:" + timeoutput + "(Alt+P暂停)&nbsp;&nbsp;正确率:" + mycorrectrate +
-				"%&nbsp;&nbsp;" + autonextlinetext +
+				"%&nbsp;&nbsp;"+ speedStrOut + autonextlinetext +
 				"&nbsp;&nbsp;<a onclick='onopensetting()' href='#'>设置</a>&nbsp;&nbsp;<a class='back' href='index.html'>返回</a>";
 
 			$(".title1").html(titleoutput);
@@ -1085,14 +1092,14 @@
 			} else {
 				setCookie("line2color", "", 0);
 			}
-			
+
 			let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
-			if(ifShowSpeedCheckbox.checked){
-				setCookie("isshowspeed",true,0);
-			}else{
-				setCookie("isshowspeed",false,36500);
+			if (ifShowSpeedCheckbox.checked) {
+				setCookie("isshowspeed", true, 0);
+			} else {
+				setCookie("isshowspeed", false, 36500);
 			}
-			
+
 
 
 			location.reload();
