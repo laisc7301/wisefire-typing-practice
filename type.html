@@ -109,6 +109,8 @@
 			;
 		</style>
 		<script>
+			var version = "v1.0.1";
+
 			var article = replacebrtohhf(getCookie("article"));
 			//var entered = "123\nOnce upon a time a little girl tried to make a living by selling matches in the stre";
 			var entered = replacebrtohhf(getCookie("entered"));
@@ -176,6 +178,33 @@
 
 			var iscolorreg = /^#[0-9A-F]{6}$/i;
 
+			setCookie("isshowspeed", true, 36500);
+
+			var isShowSpeed0 = getCookie("isshowspeed");
+
+			var isShowSpeed = true;
+
+			if (isShowSpeed0 == "true") {
+				isShowSpeed = true;
+			} else {
+				isShowSpeed = false;
+			}
+
+
+
+			var speedTimes = 0;
+
+			var speedLengthArray = new Array(); //记录每秒输入字符长度
+
+			var speedSpacing = 20; //测试速度间隔
+
+			for (let i = 0; i <= speedSpacing; i++) {
+				speedLengthArray[i] = entered.length;
+
+			}
+
+			var speed = 0;
+
 			// var isfinishdialogshowed = false;
 			// var issettingdialogshowed = false;
 		</script>
@@ -195,7 +224,9 @@
 
 			</div>
 			<div class="footer">
-				由&nbsp;<a href="https://laisc7301.github.io/blog/" target="_blank">睿虎</a>&nbsp;开发&nbsp;v1.0.0&nbsp;<a href="https://github.com/laisc7301/wisefire-typing-practice/" target="_blank">源代码</a>
+				由&nbsp;<a href="https://laisc7301.github.io/blog/" target="_blank">睿虎</a>&nbsp;开发&nbsp;<span
+					class="version">v1.0.0</span>&nbsp;<a href="https://github.com/laisc7301/wisefire-typing-practice/"
+					target="_blank">源代码</a>
 			</div>
 
 		</div>
@@ -279,6 +310,18 @@
 					aria-describedby="inputGroup-sizing-default"><span class="settingdialog-tip1">（默认30）</span>
 			</div>
 
+			<div>
+				显示打字速度：
+				<input class="form-check-input ifshowspeed" type="checkbox" value="" id="flexCheckChecked" checked>
+				<label class="form-check-label" for="flexCheckChecked">
+					开启
+				</label>
+
+			</div><br />
+
+
+
+
 			<!-- is-invalid -->
 
 			<div>标题栏颜色：<input class="form-control form-control-sm colortext colortext-title"
@@ -307,7 +350,8 @@
 					oninput="onchangeline1color(this)" />
 			</div>
 
-			<div>双数行颜色：<input class="form-control form-control-sm colortext colortext-line2" oninput="onchangeline2colortext()" />
+			<div>双数行颜色：<input class="form-control form-control-sm colortext colortext-line2"
+					oninput="onchangeline2colortext()" />
 
 				<button type="button" class="btn btn-primary"
 					style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
@@ -355,11 +399,16 @@
 			// var entertextcss = document.querySelector('.entertext');
 			// entertextcss.style.fontSize = 50;
 
+			$(".version").html(version);
+
 		}
 		createpage0();
 
+
+
 		function starttimer() {
-			var int = self.setInterval("mytime()", 1000);
+			var timer1 = self.setInterval("mytime()", 1000); //计算已用时间
+			var timer2 = self.setInterval("mytime2()", 1000); //计算打字速度
 		}
 		starttimer();
 
@@ -520,6 +569,9 @@
 		loadtipandinput();
 
 
+
+
+
 		function setcolor(index) {
 			let nowentered = myinputobj[index].getAttribute("nowentered");
 			let enteredtip = myinputobj[index].getAttribute("enteredtip");
@@ -644,7 +696,7 @@
 						// 	nowfocus++;
 						// 	myinputobj[nowfocus].focus();
 						// }
-						var myregular = /[A-Za-zü']+/;
+						let myregular = /[A-Za-zü']+/;
 						if (myregular.test(endstr)) {
 							// console.log('该字符串是英文' + endstr);
 						} else {
@@ -673,7 +725,7 @@
 							}
 						} else {
 							let endstr = myobj.value.substring(myobj.value.length - 1, myobj.value.length);
-							var myregular = /[A-Za-zü']+/;
+							let myregular = /[A-Za-zü']+/;
 							if (myregular.test(endstr)) {
 								// console.log('该字符串是英文' + endstr);
 							} else {
@@ -701,6 +753,14 @@
 			// 	nowfocus--;
 			// 	myinputobj[nowfocus].focus();
 			// }
+			// console.log(ifpinyinend(myobj.value));
+		}
+
+
+		function ifpinyinend(str) {
+			let endstr = str.substring(str.length - 1, str.length);
+			let myregular = /[A-Za-zü']+/;
+			return myregular.test(endstr);
 		}
 
 		function getcorrectrate() { // 获得正确率
@@ -756,7 +816,7 @@
 				}
 			}
 			if (event.keyCode == 16) { // shift键
-				console.log(myinputobj[nowfocus].selectionEnd);
+				//console.log(myinputobj[nowfocus].selectionEnd);
 
 			}
 
@@ -960,6 +1020,18 @@
 			myline2color.value = line2color;
 			$(".colortext-line2").val(line2color);
 
+
+			let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
+
+			ifShowSpeedCheckbox.checked = isShowSpeed;
+
+
+
+
+
+
+
+
 			$(".settingdialog").show();
 
 			let windowwidth = window.innerWidth;
@@ -978,12 +1050,12 @@
 			if (colortexttitle.getAttribute("isinvalid") == "yes") {
 				return;
 			}
-			
+
 			let colortextline1 = document.getElementsByClassName("colortext-line1")[0];
 			if (colortextline1.getAttribute("isinvalid") == "yes") {
 				return;
 			}
-			
+
 			let colortextline2 = document.getElementsByClassName("colortext-line2")[0];
 			if (colortextline2.getAttribute("isinvalid") == "yes") {
 				return;
@@ -1101,7 +1173,7 @@
 			$(".colortext-line2").val(defaultline2color);
 			checkline2colortext();
 			setline2color(defaultline2color);
-			
+
 		}
 
 		function iscolortext(val) {
@@ -1139,7 +1211,7 @@
 			if (colortextline1.getAttribute("isinvalid") == "no") {
 				myline1colorset.value = colortextline1.value;
 				setline1color(colortextline1.value);
-				
+
 			}
 		}
 
@@ -1154,10 +1226,10 @@
 				colortextline1.setAttribute("isinvalid", "yes");
 			}
 		}
-		
+
 		function onchangeline2colortext() {
 			checkline2colortext();
-		
+
 			let colortextline2 = document.getElementsByClassName("colortext-line2")[0];
 			let myline2colorset = document.getElementsByClassName("line2colorset")[0];
 			if (colortextline2.getAttribute("isinvalid") == "no") {
@@ -1165,7 +1237,7 @@
 				setline2color(colortextline2.value);
 			}
 		}
-		
+
 		function checkline2colortext() {
 			let line2colorclass = "form-control form-control-sm colortext colortext-line2";
 			let colortextline2 = document.getElementsByClassName("colortext-line2")[0];
@@ -1175,6 +1247,26 @@
 			} else {
 				colortextline2.className = line2colorclass + " is-invalid";
 				colortextline2.setAttribute("isinvalid", "yes");
+			}
+		}
+
+		function getSpeedIndex2() {
+
+		}
+
+
+
+		function mytime2() {
+			if (isShowSpeed && isinputing) {
+
+				speedLengthArray.shift();
+
+				speedLengthArray.push(getallentercontent().length);
+
+				let speed0 = speedLengthArray[speedSpacing] - speedLengthArray[0];
+
+				speed = speed0 / speedSpacing * 60;
+				// console.log(speed);
 			}
 		}
 	</script>
