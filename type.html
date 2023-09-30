@@ -203,7 +203,7 @@
 			var speed = 0;
 
 			// var isfinishdialogshowed = false;
-			// var issettingdialogshowed = false;
+			// var issettingModalshowed = false;
 		</script>
 
 	</head>
@@ -266,29 +266,10 @@
 		</div>
 
 		<style>
-			.settingdialog {
-				top: 0;
-				left: 0;
-				/* right: 0;
-				bottom: 0; */
-
-				position: fixed;
-				z-index: 100;
-
-				background-color: #F4FFEF;
-				border: 1px dotted black;
-				display: none;
-			}
-
-			.settingdialog-title {
-				font-weight: bold;
-				font-size: 20px;
-			}
-
-			.settingdialog-tip1 {
+			.settingModal-tip1 {
 				border-style: solid none solid none;
 				border-width: 7px;
-				border-color: #F4FFEF;
+				border-color: #ffffff;
 			}
 
 			.colortext {
@@ -298,74 +279,88 @@
 			}
 		</style>
 
-		<div class="settingdialog">
-			<div class="settingdialog-title">设置</div>
 
-			<div class="input-group mb-3">
-				<span class="input-group-text" id="inputGroup-sizing-default">字体大小(px)：</span>
-				<input type="text" class="form-control setting-fontsize" aria-label="Sizing example input"
-					aria-describedby="inputGroup-sizing-default"><span class="settingdialog-tip1">（默认30）</span>
+
+		<div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">设置</h1>
+						<button type="button" class="btn-close" onclick="onsettingModalCancel()"></button>
+					</div>
+					<div class="modal-body">
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="inputGroup-sizing-default">字体大小(px)：</span>
+							<input type="text" class="form-control setting-fontsize" aria-label="Sizing example input"
+								aria-describedby="inputGroup-sizing-default"><span
+								class="settingModal-tip1">（默认30）</span>
+						</div>
+
+						<div>
+							显示打字速度：
+							<input class="form-check-input ifshowspeed" type="checkbox" value="" id="flexCheckChecked"
+								checked>
+							<label class="form-check-label" for="flexCheckChecked">
+								开启
+							</label>
+
+						</div><br />
+
+
+
+
+						<!-- is-invalid -->
+
+						<div>标题栏颜色：<input class="form-control form-control-sm colortext colortext-title"
+								oninput="onchangetitlecolortext()" />
+
+							<button type="button" class="btn btn-primary"
+								style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+								onclick="titlecolortodefault()">
+								恢复默认
+							</button>
+
+							<input type="color" class="form-control form-control-color titlecolorset" value="#ff0000"
+								title="标题栏颜色" oninput="onchangetitlecolor(this)" />
+						</div>
+
+						<div>单数行颜色：<input class="form-control form-control-sm colortext colortext-line1"
+								oninput="onchangeline1colortext()" />
+
+							<button type="button" class="btn btn-primary"
+								style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+								onclick="line1colortodefault()">
+								恢复默认
+							</button>
+
+							<input type="color" class="form-control form-control-color line1colorset" value="#ff0000"
+								title="单数行颜色" oninput="onchangeline1color(this)" />
+						</div>
+
+						<div>双数行颜色：<input class="form-control form-control-sm colortext colortext-line2"
+								oninput="onchangeline2colortext()" />
+
+							<button type="button" class="btn btn-primary"
+								style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+								onclick="line2colortodefault()">
+								恢复默认
+							</button>
+
+							<input type="color" class="form-control form-control-color line2colorset" value="#ff0000"
+								title="双数行颜色" oninput="onchangeline2color(this)" />
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" onclick="onsettingModalCancel()">取消</button>
+						<button type="button" class="btn btn-primary" onclick="onsettingModalSave()">保存</button>
+					</div>
+				</div>
 			</div>
-
-			<div>
-				显示打字速度：
-				<input class="form-check-input ifshowspeed" type="checkbox" value="" id="flexCheckChecked" checked>
-				<label class="form-check-label" for="flexCheckChecked">
-					开启
-				</label>
-
-			</div><br />
-
-
-
-
-			<!-- is-invalid -->
-
-			<div>标题栏颜色：<input class="form-control form-control-sm colortext colortext-title"
-					oninput="onchangetitlecolortext()" />
-
-				<button type="button" class="btn btn-primary"
-					style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-					onclick="titlecolortodefault()">
-					恢复默认
-				</button>
-
-				<input type="color" class="form-control form-control-color titlecolorset" value="#ff0000" title="标题栏颜色"
-					oninput="onchangetitlecolor(this)" />
-			</div>
-
-			<div>单数行颜色：<input class="form-control form-control-sm colortext colortext-line1"
-					oninput="onchangeline1colortext()" />
-
-				<button type="button" class="btn btn-primary"
-					style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-					onclick="line1colortodefault()">
-					恢复默认
-				</button>
-
-				<input type="color" class="form-control form-control-color line1colorset" value="#ff0000" title="单数行颜色"
-					oninput="onchangeline1color(this)" />
-			</div>
-
-			<div>双数行颜色：<input class="form-control form-control-sm colortext colortext-line2"
-					oninput="onchangeline2colortext()" />
-
-				<button type="button" class="btn btn-primary"
-					style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-					onclick="line2colortodefault()">
-					恢复默认
-				</button>
-
-				<input type="color" class="form-control form-control-color line2colorset" value="#ff0000" title="双数行颜色"
-					oninput="onchangeline2color(this)" />
-			</div>
-
-
-			<button type="button" class="btn btn-primary floatright" onclick="onsettingdialogok()">确定</button><span
-				class="floatright">&nbsp;&nbsp;</span>
-			<button type="button" class="btn btn-secondary floatright" onclick="onsettingdialogcancel()">取消</button>
-
 		</div>
+
+
+
+
 
 	</body>
 	<script>
@@ -978,7 +973,7 @@
 			}
 
 			let titleoutput = mytitle + "&nbsp;&nbsp;已用时间:" + timeoutput + "(Alt+P暂停)&nbsp;&nbsp;正确率:" + mycorrectrate +
-				"%&nbsp;&nbsp;"+ speedStrOut + autonextlinetext +
+				"%&nbsp;&nbsp;" + speedStrOut + autonextlinetext +
 				"&nbsp;&nbsp;<a onclick='onopensetting()' href='#'>设置</a>&nbsp;&nbsp;<a class='back' href='index.html'>返回</a>";
 
 			$(".title1").html(titleoutput);
@@ -1012,7 +1007,16 @@
 			autowritetitle();
 		}
 
-		function onopensetting() { //settingdialog
+
+
+
+
+
+		function onopensetting() { //settingModal
+			$("#settingModal").modal("show");
+
+
+
 			$(".setting-fontsize").val(fontsize);
 			let mytitlecolor = document.getElementsByClassName("titlecolorset")[0];
 			mytitlecolor.value = titlecolor;
@@ -1034,24 +1038,10 @@
 
 
 
-
-
-
-
-			$(".settingdialog").show();
-
-			let windowwidth = window.innerWidth;
-			let windowheight = window.innerHeight;
-			let finishdialog = document.getElementsByClassName("settingdialog")[0];
-			let finishdialogwidth = finishdialog.scrollWidth;
-			let finishdialogheight = finishdialog.scrollHeight;
-
-			finishdialog.style.top = parseInt((windowheight - finishdialogheight) / 2) + "px";
-			finishdialog.style.left = parseInt((windowwidth - finishdialogwidth) / 2) + "px";
 		}
 
 
-		function onsettingdialogok() { //"fontsize"
+		function onsettingModalSave() { //"fontsize"
 			let colortexttitle = document.getElementsByClassName("colortext-title")[0];
 			if (colortexttitle.getAttribute("isinvalid") == "yes") {
 				return;
@@ -1100,19 +1090,19 @@
 				setCookie("isshowspeed", false, 36500);
 			}
 
-
+			$("#settingModal").modal("hide");
 
 			location.reload();
-			$(".settingdialog").hide();
+
 		}
 
-		function onsettingdialogcancel() {
+		function onsettingModalCancel() {
 
 			settitlecolor(titlecolor);
 			setline1color(line1color);
 			setline2color(line2color);
 
-			$(".settingdialog").hide();
+			$("#settingModal").modal("hide");
 		}
 
 		function onchangetitlecolor(myobj) {
