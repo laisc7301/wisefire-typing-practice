@@ -10,5 +10,9 @@
 	{
         "name": "American personal hygiene",
         "url": "./article/english/American personal hygiene.txt"
+    },
+	{
+        "name": "An Italian fairy",
+        "url": "./article/english/An Italian fairy.txt"
     }
 ]
