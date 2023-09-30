@@ -281,12 +281,47 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		<div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-5" id="exampleModalLabel">设置</h1>
-						<button type="button" class="btn-close" onclick="onsettingModalCancel()"></button>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" onclick="onsettingModalCancel()"></button>
 					</div>
 					<div class="modal-body">
 						<div class="input-group mb-3">
@@ -351,7 +386,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" onclick="onsettingModalCancel()">取消</button>
+						<button type="button" class="btn btn-secondary" onclick="onsettingModalCancel()" data-bs-dismiss="modal">取消</button>
 						<button type="button" class="btn btn-primary" onclick="onsettingModalSave()">保存</button>
 					</div>
 				</div>
@@ -392,6 +427,10 @@
 			// entertextcss.style.fontSize = 50;
 
 			$(".version").html(version);
+			
+			$('#settingModal').on('hidden.bs.modal', function () {
+			  onsettingModalCancel();
+			});
 
 		}
 		createpage0();
@@ -1012,6 +1051,33 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		function onopensetting() { //settingModal
 			$("#settingModal").modal("show");
 
@@ -1102,7 +1168,7 @@
 			setline1color(line1color);
 			setline2color(line2color);
 
-			$("#settingModal").modal("hide");
+			//$("#settingModal").modal("hide");
 		}
 
 		function onchangetitlecolor(myobj) {
