@@ -202,6 +202,8 @@
 
 			var speed = 0;
 
+			var isSettingModalSaveOnClick = false; //是否点击了设置保存按钮
+
 			// var isfinishdialogshowed = false;
 			// var issettingModalshowed = false;
 		</script>
@@ -321,7 +323,8 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-5" id="exampleModalLabel">设置</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" onclick="onsettingModalCancel()"></button>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							onclick="onsettingModalCancel()"></button>
 					</div>
 					<div class="modal-body">
 						<div class="input-group mb-3">
@@ -386,7 +389,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" onclick="onsettingModalCancel()" data-bs-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-secondary" onclick="onsettingModalCancel()"
+							data-bs-dismiss="modal">取消</button>
 						<button type="button" class="btn btn-primary" onclick="onsettingModalSave()">保存</button>
 					</div>
 				</div>
@@ -427,9 +431,9 @@
 			// entertextcss.style.fontSize = 50;
 
 			$(".version").html(version);
-			
-			$('#settingModal').on('hidden.bs.modal', function () {
-			  onsettingModalCancel();
+
+			$('#settingModal').on('hidden.bs.modal', function() {
+				onsettingModalCancel();
 			});
 
 		}
@@ -1108,6 +1112,8 @@
 
 
 		function onsettingModalSave() { //"fontsize"
+			isSettingModalSaveOnClick = true;
+
 			let colortexttitle = document.getElementsByClassName("colortext-title")[0];
 			if (colortexttitle.getAttribute("isinvalid") == "yes") {
 				return;
@@ -1163,11 +1169,14 @@
 		}
 
 		function onsettingModalCancel() {
+			if (isSettingModalSaveOnClick == false) {
 
-			settitlecolor(titlecolor);
-			setline1color(line1color);
-			setline2color(line2color);
-
+				settitlecolor(titlecolor);
+				setline1color(line1color);
+				setline2color(line2color);
+			} else {
+				isSettingModalSaveOnClick = false;
+			}
 			//$("#settingModal").modal("hide");
 		}
 
