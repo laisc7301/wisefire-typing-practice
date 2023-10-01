@@ -135,7 +135,8 @@
 			} else {
 				autonextline = (autonextline0 == "true");
 			}
-			
+
+			var isnum = /^[0-9]+$/;
 			var defaultFontSize = 30;
 
 			let fontsize0 = getCookie("fontsize");
@@ -283,43 +284,6 @@
 			}
 		</style>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		<div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
@@ -332,7 +296,7 @@
 						<div class="input-group mb-3">
 							<span class="input-group-text" id="inputGroup-sizing-default">字体大小(px)：</span>
 							<input type="text" class="form-control setting-fontsize" aria-label="Sizing example input"
-								aria-describedby="inputGroup-sizing-default"><span
+								oninput="onchangefontsize(this)" aria-describedby="inputGroup-sizing-default"><span
 								class="settingModal-tip1">（默认<span class="defaultFontSizeTip">30</span>）</span>
 						</div>
 
@@ -1061,41 +1025,8 @@
 		}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		function onopensetting() { //settingModal
 			$("#settingModal").modal("show");
-
-
 
 			$(".setting-fontsize").val(fontsize);
 			let mytitlecolor = document.getElementsByClassName("titlecolorset")[0];
@@ -1114,12 +1045,12 @@
 			let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
 
 			ifShowSpeedCheckbox.checked = isShowSpeed;
-			
+
 
 			let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
 
 			ifAutoNextLineCheckbox.checked = autonextline;
-			
+
 			$(".defaultFontSizeTip").html(defaultFontSize)
 
 
@@ -1127,8 +1058,13 @@
 		}
 
 
-		function onsettingModalSave() { //"fontsize"
+		function onsettingModalSave() { //"fontsize"setting-fontsize
 			isSettingModalSaveOnClick = true;
+
+			let mySettingFontSize = document.getElementsByClassName("setting-fontsize")[0];
+			if (mySettingFontSize.getAttribute("isinvalid") == "yes") {
+				return;
+			}
 
 			let colortexttitle = document.getElementsByClassName("colortext-title")[0];
 			if (colortexttitle.getAttribute("isinvalid") == "yes") {
@@ -1146,9 +1082,9 @@
 			}
 
 			let myFontSize = $(".setting-fontsize").val();
-			if(myFontSize==defaultFontSize){
+			if (myFontSize == defaultFontSize) {
 				setCookie("fontsize", $(".setting-fontsize").val(), 0);
-			}else{
+			} else {
 				setCookie("fontsize", $(".setting-fontsize").val(), 36500);
 			}
 
@@ -1180,7 +1116,7 @@
 			} else {
 				setCookie("isshowspeed", false, 36500);
 			}
-			
+
 			let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
 			if (ifAutoNextLineCheckbox.checked) {
 				setCookie("autonextline", true, 0);
@@ -1279,6 +1215,23 @@
 			checkline2colortext();
 			setline2color(defaultline2color);
 
+		}
+
+		function onchangefontsize(myobj) {
+			checkSettingFontSizeText();
+		}
+
+		function checkSettingFontSizeText() {
+
+			let settingFontSizeClass = "form-control setting-fontsize";
+			let mySettingFontSize = document.getElementsByClassName("setting-fontsize")[0];
+			if (isnum.test(mySettingFontSize.value)) {
+				mySettingFontSize.className = settingFontSizeClass;
+				mySettingFontSize.setAttribute("isinvalid", "no");
+			} else {
+				mySettingFontSize.className = settingFontSizeClass + " is-invalid";
+				mySettingFontSize.setAttribute("isinvalid", "yes");
+			}
 		}
 
 		function iscolortext(val) {
