@@ -135,11 +135,13 @@
 			} else {
 				autonextline = (autonextline0 == "true");
 			}
+			
+			var defaultFontSize = 30;
 
 			let fontsize0 = getCookie("fontsize");
-			var fontsize = 30;
+			var fontsize = defaultFontSize;
 			if (fontsize0 == "") {
-				fontsize = 30;
+				fontsize = defaultFontSize;
 			} else {
 				fontsize = fontsize0;
 			}
@@ -331,7 +333,7 @@
 							<span class="input-group-text" id="inputGroup-sizing-default">字体大小(px)：</span>
 							<input type="text" class="form-control setting-fontsize" aria-label="Sizing example input"
 								aria-describedby="inputGroup-sizing-default"><span
-								class="settingModal-tip1">（默认30）</span>
+								class="settingModal-tip1">（默认<span class="defaultFontSizeTip">30</span>）</span>
 						</div>
 
 						<div>
@@ -962,7 +964,7 @@
 			}
 		}
 
-		var finishdialogshowtype = "first";
+		//var finishdialogshowtype = "first";
 
 		function windowonkeydown(event) {
 			// console.log(event.keyCode);
@@ -1117,6 +1119,8 @@
 			let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
 
 			ifAutoNextLineCheckbox.checked = autonextline;
+			
+			$(".defaultFontSizeTip").html(defaultFontSize)
 
 
 
@@ -1141,9 +1145,12 @@
 				return;
 			}
 
-
-
-			setCookie("fontsize", $(".setting-fontsize").val(), 36500);
+			let myFontSize = $(".setting-fontsize").val();
+			if(myFontSize==defaultFontSize){
+				setCookie("fontsize", $(".setting-fontsize").val(), 0);
+			}else{
+				setCookie("fontsize", $(".setting-fontsize").val(), 36500);
+			}
 
 			let mytitlecolor = document.getElementsByClassName("colortext-title")[0].value;
 
