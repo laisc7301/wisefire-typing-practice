@@ -129,9 +129,9 @@
 				time = time0;
 			}
 			let autonextline0 = getCookie("autonextline");
-			var autonextline = false;
+			var autonextline = true;
 			if (autonextline0 == "") {
-				autonextline = false;
+				autonextline = true;
 			} else {
 				autonextline = (autonextline0 == "true");
 			}
@@ -1040,7 +1040,7 @@
 
 		function autonextlineopen() {
 			autonextline = true;
-			setCookie("autonextline", autonextline, 36500);
+			setCookie("autonextline", autonextline, 0);
 			autowritetitle();
 		}
 
