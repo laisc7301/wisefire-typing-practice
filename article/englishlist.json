@@ -14,5 +14,9 @@
 	{
         "name": "An Italian fairy",
         "url": "./article/english/An Italian fairy.txt"
+    },
+	{
+        "name": "anti globalization",
+        "url": "./article/english/anti globalization.txt"
     }
 ]
