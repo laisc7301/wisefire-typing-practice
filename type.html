@@ -1173,6 +1173,13 @@
 			} else {
 				setCookie("isshowspeed", false, 36500);
 			}
+			
+			let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
+			if (ifAutoNextLineCheckbox.checked) {
+				setCookie("autonextline", true, 0);
+			} else {
+				setCookie("autonextline", false, 36500);
+			}
 
 			$("#settingModal").modal("hide");
 
