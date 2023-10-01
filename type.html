@@ -262,6 +262,7 @@
 			<div class="finishdialog-usedtime">用时：</div>
 			<div class="finishdialog-correctrate">正确率：</div>
 			<div class="finishdialog-totalinput">输入字数：</div>
+			<div class="finishdialog-averagespeed">平均速度：<span class="averageInputSpeed"></span>&nbsp;char/min</div>
 
 			<br />
 			<div class="finishdialog-okbutton">
@@ -864,6 +865,30 @@
 
 		}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		function onfinish() { //打字完成时运行此处
 			isinputing = false;
 			// isfinishdialogshowed = true;
@@ -873,7 +898,18 @@
 			let correctrate = getcorrectrate();
 			writetitle(articletitle, time, correctrate);
 			$(".finishdialog-correctrate").html("正确率：" + correctrate + "%");
-			$(".finishdialog-totalinput").html("输入字数：" + getallentercontent().length);
+			let allEnterContentLength = getallentercontent().length;
+			$(".finishdialog-totalinput").html("输入字数：" + allEnterContentLength);
+
+			let myspeed = allEnterContentLength;
+			if (time <= 0) {
+				myspeed=allEnterContentLength;
+			}else{
+				myspeed = allEnterContentLength / time * 60;
+			}
+
+			$(".averageInputSpeed").html(myspeed);
+
 
 			$(".finishdialog").show();
 			let windowwidth = window.innerWidth;
@@ -985,7 +1021,7 @@
 
 			if (isShowSpeed) {
 				let speedStr1 = "速度：";
-				let speedStr2 = "char/min&nbsp;&nbsp;";
+				let speedStr2 = "&nbsp;char/min&nbsp;&nbsp;";
 				speedStrOut = speedStr1 + speed + speedStr2;
 			}
 
