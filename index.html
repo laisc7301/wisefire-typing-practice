@@ -15,7 +15,7 @@
 			var englishlist = "";
 			var typingtype = "英文打字";
 			var setarticleselect = "";
-			var article="";
+			var article = "";
 		</script>
 
 		<!-- 网站背景 -->
@@ -73,12 +73,12 @@
 			.textstroke {
 				text-shadow: #fff 1px 0 0, #fff 0 1px 0, #fff -1px 0 0, #fff 0 -1px 0;
 			}
-			
-			.bottombutton{
-				position:absolute;
-				bottom:0px;
+
+			.bottombutton {
+				position: absolute;
+				bottom: 0px;
 				left: 0px;
-				right:0px;
+				right: 0px;
 			}
 		</style>
 
@@ -102,10 +102,10 @@
 						value="中文打字" onclick="settypingtype(this.value)">
 					<label class="form-check-label textstroke" for="inlineRadio2">中文打字</label>
 				</div>
-				
+
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
-						value="自定义" onclick="settypingtype(this.value)">
+					<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="自定义"
+						onclick="settypingtype(this.value)">
 					<label class="form-check-label textstroke" for="inlineRadio3">自定义</label>
 				</div>
 				<br /><br />
@@ -116,8 +116,8 @@
 					<option value="2">Two</option>
 					<option value="3">Three</option>
 				</select>
-				
-				
+
+
 				<div class="bottombutton">
 					<button type="button" class="btn btn-dark" onclick="continuetyping()">继续上次打字</button>&nbsp;
 					<button type="button" class="btn btn-info" onclick="newtyping()">新打字任务</button>
@@ -131,6 +131,7 @@
 		let englishlistget = $.ajax({
 			type: "GET",
 			url: "./article/englishlist.json",
+			cache: false,
 			async: false,
 			success: function(result) {
 				//chineselist = JSON.parse(result);
@@ -142,6 +143,7 @@
 		let chineselistget = $.ajax({
 			type: "GET",
 			url: "./article/chineselist.json",
+			cache: false,
 			async: false,
 			success: function(result) {
 				//chineselist = JSON.parse(result);
@@ -150,19 +152,19 @@
 
 			}
 		});
-		
+
 
 		function loadtypinglist() {
 			setarticleselect = document.getElementsByClassName("setarticle")[0];
-			setarticleselect.options.length = 0; 
-			if(typingtype == "英文打字"){
-				for(let i=0;i<englishlist.length;i++){
-					setarticleselect.options.add(new Option(englishlist[i].name,englishlist[i].url));
+			setarticleselect.options.length = 0;
+			if (typingtype == "英文打字") {
+				for (let i = 0; i < englishlist.length; i++) {
+					setarticleselect.options.add(new Option(englishlist[i].name, englishlist[i].url));
 				}
 			}
-			if(typingtype == "中文打字"){
-				for(let i=0;i<chineselist.length;i++){
-					setarticleselect.options.add(new Option(chineselist[i].name,chineselist[i].url));
+			if (typingtype == "中文打字") {
+				for (let i = 0; i < chineselist.length; i++) {
+					setarticleselect.options.add(new Option(chineselist[i].name, chineselist[i].url));
 				}
 			}
 		}
@@ -171,29 +173,29 @@
 			typingtype = value;
 			loadtypinglist();
 		}
-		
-		
-		
-		
-		function newtyping(){
-			
+
+
+
+
+		function newtyping() {
+
 			let r = confirm("将覆盖上次的打字记录，确定继续？");
 			if (r == false) {
-			    return;
+				return;
 			}
-			if(typingtype=="自定义"){
+			if (typingtype == "自定义") {
 				window.location.href = "custom.html";
 				return;
 			}
-			
+
 			let setarticleselectid = setarticleselect.selectedIndex;
 			let setarticleselectvalue = setarticleselect.options[setarticleselectid].value;
 			let setarticleselectname = setarticleselect.options[setarticleselectid].innerHTML;
-			
+
 			//alert(setarticleselectvalue);
-			setCookie("articletitle",setarticleselectname,36500);
+			setCookie("articletitle", setarticleselectname, 36500);
 			setCookie("time", 0, 36500);
-			setCookie("autonextline",true,36500);
+			setCookie("autonextline", true, 36500);
 			let myarticle = $.ajax({
 				type: "GET",
 				url: setarticleselectvalue,
@@ -201,14 +203,15 @@
 				success: function(result) {
 					article = result;
 					let articlehhftobr = replacehhftobr(article);
-					setCookie("article",articlehhftobr,36500);
+					setCookie("article", articlehhftobr, 36500);
 					//console.log(replacebrtohhf(getCookie("article")));
-					setCookie("entered","",36500);
+					setCookie("entered", "", 36500);
 					window.location.href = "type.html";
 				}
 			});
 		}
-		function continuetyping(){
+
+		function continuetyping() {
 			window.location.href = "type.html";
 		}
 		loadtypinglist();
