@@ -344,7 +344,15 @@
 
 						</div><br />
 
+						<div>
+							自动换行：
+							<input class="form-check-input ifautonextline" type="checkbox" value=""
+								id="flexCheckChecked2" checked>
+							<label class="form-check-label" for="flexCheckChecked2">
+								开启
+							</label>
 
+						</div><br />
 
 
 						<!-- is-invalid -->
@@ -1104,7 +1112,11 @@
 			let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
 
 			ifShowSpeedCheckbox.checked = isShowSpeed;
+			
 
+			let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
+
+			ifAutoNextLineCheckbox.checked = autonextline;
 
 
 
