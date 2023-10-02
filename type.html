@@ -113,14 +113,14 @@
 			//var entered = "123\nOnce upon a time a little girl tried to make a living by selling matches in the stre";
 			var entered = replacebrtohhf(getCookie("entered"));
 
-			var myinputobj = new Array(); //输入内容列表(input)
-			var inputtipobj = new Array(); //输入提示列表(div)
+			var myInputObj = new Array(); //输入内容列表(input)
+			var inputTipObj = new Array(); //输入提示列表(div)
 			var list = new Array(); //每行要输入的内容
-			var listentered = new Array(); //已输入的每行的内容，仅加载时更新
-			var nowfocus = 0; //现在的焦点
+			var listEntered = new Array(); //已输入的每行的内容，仅加载时更新
+			var nowFocus = 0; //现在的焦点
 			//var onbackspace = false; //是否触发了退格到上一行
-			var articletitle = getCookie("articletitle"); //文章名
-			var isinputing = false;
+			var articleTitle = getCookie("articletitle"); //文章名
+			var isInputing = false;
 			let time0 = getCookie("time");
 			var time = 0;
 			if (time0 == "") {
@@ -128,56 +128,56 @@
 			} else {
 				time = time0;
 			}
-			let autonextline0 = getCookie("autonextline");
-			var autonextline = true;
-			if (autonextline0 == "") {
-				autonextline = true;
+			let autoNextLine0 = getCookie("autonextline");
+			var autoNextLine = true;
+			if (autoNextLine0 == "") {
+				autoNextLine = true;
 			} else {
-				autonextline = (autonextline0 == "true");
+				autoNextLine = (autoNextLine0 == "true");
 			}
 
-			var isnum = /^[0-9]+$/;
+			var isNum = /^[0-9]+$/;
 			var defaultFontSize = 30;
 
-			let fontsize0 = getCookie("fontsize");
-			var fontsize = defaultFontSize;
-			if (fontsize0 == "") {
-				fontsize = defaultFontSize;
+			let fontSize0 = getCookie("fontsize");
+			var fontSize = defaultFontSize;
+			if (fontSize0 == "") {
+				fontSize = defaultFontSize;
 			} else {
-				fontsize = fontsize0;
+				fontSize = fontSize0;
 			}
 
-			var defaulttitlecolor = "#00bfff";
+			var defaultTitleColor = "#00bfff";
 			//var defaulttitlecolor = "green";
 
-			let titlecolor0 = getCookie("titlecolor");
-			var titlecolor = defaulttitlecolor;
-			if (titlecolor0 == "") {
-				titlecolor = defaulttitlecolor;
+			let titleColor0 = getCookie("titlecolor");
+			var titleColor = defaultTitleColor;
+			if (titleColor0 == "") {
+				titleColor = defaultTitleColor;
 			} else {
-				titlecolor = titlecolor0;
+				titleColor = titleColor0;
 			}
 
-			var defaultline1color = "#87cefa";
-			let line1color0 = getCookie("line1color");
-			var line1color = defaultline1color;
-			if (line1color0 == "") {
-				line1color = defaultline1color;
+			var defaultLine1Color = "#87cefa";
+			let line1Color0 = getCookie("line1color");
+			var line1Color = defaultLine1Color;
+			if (line1Color0 == "") {
+				line1Color = defaultLine1Color;
 			} else {
-				line1color = line1color0;
+				line1Color = line1Color0;
 			}
 
 
-			var defaultline2color = "#82ff92";
-			let line2color0 = getCookie("line2color");
-			var line2color = defaultline2color;
-			if (line2color0 == "") {
-				line2color = defaultline2color;
+			var defaultLine2Color = "#82ff92";
+			let line2Color0 = getCookie("line2color");
+			var line2Color = defaultLine2Color;
+			if (line2Color0 == "") {
+				line2Color = defaultLine2Color;
 			} else {
-				line2color = line2color0;
+				line2Color = line2Color0;
 			}
 
-			var iscolorreg = /^#[0-9A-F]{6}$/i;
+			var isColorReg = /^#[0-9A-F]{6}$/i;
 
 
 
@@ -396,9 +396,9 @@
 			$(".main2").height(main2height);
 
 			let mytitle = document.getElementsByClassName("title1")[0];
-			mytitle.style.backgroundColor = titlecolor;
-			setline1color(line1color);
-			setline2color(line2color);
+			mytitle.style.backgroundColor = titleColor;
+			setline1color(line1Color);
+			setline2color(line2Color);
 
 
 			//$(".entertext").resize(100);
@@ -427,7 +427,7 @@
 
 		function texttest() { //测试最大长度
 			var texttest = document.getElementsByClassName("texttest1")[0];
-			texttest.style.fontSize = fontsize + "px";
+			texttest.style.fontSize = fontSize + "px";
 			for (let i = 0; i < article.length; i++) {
 				for (let i2 = i; i2 <= article.length; i2++) {
 
@@ -496,8 +496,8 @@
 
 				$(".main3").append(inputtip);
 				$(".main3").append(myinput);
-				inputtipobj.push(inputtip);
-				myinputobj.push(myinput);
+				inputTipObj.push(inputtip);
+				myInputObj.push(myinput);
 
 			}
 			$(".myinput").width($(".main3").width() - 10);
@@ -512,8 +512,8 @@
 			for (let i = 0; i < list.length; i++) {
 				let tip = document.getElementsByClassName("inputtipdiv")[i];
 				let myinput = document.getElementsByClassName("myinput")[i];
-				tip.style.fontSize = fontsize + "px";
-				myinput.style.fontSize = fontsize + "px";
+				tip.style.fontSize = fontSize + "px";
+				myinput.style.fontSize = fontSize + "px";
 			}
 
 
@@ -529,7 +529,7 @@
 			for (;;) {
 				//console.log(myline);
 				let mylinelength = list[myline].length;
-				listentered.push(entered.substring(now, now + mylinelength));
+				listEntered.push(entered.substring(now, now + mylinelength));
 				//myinputobj[myline].setAttribute("nowentered",
 				now += mylinelength;
 				if (myline < list.length - 1) {
@@ -539,7 +539,7 @@
 					break;
 				}
 			}
-			let endoflistentered = listentered[listentered.length - 1];
+			let endoflistentered = listEntered[listEntered.length - 1];
 			//console.log(endoflistentered);
 		}
 		getenteredlist();
@@ -548,11 +548,11 @@
 
 		function loadtipandinput() {
 			for (let i = 0; i < list.length; i++) {
-				inputtipobj[i].innerHTML = "";
-				myinputobj[i].setAttribute("nowentered", strtonoenterend(getlistentered(i)));
-				myinputobj[i].setAttribute("enteredtip", strtonoenterend(getlist(i)));
-				myinputobj[i].setAttribute("ifneedenter", isenterend(getlist(i)));
-				myinputobj[i].value = strtonoenterend(getlistentered(i));
+				inputTipObj[i].innerHTML = "";
+				myInputObj[i].setAttribute("nowentered", strtonoenterend(getlistentered(i)));
+				myInputObj[i].setAttribute("enteredtip", strtonoenterend(getlist(i)));
+				myInputObj[i].setAttribute("ifneedenter", isenterend(getlist(i)));
+				myInputObj[i].value = strtonoenterend(getlistentered(i));
 				let mylist = strtonoenterend(getlist(i));
 				for (let i2 = 0; i2 < mylist.length; i2++) {
 					var inputtipspan = document.createElement("span");
@@ -562,18 +562,18 @@
 						str = "&nbsp;";
 					}
 					inputtipspan.innerHTML = str;
-					inputtipobj[i].appendChild(inputtipspan);
+					inputTipObj[i].appendChild(inputtipspan);
 				}
 				setcolor(i);
 
 			}
-			let focusline = listentered.length - 1;
+			let focusline = listEntered.length - 1;
 			if (focusline > list.length - 1) {
 				focusline = list.length - 1;
 			}
-			myinputobj[focusline].focus();
+			myInputObj[focusline].focus();
 
-			writetitle(articletitle, time, getcorrectrate());
+			writetitle(articleTitle, time, getcorrectrate());
 			createpage0();
 		}
 		loadtipandinput();
@@ -583,8 +583,8 @@
 
 
 		function setcolor(index) {
-			let nowentered = myinputobj[index].getAttribute("nowentered");
-			let enteredtip = myinputobj[index].getAttribute("enteredtip");
+			let nowentered = myInputObj[index].getAttribute("nowentered");
+			let enteredtip = myInputObj[index].getAttribute("enteredtip");
 			for (let i = 0; i < enteredtip.length; i++) {
 				let obj = document.getElementsByClassName("tipfont" + index + "-" + i)[0];
 				if (i >= nowentered.length) {
@@ -600,8 +600,8 @@
 
 		function getinputrightnumber(index) {
 			let number = 0;
-			let nowentered = myinputobj[index].getAttribute("nowentered");
-			let enteredtip = myinputobj[index].getAttribute("enteredtip");
+			let nowentered = myInputObj[index].getAttribute("nowentered");
+			let enteredtip = myInputObj[index].getAttribute("enteredtip");
 			for (let i = 0; i < nowentered.length; i++) {
 				if (nowentered.charAt(i) == enteredtip.charAt(i)) {
 					number++;
@@ -612,7 +612,7 @@
 		//console.log(getinputrightnumber(3));
 
 		function getinputnumber(index) {
-			let nowentered = myinputobj[index].getAttribute("nowentered");
+			let nowentered = myInputObj[index].getAttribute("nowentered");
 			return nowentered.length;
 		}
 		//console.log(getinputnumber(3));
@@ -639,22 +639,22 @@
 		}
 
 		function getlistentered(index) { //获得listentered列表,只有初始化时可用
-			if (listentered[index] == undefined) {
+			if (listEntered[index] == undefined) {
 				return "";
 			} else {
-				return listentered[index];
+				return listEntered[index];
 			}
 		}
 
 		function getifneedenter(index) {
-			let booleanstr = myinputobj[index].getAttribute("ifneedenter");
+			let booleanstr = myInputObj[index].getAttribute("ifneedenter");
 			let myboolean = (booleanstr == "true");
 			return myboolean;
 		}
 
 		function getentercontent(index) {
-			let nowentered = myinputobj[index].getAttribute("nowentered");
-			let enteredtip = myinputobj[index].getAttribute("enteredtip");
+			let nowentered = myInputObj[index].getAttribute("nowentered");
+			let enteredtip = myInputObj[index].getAttribute("enteredtip");
 			let ifneedenter = getifneedenter(index);
 			let enteredtiplength = enteredtip.length;
 			if (nowentered.length == enteredtiplength) {
@@ -670,7 +670,7 @@
 
 		function getendline() {
 			for (let i = list.length - 1; i >= 0; i--) {
-				if (myinputobj[i].value != "") {
+				if (myInputObj[i].value != "") {
 					return i;
 				}
 
@@ -682,21 +682,21 @@
 
 		function oninput(myobj) {
 			//let line = myobj.getAttribute("lineid");
-			isinputing = true;
+			isInputing = true;
 			myobj.setAttribute("nowentered", myobj.value);
-			setcolor(nowfocus);
+			setcolor(nowFocus);
 			let nowline = myobj.getAttribute("lineid");
 			// console.log(isenterend(list[nowline]));
 			if ((myobj.value.length >= myobj.getAttribute("enteredtip").length)) {
 
 				//&& (isenterend(list[nowline]) == false)
 				if (!(isenterend(list[nowline]))) {
-					if (autonextline == true) {
+					if (autoNextLine == true) {
 
-						if (nowfocus < list.length - 1) { //如果不是最后一行
+						if (nowFocus < list.length - 1) { //如果不是最后一行
 							if (myobj.selectionStart >= myobj.value.length) {
-								nowfocus++;
-								myinputobj[nowfocus].focus();
+								nowFocus++;
+								myInputObj[nowFocus].focus();
 							}
 						}
 					} else {
@@ -712,10 +712,10 @@
 						} else {
 							// console.log('该字符串不是英文' + endstr);
 							// myobj.value = myobj.value.substring(0, myobj.value.length - 1);
-							if (nowfocus + 1 < list.length) {
+							if (nowFocus + 1 < list.length) {
 								if (myobj.selectionStart >= myobj.value.length) {
-									nowfocus++;
-									myinputobj[nowfocus].focus();
+									nowFocus++;
+									myInputObj[nowFocus].focus();
 								}
 							}
 						}
@@ -724,12 +724,12 @@
 
 				if (!(isenterend(list[nowline]))) {
 
-					if (nowfocus < list.length - 1) { //如果不是最后一行
+					if (nowFocus < list.length - 1) { //如果不是最后一行
 
 					} else { //如果是最后一行
 						//onfinish();
 
-						if (autonextline == true) {
+						if (autoNextLine == true) {
 							if (myobj.selectionStart >= myobj.value.length) {
 								onfinish();
 							}
@@ -791,9 +791,9 @@
 		function onkeydown(event, myobj) {
 			//console.log(event.keyCode);
 			if (event.keyCode == 13) { // Enter键
-				if (nowfocus < list.length - 1) {
-					nowfocus++;
-					myinputobj[nowfocus].focus();
+				if (nowFocus < list.length - 1) {
+					nowFocus++;
+					myInputObj[nowFocus].focus();
 				} else {
 					//到达最后一行
 					onfinish();
@@ -803,26 +803,26 @@
 
 			if (event.keyCode == 8) { // Backspace键
 				//console.log(myobj.selectionEnd);
-				if (myobj.selectionEnd == 0 && nowfocus > 0) {
-					nowfocus--;
+				if (myobj.selectionEnd == 0 && nowFocus > 0) {
+					nowFocus--;
 
-					myinputobj[nowfocus].focus();
+					myInputObj[nowFocus].focus();
 					event.preventDefault();
-					let l = myinputobj[nowfocus].value.length;
-					myinputobj[nowfocus].setSelectionRange(l, l);
+					let l = myInputObj[nowFocus].value.length;
+					myInputObj[nowFocus].setSelectionRange(l, l);
 				}
 			}
 
 			if (event.keyCode == 40) { // 下方向键
-				if (nowfocus < list.length - 1) { // 如果不是最后一行
-					nowfocus++;
-					myinputobj[nowfocus].focus();
+				if (nowFocus < list.length - 1) { // 如果不是最后一行
+					nowFocus++;
+					myInputObj[nowFocus].focus();
 				}
 			}
 			if (event.keyCode == 38) { // 上方向键
-				if (nowfocus > 0) { // 如果不是第一行
-					nowfocus--;
-					myinputobj[nowfocus].focus();
+				if (nowFocus > 0) { // 如果不是第一行
+					nowFocus--;
+					myInputObj[nowFocus].focus();
 				}
 			}
 			if (event.keyCode == 16) { // shift键
@@ -831,15 +831,15 @@
 			}
 
 			if (event.keyCode == 39) { // 右方向键
-				if (myinputobj[nowfocus].selectionEnd == myinputobj[nowfocus].value.length) {
-					if (myinputobj[nowfocus].selectionStart == myinputobj[nowfocus].selectionEnd) {
-						if (nowfocus < getendline()) {
-							nowfocus++;
-							myinputobj[nowfocus].focus();
-						} else if (nowfocus == getendline()) {
-							if (getifneedenter(nowfocus) == false) {
-								nowfocus++;
-								myinputobj[nowfocus].focus();
+				if (myInputObj[nowFocus].selectionEnd == myInputObj[nowFocus].value.length) {
+					if (myInputObj[nowFocus].selectionStart == myInputObj[nowFocus].selectionEnd) {
+						if (nowFocus < getendline()) {
+							nowFocus++;
+							myInputObj[nowFocus].focus();
+						} else if (nowFocus == getendline()) {
+							if (getifneedenter(nowFocus) == false) {
+								nowFocus++;
+								myInputObj[nowFocus].focus();
 							}
 
 						}
@@ -850,14 +850,14 @@
 
 			}
 			if (event.keyCode == 37) { // 左方向键
-				if (myinputobj[nowfocus].selectionStart == 0) {
-					if (myinputobj[nowfocus].selectionStart == myinputobj[nowfocus].selectionEnd) {
-						if (nowfocus > 0) { // 如果不是第一行
-							nowfocus--;
-							myinputobj[nowfocus].focus();
+				if (myInputObj[nowFocus].selectionStart == 0) {
+					if (myInputObj[nowFocus].selectionStart == myInputObj[nowFocus].selectionEnd) {
+						if (nowFocus > 0) { // 如果不是第一行
+							nowFocus--;
+							myInputObj[nowFocus].focus();
 							event.preventDefault();
-							let l = myinputobj[nowfocus].value.length;
-							myinputobj[nowfocus].setSelectionRange(l, l);
+							let l = myInputObj[nowFocus].value.length;
+							myInputObj[nowFocus].setSelectionRange(l, l);
 						}
 					}
 				}
@@ -890,13 +890,13 @@
 
 
 		function onfinish() { //打字完成时运行此处
-			isinputing = false;
+			isInputing = false;
 			// isfinishdialogshowed = true;
 
 			let usedtime = secondstotime(time);
 			$(".finishdialog-usedtime").html("用时：" + usedtime);
 			let correctrate = getcorrectrate();
-			writetitle(articletitle, time, correctrate);
+			writetitle(articleTitle, time, correctrate);
 			$(".finishdialog-correctrate").html("正确率：" + correctrate + "%");
 			let allEnterContentLength = getallentercontent().length;
 			$(".finishdialog-totalinput").html("输入字数：" + allEnterContentLength);
@@ -926,7 +926,7 @@
 
 		function onfocus(myobj) {
 			let mylineid = myobj.getAttribute("lineid");
-			nowfocus = mylineid;
+			nowFocus = mylineid;
 			//myobj.scrollIntoView(false);
 
 			//parent.scrollTo(0,100)
@@ -955,9 +955,9 @@
 		}
 
 		function mytime() {
-			if (isinputing) {
+			if (isInputing) {
 				time++;
-				writetitle(articletitle, time, getcorrectrate())
+				writetitle(articleTitle, time, getcorrectrate())
 
 				setCookie("time", time, 36500)
 				//console.log(hour + ":" + formattime(min) + ":" + formattime(second));
@@ -970,7 +970,7 @@
 			// console.log(event.keyCode);
 			// console.log(event.altKey);
 			if (event.altKey && event.keyCode == 80) { // Alt+P
-				isinputing = false;
+				isInputing = false;
 			}
 
 			if (event.keyCode == 13) { // Enter键
@@ -999,7 +999,7 @@
 		}
 
 		function autowritetitle() {
-			writetitle(articletitle, time, getcorrectrate())
+			writetitle(articleTitle, time, getcorrectrate())
 		}
 
 
@@ -1009,7 +1009,7 @@
 			let autonextlineopentext = '<a onclick="autonextlineopen()" href="#">打开自动换行</a>';
 			let autonextlineclosetext = '<a onclick="autonextlineclose()" href="#">关闭自动换行</a>';
 			//console.log(autonextline);
-			if (autonextline) {
+			if (autoNextLine) {
 				autonextlinetext = autonextlineclosetext;
 			} else {
 				autonextlinetext = autonextlineopentext;
@@ -1049,14 +1049,14 @@
 		}
 
 		function autonextlineopen() {
-			autonextline = true;
-			setCookie("autonextline", autonextline, 0);
+			autoNextLine = true;
+			setCookie("autonextline", autoNextLine, 0);
 			autowritetitle();
 		}
 
 		function autonextlineclose() {
-			autonextline = false;
-			setCookie("autonextline", autonextline, 36500);
+			autoNextLine = false;
+			setCookie("autonextline", autoNextLine, 36500);
 			autowritetitle();
 		}
 
@@ -1064,18 +1064,18 @@
 		function onopensetting() { //settingModal
 			$("#settingModal").modal("show");
 
-			$(".setting-fontsize").val(fontsize);
+			$(".setting-fontsize").val(fontSize);
 			let mytitlecolor = document.getElementsByClassName("titlecolorset")[0];
-			mytitlecolor.value = titlecolor;
-			$(".colortext-title").val(titlecolor);
+			mytitlecolor.value = titleColor;
+			$(".colortext-title").val(titleColor);
 
 			let myline1color = document.getElementsByClassName("line1colorset")[0];
-			myline1color.value = line1color;
-			$(".colortext-line1").val(line1color);
+			myline1color.value = line1Color;
+			$(".colortext-line1").val(line1Color);
 
 			let myline2color = document.getElementsByClassName("line2colorset")[0];
-			myline2color.value = line2color;
-			$(".colortext-line2").val(line2color);
+			myline2color.value = line2Color;
+			$(".colortext-line2").val(line2Color);
 
 
 			let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
@@ -1085,7 +1085,7 @@
 
 			let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
 
-			ifAutoNextLineCheckbox.checked = autonextline;
+			ifAutoNextLineCheckbox.checked = autoNextLine;
 
 			$(".defaultFontSizeTip").html(defaultFontSize)
 
@@ -1126,21 +1126,21 @@
 
 			let mytitlecolor = document.getElementsByClassName("colortext-title")[0].value;
 
-			if (mytitlecolor != defaulttitlecolor) {
+			if (mytitlecolor != defaultTitleColor) {
 				setCookie("titlecolor", mytitlecolor, 36500);
 			} else {
 				setCookie("titlecolor", "", 0);
 			}
 
 			let myline1color = document.getElementsByClassName("colortext-line1")[0].value;
-			if (myline1color != defaultline1color) {
+			if (myline1color != defaultLine1Color) {
 				setCookie("line1color", myline1color, 36500);
 			} else {
 				setCookie("line1color", "", 0);
 			}
 
 			let myline2color = document.getElementsByClassName("line2colorset")[0].value;
-			if (myline2color != defaultline2color) {
+			if (myline2color != defaultLine2Color) {
 				setCookie("line2color", myline2color, 36500);
 			} else {
 				setCookie("line2color", "", 0);
@@ -1169,9 +1169,9 @@
 		function onsettingModalCancel() {
 			if (isSettingModalSaveOnClick == false) {
 
-				settitlecolor(titlecolor);
-				setline1color(line1color);
-				setline2color(line2color);
+				settitlecolor(titleColor);
+				setline1color(line1Color);
+				setline2color(line2Color);
 			} else {
 				isSettingModalSaveOnClick = false;
 			}
@@ -1192,9 +1192,9 @@
 
 		function titlecolortodefault() {
 			let mycolor = document.getElementsByClassName("titlecolorset")[0];
-			mycolor.value = defaulttitlecolor;
-			settitlecolor(defaulttitlecolor);
-			$(".colortext-title").val(defaulttitlecolor);
+			mycolor.value = defaultTitleColor;
+			settitlecolor(defaultTitleColor);
+			$(".colortext-title").val(defaultTitleColor);
 			checktitlecolortext();
 		}
 
@@ -1206,13 +1206,13 @@
 
 		function setline1color(color) {
 			//inputtipobj
-			for (let i = 0; i < inputtipobj.length; i++) {
+			for (let i = 0; i < inputTipObj.length; i++) {
 				if ((i + 1) % 2 === 0) {
 					//console.log('是偶数');
 				} else {
 					//console.log('是奇数');
-					inputtipobj[i].style.backgroundColor = color;
-					inputtipobj[i].style.borderColor = color;
+					inputTipObj[i].style.backgroundColor = color;
+					inputTipObj[i].style.borderColor = color;
 				}
 			}
 		}
@@ -1225,11 +1225,11 @@
 
 		function setline2color(color) {
 			//inputtipobj
-			for (let i = 0; i < inputtipobj.length; i++) {
+			for (let i = 0; i < inputTipObj.length; i++) {
 				if ((i + 1) % 2 === 0) {
 					//console.log('是偶数');
-					inputtipobj[i].style.backgroundColor = color;
-					inputtipobj[i].style.borderColor = color;
+					inputTipObj[i].style.backgroundColor = color;
+					inputTipObj[i].style.borderColor = color;
 				} else {
 					//console.log('是奇数');
 				}
@@ -1238,18 +1238,18 @@
 
 		function line1colortodefault() {
 			let line1colorset = document.getElementsByClassName("line1colorset")[0];
-			line1colorset.value = defaultline1color;
-			$(".colortext-line1").val(defaultline1color);
+			line1colorset.value = defaultLine1Color;
+			$(".colortext-line1").val(defaultLine1Color);
 			checkline1colortext();
-			setline1color(defaultline1color);
+			setline1color(defaultLine1Color);
 		}
 
 		function line2colortodefault() {
 			let line2colorset = document.getElementsByClassName("line2colorset")[0];
-			line2colorset.value = defaultline2color;
-			$(".colortext-line2").val(defaultline2color);
+			line2colorset.value = defaultLine2Color;
+			$(".colortext-line2").val(defaultLine2Color);
 			checkline2colortext();
-			setline2color(defaultline2color);
+			setline2color(defaultLine2Color);
 
 		}
 
@@ -1261,7 +1261,7 @@
 
 			let settingFontSizeClass = "form-control setting-fontsize";
 			let mySettingFontSize = document.getElementsByClassName("setting-fontsize")[0];
-			if (isnum.test(mySettingFontSize.value)) {
+			if (isNum.test(mySettingFontSize.value)) {
 				mySettingFontSize.className = settingFontSizeClass;
 				mySettingFontSize.setAttribute("isinvalid", "no");
 			} else {
@@ -1271,7 +1271,7 @@
 		}
 
 		function iscolortext(val) {
-			return iscolorreg.test(val);
+			return isColorReg.test(val);
 		}
 
 		function onchangetitlecolortext() {
@@ -1351,7 +1351,7 @@
 
 
 		function mytime2() {
-			if (isShowSpeed && isinputing) {
+			if (isShowSpeed && isInputing) {
 
 				speedLengthArray.shift();
 
