@@ -832,15 +832,13 @@
 
 			if (event.keyCode == 39) { // 右方向键
 				if (myInputObj[nowFocus].selectionEnd == myInputObj[nowFocus].value.length) {
+					
 					if (myInputObj[nowFocus].selectionStart == myInputObj[nowFocus].selectionEnd) {
 						if (nowFocus < getEndLine()) {
 							nowFocus++;
 							myInputObj[nowFocus].focus();
 						} else if (nowFocus == getEndLine()) {
-							if (getIfNeedEnter(nowFocus) == false) {
-								nowFocus++;
-								myInputObj[nowFocus].focus();
-							}
+							
 
 						}
 
