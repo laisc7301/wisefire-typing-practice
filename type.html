@@ -417,7 +417,7 @@
 
 
 		function startTimer() {
-			var timer1 = self.setInterval("mytime()", 1000); //计算已用时间
+			var timer1 = self.setInterval("myTime()", 1000); //计算已用时间
 			var timer2 = self.setInterval("mytime2()", 1000); //计算打字速度
 		}
 		startTimer();
@@ -485,13 +485,13 @@
 				myInput.className = "entertext myinput myinput" + i;
 				myInput.setAttribute("lineid", i); //当前页的行数，从0开始
 				myInput.oninput = function() {
-					oninput(this);
+					onInput(this);
 				}
 				myInput.onkeydown = function(event) {
-					onkeydown(event, this);
+					onKeyDown(event, this);
 				}
 				myInput.onfocus = function() {
-					onfocus(this);
+					onFocus(this);
 				}
 
 				$(".main3").append(inputTip);
@@ -505,7 +505,7 @@
 			// 	$(".main1").height(main3.scrollHeight);
 
 			document.onkeydown = function(event) {
-				windowonkeydown(event);
+				windowOnKeyDown(event);
 
 			}
 
@@ -573,7 +573,7 @@
 			}
 			myInputObj[focusLine].focus();
 
-			writetitle(articleTitle, time, getcorrectrate());
+			writeTitle(articleTitle, time, getCorrectRate());
 			createPage0();
 		}
 		loadTipAndInput();
@@ -653,22 +653,22 @@
 		}
 
 		function getEnterContent(index) {
-			let nowentered = myInputObj[index].getAttribute("nowentered");
-			let enteredtip = myInputObj[index].getAttribute("enteredtip");
-			let ifneedenter = getIfNeedEnter(index);
-			let enteredtiplength = enteredtip.length;
-			if (nowentered.length == enteredtiplength) {
-				if (ifneedenter) {
-					return nowentered + "\n";
+			let nowEntered = myInputObj[index].getAttribute("nowentered");
+			let enteredTip = myInputObj[index].getAttribute("enteredtip");
+			let ifNeedEnter = getIfNeedEnter(index);
+			let enteredTipLength = enteredTip.length;
+			if (nowEntered.length == enteredTipLength) {
+				if (ifNeedEnter) {
+					return nowEntered + "\n";
 				} else {
-					return nowentered;
+					return nowEntered;
 				}
 			} else {
-				return nowentered;
+				return nowEntered;
 			}
 		}
 
-		function getendline() {
+		function getEndLine() {
 			for (let i = list.length - 1; i >= 0; i--) {
 				if (myInputObj[i].value != "") {
 					return i;
@@ -680,17 +680,17 @@
 
 		//console.log(getentercontent(4)+"123");
 
-		function oninput(myobj) {
+		function onInput(myobj) {
 			//let line = myobj.getAttribute("lineid");
 			isInputing = true;
 			myobj.setAttribute("nowentered", myobj.value);
 			setColor(nowFocus);
-			let nowline = myobj.getAttribute("lineid");
+			let nowLine = myobj.getAttribute("lineid");
 			// console.log(isenterend(list[nowline]));
 			if ((myobj.value.length >= myobj.getAttribute("enteredtip").length)) {
 
 				//&& (isenterend(list[nowline]) == false)
-				if (!(isEnterend(list[nowline]))) {
+				if (!(isEnterend(list[nowLine]))) {
 					if (autoNextLine == true) {
 
 						if (nowFocus < list.length - 1) { //如果不是最后一行
@@ -700,14 +700,14 @@
 							}
 						}
 					} else {
-						let endstr = myobj.value.substring(myobj.value.length - 1, myobj.value.length);
+						let endStr = myobj.value.substring(myobj.value.length - 1, myobj.value.length);
 						// if (endstr == " ") {
 						// 	myobj.value = myobj.value.substring(0, myobj.value.length - 1);
 						// 	nowfocus++;
 						// 	myinputobj[nowfocus].focus();
 						// }
-						let myregular = /[A-Za-zü']+/;
-						if (myregular.test(endstr)) {
+						let myRegular = /[A-Za-zü']+/;
+						if (myRegular.test(endStr)) {
 							// console.log('该字符串是英文' + endstr);
 						} else {
 							// console.log('该字符串不是英文' + endstr);
@@ -722,7 +722,7 @@
 					}
 				}
 
-				if (!(isEnterend(list[nowline]))) {
+				if (!(isEnterend(list[nowLine]))) {
 
 					if (nowFocus < list.length - 1) { //如果不是最后一行
 
@@ -731,18 +731,18 @@
 
 						if (autoNextLine == true) {
 							if (myobj.selectionStart >= myobj.value.length) {
-								onfinish();
+								onFinish();
 							}
 						} else {
-							let endstr = myobj.value.substring(myobj.value.length - 1, myobj.value.length);
-							let myregular = /[A-Za-zü']+/;
-							if (myregular.test(endstr)) {
+							let endStr = myobj.value.substring(myobj.value.length - 1, myobj.value.length);
+							let myRegular = /[A-Za-zü']+/;
+							if (myRegular.test(endStr)) {
 								// console.log('该字符串是英文' + endstr);
 							} else {
 								// console.log('该字符串不是英文' + endstr);
 								// myobj.value = myobj.value.substring(0, myobj.value.length - 1);
 								if (myobj.selectionStart >= myobj.value.length) {
-									onfinish();
+									onFinish();
 								}
 							}
 						}
@@ -750,7 +750,7 @@
 				}
 			}
 
-			entered = getallentercontent();
+			entered = getAllEnterContent();
 			let str = replacehhftobr(entered);
 			setCookie("entered", str, 36500);
 
@@ -767,28 +767,28 @@
 		}
 
 
-		function ifpinyinend(str) {
-			let endstr = str.substring(str.length - 1, str.length);
-			let myregular = /[A-Za-zü']+/;
-			return myregular.test(endstr);
+		function ifpinyinEnd(str) {
+			let endStr = str.substring(str.length - 1, str.length);
+			let myRegular = /[A-Za-zü']+/;
+			return myRegular.test(endStr);
 		}
 
-		function getcorrectrate() { // 获得正确率
-			let allnumber = 0;
-			let rightnumber = 0;
+		function getCorrectRate() { // 获得正确率
+			let allNumber = 0;
+			let rightNumber = 0;
 			for (let i = 0; i < list.length; i++) {
-				allnumber += getInputNumber(i);
-				rightnumber += getInputRightNumber(i);
+				allNumber += getInputNumber(i);
+				rightNumber += getInputRightNumber(i);
 			}
-			if (allnumber == 0) {
+			if (allNumber == 0) {
 				return 100;
 			}
-			let percentage1 = rightnumber / allnumber;
+			let percentage1 = rightNumber / allNumber;
 			let percentage2 = Math.round(percentage1 * 100 * 100) / 100;
 			return percentage2;
 		}
 
-		function onkeydown(event, myobj) {
+		function onKeyDown(event, myobj) {
 			//console.log(event.keyCode);
 			if (event.keyCode == 13) { // Enter键
 				if (nowFocus < list.length - 1) {
@@ -796,7 +796,7 @@
 					myInputObj[nowFocus].focus();
 				} else {
 					//到达最后一行
-					onfinish();
+					onFinish();
 				}
 				//console.log(getendline());
 			}
@@ -833,10 +833,10 @@
 			if (event.keyCode == 39) { // 右方向键
 				if (myInputObj[nowFocus].selectionEnd == myInputObj[nowFocus].value.length) {
 					if (myInputObj[nowFocus].selectionStart == myInputObj[nowFocus].selectionEnd) {
-						if (nowFocus < getendline()) {
+						if (nowFocus < getEndLine()) {
 							nowFocus++;
 							myInputObj[nowFocus].focus();
-						} else if (nowFocus == getendline()) {
+						} else if (nowFocus == getEndLine()) {
 							if (getIfNeedEnter(nowFocus) == false) {
 								nowFocus++;
 								myInputObj[nowFocus].focus();
@@ -889,44 +889,44 @@
 
 
 
-		function onfinish() { //打字完成时运行此处
+		function onFinish() { //打字完成时运行此处
 			isInputing = false;
 			// isfinishdialogshowed = true;
 
-			let usedtime = secondstotime(time);
-			$(".finishdialog-usedtime").html("用时：" + usedtime);
-			let correctrate = getcorrectrate();
-			writetitle(articleTitle, time, correctrate);
+			let usedTime = secondsToTime(time);
+			$(".finishdialog-usedtime").html("用时：" + usedTime);
+			let correctrate = getCorrectRate();
+			writeTitle(articleTitle, time, correctrate);
 			$(".finishdialog-correctrate").html("正确率：" + correctrate + "%");
-			let allEnterContentLength = getallentercontent().length;
+			let allEnterContentLength = getAllEnterContent().length;
 			$(".finishdialog-totalinput").html("输入字数：" + allEnterContentLength);
 
-			let myspeed = allEnterContentLength;
+			let mySpeed = allEnterContentLength;
 			if (time <= 0) {
-				myspeed=allEnterContentLength;
+				mySpeed=allEnterContentLength;
 			}else{
-				myspeed = allEnterContentLength / time * 60;
+				mySpeed = allEnterContentLength / time * 60;
 			}
 
-			$(".averageInputSpeed").html(myspeed);
+			$(".averageInputSpeed").html(mySpeed);
 
 
 			$(".finishdialog").show();
-			let windowwidth = window.innerWidth;
-			let windowheight = window.innerHeight;
-			let finishdialog = document.getElementsByClassName("finishdialog")[0];
-			let finishdialogwidth = finishdialog.scrollWidth;
-			let finishdialogheight = finishdialog.scrollHeight;
+			let windowWidth = window.innerWidth;
+			let windowHeight = window.innerHeight;
+			let finishDialog = document.getElementsByClassName("finishdialog")[0];
+			let finishDialogWidth = finishDialog.scrollWidth;
+			let finishDialogHeight = finishDialog.scrollHeight;
 
-			finishdialog.style.top = parseInt((windowheight - finishdialogheight) / 2) + "px";
-			finishdialog.style.left = parseInt((windowwidth - finishdialogwidth) / 2) + "px";
+			finishDialog.style.top = parseInt((windowHeight - finishDialogHeight) / 2) + "px";
+			finishDialog.style.left = parseInt((windowWidth - finishDialogWidth) / 2) + "px";
 
 
 		}
 
-		function onfocus(myobj) {
-			let mylineid = myobj.getAttribute("lineid");
-			nowFocus = mylineid;
+		function onFocus(myobj) {
+			let myLineId = myobj.getAttribute("lineid");
+			nowFocus = myLineId;
 			//myobj.scrollIntoView(false);
 
 			//parent.scrollTo(0,100)
@@ -934,7 +934,7 @@
 		}
 
 
-		function getallentercontent() {
+		function getAllEnterContent() {
 			let all = "";
 			for (let i = 0; i < list.length; i++) {
 				all += getEnterContent(i);
@@ -944,7 +944,7 @@
 		}
 		//console.log(getallentercontent());
 		//getAttribute()
-		function formattime(t) {
+		function formatTime(t) {
 			if (t == 0) {
 				return "00";
 			} else if (t < 10) {
@@ -954,10 +954,10 @@
 			}
 		}
 
-		function mytime() {
+		function myTime() {
 			if (isInputing) {
 				time++;
-				writetitle(articleTitle, time, getcorrectrate())
+				writeTitle(articleTitle, time, getCorrectRate())
 
 				setCookie("time", time, 36500)
 				//console.log(hour + ":" + formattime(min) + ":" + formattime(second));
@@ -966,7 +966,7 @@
 
 		//var finishdialogshowtype = "first";
 
-		function windowonkeydown(event) {
+		function windowOnKeyDown(event) {
 			// console.log(event.keyCode);
 			// console.log(event.altKey);
 			if (event.altKey && event.keyCode == 80) { // Alt+P
@@ -989,33 +989,33 @@
 			}
 		}
 
-		function secondstotime(seconds) {
+		function secondsToTime(seconds) {
 			let hour = parseInt(seconds / (60 * 60));
 			let time2 = seconds - (hour * 60 * 60);
 			let min = parseInt(time2 / 60);
 			let second = time2 - (min * 60);
-			let timeoutput = hour + ":" + formattime(min) + ":" + formattime(second);
-			return timeoutput;
+			let timeOutput = hour + ":" + formatTime(min) + ":" + formatTime(second);
+			return timeOutput;
 		}
 
-		function autowritetitle() {
-			writetitle(articleTitle, time, getcorrectrate())
+		function autoWriteTitle() {
+			writeTitle(articleTitle, time, getCorrectRate())
 		}
 
 
+		function writeTitle(myTitle, myTime, myCorrectrate) {
+			let autoNextLineText = "";
 
-		function writetitle(mytitle, mytime, mycorrectrate) {
-
-			let autonextlineopentext = '<a onclick="autonextlineopen()" href="#">打开自动换行</a>';
-			let autonextlineclosetext = '<a onclick="autonextlineclose()" href="#">关闭自动换行</a>';
+			let autoNextLineOpenText = '<a onclick="autonextlineopen()" href="#">打开自动换行</a>';
+			let autoNextLineCloseText = '<a onclick="autonextlineclose()" href="#">关闭自动换行</a>';
 			//console.log(autonextline);
 			if (autoNextLine) {
-				autonextlinetext = autonextlineclosetext;
+				autoNextLineText = autoNextLineCloseText;
 			} else {
-				autonextlinetext = autonextlineopentext;
+				autoNextLineText = autoNextLineOpenText;
 			}
 
-			let timeoutput = secondstotime(mytime);
+			let timeOutput = secondsToTime(myTime);
 
 			let speedStrOut = "";
 
@@ -1025,8 +1025,8 @@
 				speedStrOut = speedStr1 + speed + speedStr2;
 			}
 
-			let titleoutput = mytitle + "&nbsp;&nbsp;已用时间:" + timeoutput + "(Alt+P暂停)&nbsp;&nbsp;正确率:" + mycorrectrate +
-				"%&nbsp;&nbsp;" + speedStrOut + autonextlinetext +
+			let titleoutput = myTitle + "&nbsp;&nbsp;已用时间:" + timeOutput + "(Alt+P暂停)&nbsp;&nbsp;正确率:" + myCorrectrate +
+				"%&nbsp;&nbsp;" + speedStrOut + autoNextLineText +
 				"&nbsp;&nbsp;<a onclick='onopensetting()' href='#'>设置</a>&nbsp;&nbsp;<a class='back' href='index.html'>返回</a>";
 
 			$(".title1").html(titleoutput);
@@ -1051,13 +1051,13 @@
 		function autonextlineopen() {
 			autoNextLine = true;
 			setCookie("autonextline", autoNextLine, 0);
-			autowritetitle();
+			autoWriteTitle();
 		}
 
 		function autonextlineclose() {
 			autoNextLine = false;
 			setCookie("autonextline", autoNextLine, 36500);
-			autowritetitle();
+			autoWriteTitle();
 		}
 
 
@@ -1355,7 +1355,7 @@
 
 				speedLengthArray.shift();
 
-				speedLengthArray.push(getallentercontent().length);
+				speedLengthArray.push(getAllEnterContent().length);
 
 				let speed0 = speedLengthArray[speedSpacing] - speedLengthArray[0];
 
