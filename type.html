@@ -551,7 +551,7 @@
 				inputTipObj[i].innerHTML = "";
 				myInputObj[i].setAttribute("nowentered", strtonoenterend(getlistentered(i)));
 				myInputObj[i].setAttribute("enteredtip", strtonoenterend(getlist(i)));
-				myInputObj[i].setAttribute("ifneedenter", isenterend(getlist(i)));
+				myInputObj[i].setAttribute("ifneedenter", isEnterend(getlist(i)));
 				myInputObj[i].value = strtonoenterend(getlistentered(i));
 				let myList = strtonoenterend(getlist(i));
 				for (let i2 = 0; i2 < myList.length; i2++) {
@@ -598,12 +598,12 @@
 			}
 		}
 
-		function getinputrightnumber(index) {
+		function getInputRightNumber(index) {
 			let number = 0;
-			let nowentered = myInputObj[index].getAttribute("nowentered");
-			let enteredtip = myInputObj[index].getAttribute("enteredtip");
-			for (let i = 0; i < nowentered.length; i++) {
-				if (nowentered.charAt(i) == enteredtip.charAt(i)) {
+			let nowEntered = myInputObj[index].getAttribute("nowentered");
+			let enteredTip = myInputObj[index].getAttribute("enteredtip");
+			for (let i = 0; i < nowEntered.length; i++) {
+				if (nowEntered.charAt(i) == enteredTip.charAt(i)) {
 					number++;
 				}
 			}
@@ -611,19 +611,19 @@
 		}
 		//console.log(getinputrightnumber(3));
 
-		function getinputnumber(index) {
-			let nowentered = myInputObj[index].getAttribute("nowentered");
-			return nowentered.length;
+		function getInputNumber(index) {
+			let nowEntered = myInputObj[index].getAttribute("nowentered");
+			return nowEntered.length;
 		}
 		//console.log(getinputnumber(3));
 
-		function isenterend(str) { //测试结尾是否为换行符
+		function isEnterend(str) { //测试结尾是否为换行符
 			return (str.charAt(str.length - 1) == "\n");
 		}
 
 
 		function strtonoenterend(str) { //去除结尾的换行符
-			if (isenterend(str)) {
+			if (isEnterend(str)) {
 				return str.substring(0, str.length - 1);
 			} else {
 				return str;
@@ -690,7 +690,7 @@
 			if ((myobj.value.length >= myobj.getAttribute("enteredtip").length)) {
 
 				//&& (isenterend(list[nowline]) == false)
-				if (!(isenterend(list[nowline]))) {
+				if (!(isEnterend(list[nowline]))) {
 					if (autoNextLine == true) {
 
 						if (nowFocus < list.length - 1) { //如果不是最后一行
@@ -722,7 +722,7 @@
 					}
 				}
 
-				if (!(isenterend(list[nowline]))) {
+				if (!(isEnterend(list[nowline]))) {
 
 					if (nowFocus < list.length - 1) { //如果不是最后一行
 
@@ -777,8 +777,8 @@
 			let allnumber = 0;
 			let rightnumber = 0;
 			for (let i = 0; i < list.length; i++) {
-				allnumber += getinputnumber(i);
-				rightnumber += getinputrightnumber(i);
+				allnumber += getInputNumber(i);
+				rightnumber += getInputRightNumber(i);
 			}
 			if (allnumber == 0) {
 				return 100;
