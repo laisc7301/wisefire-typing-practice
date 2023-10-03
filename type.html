@@ -549,11 +549,11 @@
 		function loadTipAndInput() {
 			for (let i = 0; i < list.length; i++) {
 				inputTipObj[i].innerHTML = "";
-				myInputObj[i].setAttribute("nowentered", strtonoenterend(getlistentered(i)));
-				myInputObj[i].setAttribute("enteredtip", strtonoenterend(getlist(i)));
-				myInputObj[i].setAttribute("ifneedenter", isEnterend(getlist(i)));
-				myInputObj[i].value = strtonoenterend(getlistentered(i));
-				let myList = strtonoenterend(getlist(i));
+				myInputObj[i].setAttribute("nowentered", strToNoEnterend(getListEntered(i)));
+				myInputObj[i].setAttribute("enteredtip", strToNoEnterend(getList(i)));
+				myInputObj[i].setAttribute("ifneedenter", isEnterend(getList(i)));
+				myInputObj[i].value = strToNoEnterend(getListEntered(i));
+				let myList = strToNoEnterend(getList(i));
 				for (let i2 = 0; i2 < myList.length; i2++) {
 					let inputTipSpan = document.createElement("span");
 					inputTipSpan.className = "inputtipspan fblack " + "tipfont" + i + "-" + i2;
@@ -622,7 +622,7 @@
 		}
 
 
-		function strtonoenterend(str) { //去除结尾的换行符
+		function strToNoEnterend(str) { //去除结尾的换行符
 			if (isEnterend(str)) {
 				return str.substring(0, str.length - 1);
 			} else {
@@ -630,7 +630,7 @@
 			}
 		}
 
-		function getlist(index) { //获得list列表
+		function getList(index) { //获得list列表
 			if (list[index] == undefined) {
 				return "";
 			} else {
@@ -638,7 +638,7 @@
 			}
 		}
 
-		function getlistentered(index) { //获得listentered列表,只有初始化时可用
+		function getListEntered(index) { //获得listentered列表,只有初始化时可用
 			if (listEntered[index] == undefined) {
 				return "";
 			} else {
@@ -646,16 +646,16 @@
 			}
 		}
 
-		function getifneedenter(index) {
-			let booleanstr = myInputObj[index].getAttribute("ifneedenter");
-			let myboolean = (booleanstr == "true");
-			return myboolean;
+		function getIfNeedEnter(index) {
+			let booleanStr = myInputObj[index].getAttribute("ifneedenter");
+			let myBoolean = (booleanStr == "true");
+			return myBoolean;
 		}
 
-		function getentercontent(index) {
+		function getEnterContent(index) {
 			let nowentered = myInputObj[index].getAttribute("nowentered");
 			let enteredtip = myInputObj[index].getAttribute("enteredtip");
-			let ifneedenter = getifneedenter(index);
+			let ifneedenter = getIfNeedEnter(index);
 			let enteredtiplength = enteredtip.length;
 			if (nowentered.length == enteredtiplength) {
 				if (ifneedenter) {
@@ -837,7 +837,7 @@
 							nowFocus++;
 							myInputObj[nowFocus].focus();
 						} else if (nowFocus == getendline()) {
-							if (getifneedenter(nowFocus) == false) {
+							if (getIfNeedEnter(nowFocus) == false) {
 								nowFocus++;
 								myInputObj[nowFocus].focus();
 							}
@@ -937,7 +937,7 @@
 		function getallentercontent() {
 			let all = "";
 			for (let i = 0; i < list.length; i++) {
-				all += getentercontent(i);
+				all += getEnterContent(i);
 			}
 			return all;
 
