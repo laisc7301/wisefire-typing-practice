@@ -267,7 +267,7 @@
 			<br />
 			<div class="finishdialog-okbutton">
 
-				<button class="btn btn-primary" onclick="onfinishdialogok()">确定</button>
+				<button class="btn btn-primary" onclick="onfinishDialogOk()">确定</button>
 			</div>
 		</div>
 
@@ -291,13 +291,13 @@
 					<div class="modal-header">
 						<h1 class="modal-title fs-5" id="exampleModalLabel">设置</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							onclick="onsettingModalCancel()"></button>
+							onclick="onSettingModalCancel()"></button>
 					</div>
 					<div class="modal-body">
 						<div class="input-group mb-3">
 							<span class="input-group-text" id="inputGroup-sizing-default">字体大小(px)：</span>
 							<input type="text" class="form-control setting-fontsize" aria-label="Sizing example input"
-								oninput="onchangefontsize(this)" aria-describedby="inputGroup-sizing-default"><span
+								oninput="onChangeFontSize(this)" aria-describedby="inputGroup-sizing-default"><span
 								class="settingModal-tip1">（默认<span class="defaultFontSizeTip">30</span>）</span>
 						</div>
 
@@ -325,16 +325,16 @@
 						<!-- is-invalid -->
 
 						<div>标题栏颜色：<input class="form-control form-control-sm colortext colortext-title"
-								oninput="onchangetitlecolortext()" />
+								oninput="onChangeTitleColorText()" />
 
 							<button type="button" class="btn btn-primary"
 								style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-								onclick="titlecolortodefault()">
+								onclick="titleColorToDefault()">
 								恢复默认
 							</button>
 
 							<input type="color" class="form-control form-control-color titlecolorset" value="#ff0000"
-								title="标题栏颜色" oninput="onchangetitlecolor(this)" />
+								title="标题栏颜色" oninput="onChangeTitleColor(this)" />
 						</div>
 
 						<div>单数行颜色：<input class="form-control form-control-sm colortext colortext-line1"
@@ -342,12 +342,12 @@
 
 							<button type="button" class="btn btn-primary"
 								style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-								onclick="line1colortodefault()">
+								onclick="line1ColorToDefault()">
 								恢复默认
 							</button>
 
 							<input type="color" class="form-control form-control-color line1colorset" value="#ff0000"
-								title="单数行颜色" oninput="onchangeline1color(this)" />
+								title="单数行颜色" oninput="onChangeLine1Color(this)" />
 						</div>
 
 						<div>双数行颜色：<input class="form-control form-control-sm colortext colortext-line2"
@@ -355,18 +355,18 @@
 
 							<button type="button" class="btn btn-primary"
 								style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-								onclick="line2colortodefault()">
+								onclick="line2ColorToDefault()">
 								恢复默认
 							</button>
 
 							<input type="color" class="form-control form-control-color line2colorset" value="#ff0000"
-								title="双数行颜色" oninput="onchangeline2color(this)" />
+								title="双数行颜色" oninput="onChangeLine2Color(this)" />
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" onclick="onsettingModalCancel()"
+						<button type="button" class="btn btn-secondary" onclick="onSettingModalCancel()"
 							data-bs-dismiss="modal">取消</button>
-						<button type="button" class="btn btn-primary" onclick="onsettingModalSave()">保存</button>
+						<button type="button" class="btn btn-primary" onclick="onSettingModalSave()">保存</button>
 					</div>
 				</div>
 			</div>
@@ -397,8 +397,8 @@
 
 			let myTitle = document.getElementsByClassName("title1")[0];
 			myTitle.style.backgroundColor = titleColor;
-			setline1color(line1Color);
-			setline2color(line2Color);
+			setLine1Color(line1Color);
+			setLine2Color(line2Color);
 
 
 			//$(".entertext").resize(100);
@@ -408,7 +408,7 @@
 			$(".version").html(version);
 
 			$('#settingModal').on('hidden.bs.modal', function() {
-				onsettingModalCancel();
+				onSettingModalCancel();
 			});
 
 		}
@@ -1006,8 +1006,8 @@
 		function writeTitle(myTitle, myTime, myCorrectrate) {
 			let autoNextLineText = "";
 
-			let autoNextLineOpenText = '<a onclick="autonextlineopen()" href="#">打开自动换行</a>';
-			let autoNextLineCloseText = '<a onclick="autonextlineclose()" href="#">关闭自动换行</a>';
+			let autoNextLineOpenText = '<a onclick="autoNextLineOpen()" href="#">打开自动换行</a>';
+			let autoNextLineCloseText = '<a onclick="autoNextLineClose()" href="#">关闭自动换行</a>';
 			//console.log(autonextline);
 			if (autoNextLine) {
 				autoNextLineText = autoNextLineCloseText;
@@ -1025,63 +1025,61 @@
 				speedStrOut = speedStr1 + speed + speedStr2;
 			}
 
-			let titleoutput = myTitle + "&nbsp;&nbsp;已用时间:" + timeOutput + "(Alt+P暂停)&nbsp;&nbsp;正确率:" + myCorrectrate +
+			let titleOutput = myTitle + "&nbsp;&nbsp;已用时间:" + timeOutput + "(Alt+P暂停)&nbsp;&nbsp;正确率:" + myCorrectrate +
 				"%&nbsp;&nbsp;" + speedStrOut + autoNextLineText +
-				"&nbsp;&nbsp;<a onclick='onopensetting()' href='#'>设置</a>&nbsp;&nbsp;<a class='back' href='index.html'>返回</a>";
+				"&nbsp;&nbsp;<a onclick='onOpenSetting()' href='#'>设置</a>&nbsp;&nbsp;<a class='back' href='index.html'>返回</a>";
 
-			$(".title1").html(titleoutput);
+			$(".title1").html(titleOutput);
 		}
 
 		window.onresize = function() {
-			let windowwidth = window.innerWidth;
+			let windowWidth = window.innerWidth;
 			//window.innerHeight
-			$(".title1").width(windowwidth);
+			$(".title1").width(windowWidth);
 			createPage0();
 		}
 
-		function gettotalinput() {
+		function gettotalInput() {
 			return entered.length;
 		}
 
 
-		function onfinishdialogok() {
+		function onfinishDialogOk() {
 			$(".finishdialog").hide();
 		}
 
-		function autonextlineopen() {
+		function autoNextLineOpen() {
 			autoNextLine = true;
 			setCookie("autonextline", autoNextLine, 0);
 			autoWriteTitle();
 		}
 
-		function autonextlineclose() {
+		function autoNextLineClose() {
 			autoNextLine = false;
 			setCookie("autonextline", autoNextLine, 36500);
 			autoWriteTitle();
 		}
 
 
-		function onopensetting() { //settingModal
+		function onOpenSetting() { //settingModal
 			$("#settingModal").modal("show");
 
 			$(".setting-fontsize").val(fontSize);
-			let mytitlecolor = document.getElementsByClassName("titlecolorset")[0];
-			mytitlecolor.value = titleColor;
+			let myTitleColor = document.getElementsByClassName("titlecolorset")[0];
+			myTitleColor.value = titleColor;
 			$(".colortext-title").val(titleColor);
 
-			let myline1color = document.getElementsByClassName("line1colorset")[0];
-			myline1color.value = line1Color;
+			let myLine1Color = document.getElementsByClassName("line1colorset")[0];
+			myLine1Color.value = line1Color;
 			$(".colortext-line1").val(line1Color);
 
-			let myline2color = document.getElementsByClassName("line2colorset")[0];
-			myline2color.value = line2Color;
+			let myLine2Color = document.getElementsByClassName("line2colorset")[0];
+			myLine2Color.value = line2Color;
 			$(".colortext-line2").val(line2Color);
-
 
 			let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
 
 			ifShowSpeedCheckbox.checked = isShowSpeed;
-
 
 			let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
 
@@ -1094,7 +1092,7 @@
 		}
 
 
-		function onsettingModalSave() { //"fontsize"setting-fontsize
+		function onSettingModalSave() { //"fontsize"setting-fontsize
 			isSettingModalSaveOnClick = true;
 
 			let mySettingFontSize = document.getElementsByClassName("setting-fontsize")[0];
@@ -1102,18 +1100,18 @@
 				return;
 			}
 
-			let colortexttitle = document.getElementsByClassName("colortext-title")[0];
-			if (colortexttitle.getAttribute("isinvalid") == "yes") {
+			let colorTextTitle = document.getElementsByClassName("colortext-title")[0];
+			if (colorTextTitle.getAttribute("isinvalid") == "yes") {
 				return;
 			}
 
-			let colortextline1 = document.getElementsByClassName("colortext-line1")[0];
-			if (colortextline1.getAttribute("isinvalid") == "yes") {
+			let colorTextLine1 = document.getElementsByClassName("colortext-line1")[0];
+			if (colorTextLine1.getAttribute("isinvalid") == "yes") {
 				return;
 			}
 
-			let colortextline2 = document.getElementsByClassName("colortext-line2")[0];
-			if (colortextline2.getAttribute("isinvalid") == "yes") {
+			let colorTextLine2 = document.getElementsByClassName("colortext-line2")[0];
+			if (colorTextLine2.getAttribute("isinvalid") == "yes") {
 				return;
 			}
 
@@ -1124,24 +1122,24 @@
 				setCookie("fontsize", $(".setting-fontsize").val(), 36500);
 			}
 
-			let mytitlecolor = document.getElementsByClassName("colortext-title")[0].value;
+			let myTitleColor = document.getElementsByClassName("colortext-title")[0].value;
 
-			if (mytitlecolor != defaultTitleColor) {
-				setCookie("titlecolor", mytitlecolor, 36500);
+			if (myTitleColor != defaultTitleColor) {
+				setCookie("titlecolor", myTitleColor, 36500);
 			} else {
 				setCookie("titlecolor", "", 0);
 			}
 
-			let myline1color = document.getElementsByClassName("colortext-line1")[0].value;
-			if (myline1color != defaultLine1Color) {
-				setCookie("line1color", myline1color, 36500);
+			let myLine1Color = document.getElementsByClassName("colortext-line1")[0].value;
+			if (myLine1Color != defaultLine1Color) {
+				setCookie("line1color", myLine1Color, 36500);
 			} else {
 				setCookie("line1color", "", 0);
 			}
 
-			let myline2color = document.getElementsByClassName("line2colorset")[0].value;
-			if (myline2color != defaultLine2Color) {
-				setCookie("line2color", myline2color, 36500);
+			let myLine2Color = document.getElementsByClassName("line2colorset")[0].value;
+			if (myLine2Color != defaultLine2Color) {
+				setCookie("line2color", myLine2Color, 36500);
 			} else {
 				setCookie("line2color", "", 0);
 			}
@@ -1166,45 +1164,45 @@
 
 		}
 
-		function onsettingModalCancel() {
+		function onSettingModalCancel() {
 			if (isSettingModalSaveOnClick == false) {
 
-				settitlecolor(titleColor);
-				setline1color(line1Color);
-				setline2color(line2Color);
+				setTitleColor(titleColor);
+				setLine1Color(line1Color);
+				setLine2Color(line2Color);
 			} else {
 				isSettingModalSaveOnClick = false;
 			}
 			//$("#settingModal").modal("hide");
 		}
 
-		function onchangetitlecolor(myobj) {
-			settitlecolor(myobj.value);
+		function onChangeTitleColor(myobj) {
+			setTitleColor(myobj.value);
 			$(".colortext-title").val(myobj.value);
-			checktitlecolortext();
+			checkTitleColorText();
 
 		}
 
-		function settitlecolor(color) {
-			let mytitle = document.getElementsByClassName("title1")[0];
-			mytitle.style.backgroundColor = color;
+		function setTitleColor(color) {
+			let myTitle = document.getElementsByClassName("title1")[0];
+			myTitle.style.backgroundColor = color;
 		}
 
-		function titlecolortodefault() {
-			let mycolor = document.getElementsByClassName("titlecolorset")[0];
-			mycolor.value = defaultTitleColor;
-			settitlecolor(defaultTitleColor);
+		function titleColorToDefault() {
+			let myColor = document.getElementsByClassName("titlecolorset")[0];
+			myColor.value = defaultTitleColor;
+			setTitleColor(defaultTitleColor);
 			$(".colortext-title").val(defaultTitleColor);
-			checktitlecolortext();
+			checkTitleColorText();
 		}
 
-		function onchangeline1color(myobj) {
-			setline1color(myobj.value);
+		function onChangeLine1Color(myobj) {
+			setLine1Color(myobj.value);
 			$(".colortext-line1").val(myobj.value);
-			checkline1colortext();
+			checkLine1ColorText();
 		}
 
-		function setline1color(color) {
+		function setLine1Color(color) {
 			//inputtipobj
 			for (let i = 0; i < inputTipObj.length; i++) {
 				if ((i + 1) % 2 === 0) {
@@ -1217,13 +1215,13 @@
 			}
 		}
 
-		function onchangeline2color(myobj) {
-			setline2color(myobj.value);
+		function onChangeLine2Color(myobj) {
+			setLine2Color(myobj.value);
 			$(".colortext-line2").val(myobj.value);
-			checkline2colortext();
+			checkLine2ColorText();
 		}
 
-		function setline2color(color) {
+		function setLine2Color(color) {
 			//inputtipobj
 			for (let i = 0; i < inputTipObj.length; i++) {
 				if ((i + 1) % 2 === 0) {
@@ -1236,24 +1234,24 @@
 			}
 		}
 
-		function line1colortodefault() {
-			let line1colorset = document.getElementsByClassName("line1colorset")[0];
-			line1colorset.value = defaultLine1Color;
+		function line1ColorToDefault() {
+			let line1ColorSet = document.getElementsByClassName("line1colorset")[0];
+			line1ColorSet.value = defaultLine1Color;
 			$(".colortext-line1").val(defaultLine1Color);
-			checkline1colortext();
-			setline1color(defaultLine1Color);
+			checkLine1ColorText();
+			setLine1Color(defaultLine1Color);
 		}
 
-		function line2colortodefault() {
+		function line2ColorToDefault() {
 			let line2colorset = document.getElementsByClassName("line2colorset")[0];
 			line2colorset.value = defaultLine2Color;
 			$(".colortext-line2").val(defaultLine2Color);
-			checkline2colortext();
-			setline2color(defaultLine2Color);
+			checkLine2ColorText();
+			setLine2Color(defaultLine2Color);
 
 		}
 
-		function onchangefontsize(myobj) {
+		function onChangeFontSize(myobj) {
 			checkSettingFontSizeText();
 		}
 
@@ -1270,72 +1268,72 @@
 			}
 		}
 
-		function iscolortext(val) {
+		function isColorText(val) {
 			return isColorReg.test(val);
 		}
 
-		function onchangetitlecolortext() {
-			checktitlecolortext();
-			let colortexttitle = document.getElementsByClassName("colortext-title")[0];
-			let mytitlecolorset = document.getElementsByClassName("titlecolorset")[0];
-			if (colortexttitle.getAttribute("isinvalid") == "no") {
-				mytitlecolorset.value = colortexttitle.value;
-				settitlecolor(colortexttitle.value);
+		function onChangeTitleColorText() {
+			checkTitleColorText();
+			let colorTextTitle = document.getElementsByClassName("colortext-title")[0];
+			let myTitleColorSet = document.getElementsByClassName("titlecolorset")[0];
+			if (colorTextTitle.getAttribute("isinvalid") == "no") {
+				myTitleColorSet.value = colorTextTitle.value;
+				setTitleColor(colorTextTitle.value);
 			}
 		}
 
-		function checktitlecolortext() {
+		function checkTitleColorText() {
 
-			let titlecolorclass = "form-control form-control-sm colortext colortext-title";
-			let colortexttitle = document.getElementsByClassName("colortext-title")[0];
-			if (iscolortext(colortexttitle.value)) {
-				colortexttitle.className = titlecolorclass;
-				colortexttitle.setAttribute("isinvalid", "no");
+			let titleColorClass = "form-control form-control-sm colortext colortext-title";
+			let colorTextTitle = document.getElementsByClassName("colortext-title")[0];
+			if (isColorText(colorTextTitle.value)) {
+				colorTextTitle.className = titleColorClass;
+				colorTextTitle.setAttribute("isinvalid", "no");
 			} else {
-				colortexttitle.className = titlecolorclass + " is-invalid";
-				colortexttitle.setAttribute("isinvalid", "yes");
+				colorTextTitle.className = titleColorClass + " is-invalid";
+				colorTextTitle.setAttribute("isinvalid", "yes");
 			}
 		}
 
 		function onChangeLine1ColorText() {
-			checkline1colortext();
+			checkLine1ColorText();
 
-			let colortextline1 = document.getElementsByClassName("colortext-line1")[0];
-			let myline1colorset = document.getElementsByClassName("line1colorset")[0];
-			if (colortextline1.getAttribute("isinvalid") == "no") {
-				myline1colorset.value = colortextline1.value;
-				setline1color(colortextline1.value);
+			let colorTextLine1 = document.getElementsByClassName("colortext-line1")[0];
+			let myLine1ColorSet = document.getElementsByClassName("line1colorset")[0];
+			if (colorTextLine1.getAttribute("isinvalid") == "no") {
+				myLine1ColorSet.value = colorTextLine1.value;
+				setLine1Color(colorTextLine1.value);
 
 			}
 		}
 
-		function checkline1colortext() {
-			let line1colorclass = "form-control form-control-sm colortext colortext-line1";
-			let colortextline1 = document.getElementsByClassName("colortext-line1")[0];
-			if (iscolortext(colortextline1.value)) {
-				colortextline1.className = line1colorclass;
-				colortextline1.setAttribute("isinvalid", "no");
+		function checkLine1ColorText() {
+			let line1ColorClass = "form-control form-control-sm colortext colortext-line1";
+			let colorTextLine1 = document.getElementsByClassName("colortext-line1")[0];
+			if (isColorText(colorTextLine1.value)) {
+				colorTextLine1.className = line1ColorClass;
+				colorTextLine1.setAttribute("isinvalid", "no");
 			} else {
-				colortextline1.className = line1colorclass + " is-invalid";
-				colortextline1.setAttribute("isinvalid", "yes");
+				colorTextLine1.className = line1ColorClass + " is-invalid";
+				colorTextLine1.setAttribute("isinvalid", "yes");
 			}
 		}
 
 		function onchangeline2colortext() {
-			checkline2colortext();
+			checkLine2ColorText();
 
-			let colortextline2 = document.getElementsByClassName("colortext-line2")[0];
-			let myline2colorset = document.getElementsByClassName("line2colorset")[0];
-			if (colortextline2.getAttribute("isinvalid") == "no") {
-				myline2colorset.value = colortextline2.value;
-				setline2color(colortextline2.value);
+			let colorTextLine2 = document.getElementsByClassName("colortext-line2")[0];
+			let myLine2ColorSet = document.getElementsByClassName("line2colorset")[0];
+			if (colorTextLine2.getAttribute("isinvalid") == "no") {
+				myLine2ColorSet.value = colorTextLine2.value;
+				setLine2Color(colorTextLine2.value);
 			}
 		}
 
-		function checkline2colortext() {
+		function checkLine2ColorText() {
 			let line2colorclass = "form-control form-control-sm colortext colortext-line2";
 			let colortextline2 = document.getElementsByClassName("colortext-line2")[0];
-			if (iscolortext(colortextline2.value)) {
+			if (isColorText(colortextline2.value)) {
 				colortextline2.className = line2colorclass;
 				colortextline2.setAttribute("isinvalid", "no");
 			} else {
