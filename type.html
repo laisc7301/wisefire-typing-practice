@@ -968,6 +968,10 @@
 		}
 
 		//var finishdialogshowtype = "first";
+		
+		function pause(){
+			isInputing = false;
+		}
 
 		function windowOnKeyDown(event) {
 			// console.log(event.keyCode);
@@ -1028,7 +1032,7 @@
 				speedStrOut = speedStr1 + speed + speedStr2;
 			}
 
-			let titleOutput = myTitle + "&nbsp;&nbsp;已用时间:" + timeOutput + "(Alt+P暂停)&nbsp;&nbsp;正确率:" + myCorrectrate +
+			let titleOutput = myTitle + "&nbsp;&nbsp;已用时间:" + timeOutput + "(&nbsp;Alt+P&nbsp;<a href='#' onclick='pause()'>暂停</a>&nbsp;)&nbsp;&nbsp;正确率:" + myCorrectrate +
 				"%&nbsp;&nbsp;" + speedStrOut + autoNextLineText +
 				"&nbsp;&nbsp;<a onclick='onOpenSetting()' href='#'>设置</a>&nbsp;&nbsp;<a class='back' href='index.html'>返回</a>";
 
