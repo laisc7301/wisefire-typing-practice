@@ -351,7 +351,7 @@
 						</div>
 
 						<div>双数行颜色：<input class="form-control form-control-sm colortext colortext-line2"
-								oninput="onchangeline2colortext()" />
+								oninput="onChangeLine2ColorText()" />
 
 							<button type="button" class="btn btn-primary"
 								style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
@@ -418,7 +418,7 @@
 
 		function startTimer() {
 			var timer1 = self.setInterval("myTime()", 1000); //计算已用时间
-			var timer2 = self.setInterval("mytime2()", 1000); //计算打字速度
+			var timer2 = self.setInterval("myTime2()", 1000); //计算打字速度
 		}
 		startTimer();
 
@@ -1319,7 +1319,7 @@
 			}
 		}
 
-		function onchangeline2colortext() {
+		function onChangeLine2ColorText() {
 			checkLine2ColorText();
 
 			let colorTextLine2 = document.getElementsByClassName("colortext-line2")[0];
@@ -1331,14 +1331,14 @@
 		}
 
 		function checkLine2ColorText() {
-			let line2colorclass = "form-control form-control-sm colortext colortext-line2";
-			let colortextline2 = document.getElementsByClassName("colortext-line2")[0];
-			if (isColorText(colortextline2.value)) {
-				colortextline2.className = line2colorclass;
-				colortextline2.setAttribute("isinvalid", "no");
+			let Line2ColorClass = "form-control form-control-sm colortext colortext-line2";
+			let colorTextLine2 = document.getElementsByClassName("colortext-line2")[0];
+			if (isColorText(colorTextLine2.value)) {
+				colorTextLine2.className = Line2ColorClass;
+				colorTextLine2.setAttribute("isinvalid", "no");
 			} else {
-				colortextline2.className = line2colorclass + " is-invalid";
-				colortextline2.setAttribute("isinvalid", "yes");
+				colorTextLine2.className = Line2ColorClass + " is-invalid";
+				colorTextLine2.setAttribute("isinvalid", "yes");
 			}
 		}
 
@@ -1348,7 +1348,7 @@
 
 
 
-		function mytime2() {
+		function myTime2() {
 			if (isShowSpeed && isInputing) {
 
 				speedLengthArray.shift();
