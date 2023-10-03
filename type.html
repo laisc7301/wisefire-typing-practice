@@ -832,13 +832,18 @@
 
 			if (event.keyCode == 39) { // 右方向键
 				if (myInputObj[nowFocus].selectionEnd == myInputObj[nowFocus].value.length) {
-					
 					if (myInputObj[nowFocus].selectionStart == myInputObj[nowFocus].selectionEnd) {
 						if (nowFocus < getEndLine()) {
 							nowFocus++;
 							myInputObj[nowFocus].focus();
 						} else if (nowFocus == getEndLine()) {
-							
+							if (getIfNeedEnter(nowFocus) == false) {
+								if (myInputObj[nowFocus].value.length >= list[nowFocus].length) {
+									nowFocus++;
+									myInputObj[nowFocus].focus();
+								}
+
+							}
 
 						}
 
@@ -901,8 +906,8 @@
 
 			let mySpeed = allEnterContentLength;
 			if (time <= 0) {
-				mySpeed=allEnterContentLength;
-			}else{
+				mySpeed = allEnterContentLength;
+			} else {
 				mySpeed = allEnterContentLength / time * 60;
 			}
 
