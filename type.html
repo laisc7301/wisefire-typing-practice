@@ -450,9 +450,9 @@
 						if (i2 <= 0) {
 							break;
 						}
-						let myline2 = article.substring(i, i2);
+						let myLine2 = article.substring(i, i2);
 						i = i2 - 1; //-1是用来抵消掉i++
-						list.push(myline2);
+						list.push(myLine2);
 						break;
 
 					}
@@ -464,40 +464,40 @@
 		//console.log(list);
 
 
-		function createpage() { //创建页面
+		function createPage() { //创建页面
 			for (let i = 0; i < list.length; i++) {
-				var inputtip = document.createElement("div");
-				inputtip.style.fontSize = "50px";
-				inputtip.innerHTML = "11";
-				inputtip.className = "entertext inputtipdiv inputtipdiv" + i;
+				var inputTip = document.createElement("div");
+				inputTip.style.fontSize = "50px";
+				inputTip.innerHTML = "11";
+				inputTip.className = "entertext inputtipdiv inputtipdiv" + i;
 				if ((i + 1) % 2 === 0) {
 					//console.log('是偶数');
 					//inputtip.className += " bggreen";
-					inputtip.className += " bgline2";
+					inputTip.className += " bgline2";
 				} else {
 					//console.log('是奇数');
-					inputtip.className += " bgline1";
+					inputTip.className += " bgline1";
 				}
-				inputtip.setAttribute("lineid", i);
+				inputTip.setAttribute("lineid", i);
 
-				var myinput = document.createElement("input");
-				myinput.value = "";
-				myinput.className = "entertext myinput myinput" + i;
-				myinput.setAttribute("lineid", i); //当前页的行数，从0开始
-				myinput.oninput = function() {
+				var myInput = document.createElement("input");
+				myInput.value = "";
+				myInput.className = "entertext myinput myinput" + i;
+				myInput.setAttribute("lineid", i); //当前页的行数，从0开始
+				myInput.oninput = function() {
 					oninput(this);
 				}
-				myinput.onkeydown = function(event) {
+				myInput.onkeydown = function(event) {
 					onkeydown(event, this);
 				}
-				myinput.onfocus = function() {
+				myInput.onfocus = function() {
 					onfocus(this);
 				}
 
-				$(".main3").append(inputtip);
-				$(".main3").append(myinput);
-				inputTipObj.push(inputtip);
-				myInputObj.push(myinput);
+				$(".main3").append(inputTip);
+				$(".main3").append(myInput);
+				inputTipObj.push(inputTip);
+				myInputObj.push(myInput);
 
 			}
 			$(".myinput").width($(".main3").width() - 10);
@@ -511,85 +511,85 @@
 
 			for (let i = 0; i < list.length; i++) {
 				let tip = document.getElementsByClassName("inputtipdiv")[i];
-				let myinput = document.getElementsByClassName("myinput")[i];
+				let myInput = document.getElementsByClassName("myinput")[i];
 				tip.style.fontSize = fontSize + "px";
-				myinput.style.fontSize = fontSize + "px";
+				myInput.style.fontSize = fontSize + "px";
 			}
 
 
 
 		}
-		createpage();
+		createPage();
 
-		function getenteredlist() { //将过去的输入内容转换为列表
-			let myline = 0;
+		function getEnteredList() { //将过去的输入内容转换为列表
+			let myLine = 0;
 			//let mylinelength = 0;
 
 			let now = 0;
 			for (;;) {
 				//console.log(myline);
-				let mylinelength = list[myline].length;
-				listEntered.push(entered.substring(now, now + mylinelength));
+				let myLineLength = list[myLine].length;
+				listEntered.push(entered.substring(now, now + myLineLength));
 				//myinputobj[myline].setAttribute("nowentered",
-				now += mylinelength;
-				if (myline < list.length - 1) {
-					myline++;
+				now += myLineLength;
+				if (myLine < list.length - 1) {
+					myLine++;
 				}
 				if (now >= entered.length) {
 					break;
 				}
 			}
-			let endoflistentered = listEntered[listEntered.length - 1];
+			// let endoflistentered = listEntered[listEntered.length - 1];
 			//console.log(endoflistentered);
 		}
-		getenteredlist();
+		getEnteredList();
 		//console.log(listentered);
 
 
-		function loadtipandinput() {
+		function loadTipAndInput() {
 			for (let i = 0; i < list.length; i++) {
 				inputTipObj[i].innerHTML = "";
 				myInputObj[i].setAttribute("nowentered", strtonoenterend(getlistentered(i)));
 				myInputObj[i].setAttribute("enteredtip", strtonoenterend(getlist(i)));
 				myInputObj[i].setAttribute("ifneedenter", isenterend(getlist(i)));
 				myInputObj[i].value = strtonoenterend(getlistentered(i));
-				let mylist = strtonoenterend(getlist(i));
-				for (let i2 = 0; i2 < mylist.length; i2++) {
-					var inputtipspan = document.createElement("span");
-					inputtipspan.className = "inputtipspan fblack " + "tipfont" + i + "-" + i2;
-					let str = mylist.charAt(i2);
+				let myList = strtonoenterend(getlist(i));
+				for (let i2 = 0; i2 < myList.length; i2++) {
+					let inputTipSpan = document.createElement("span");
+					inputTipSpan.className = "inputtipspan fblack " + "tipfont" + i + "-" + i2;
+					let str = myList.charAt(i2);
 					if (str == " ") {
 						str = "&nbsp;";
 					}
-					inputtipspan.innerHTML = str;
-					inputTipObj[i].appendChild(inputtipspan);
+					inputTipSpan.innerHTML = str;
+					inputTipObj[i].appendChild(inputTipSpan);
 				}
-				setcolor(i);
+				setColor(i);
 
 			}
-			let focusline = listEntered.length - 1;
-			if (focusline > list.length - 1) {
-				focusline = list.length - 1;
+			let focusLine = listEntered.length - 1;
+			if (focusLine > list.length - 1) {
+				focusLine = list.length - 1;
 			}
-			myInputObj[focusline].focus();
+			myInputObj[focusLine].focus();
 
 			writetitle(articleTitle, time, getcorrectrate());
 			createPage0();
 		}
-		loadtipandinput();
+		loadTipAndInput();
 
 
 
 
 
-		function setcolor(index) {
-			let nowentered = myInputObj[index].getAttribute("nowentered");
-			let enteredtip = myInputObj[index].getAttribute("enteredtip");
-			for (let i = 0; i < enteredtip.length; i++) {
+		function setColor(index) {
+			let nowEntered = myInputObj[index].getAttribute("nowentered");
+			let enteredTip = myInputObj[index].getAttribute("enteredtip");
+			for (let i = 0; i < enteredTip.length; i++) {
 				let obj = document.getElementsByClassName("tipfont" + index + "-" + i)[0];
-				if (i >= nowentered.length) {
+				if (i >= nowEntered.length) {
 					obj.className = "inputtipspan fblack " + "tipfont" + index + "-" + i;
-				} else if (nowentered.charAt(i) == enteredtip.charAt(i)) {
+				} else if (nowEntered.charAt(i) == enteredTip.charAt(i)) {
 					obj.className = "inputtipspan fgrey " + "tipfont" + index + "-" + i;
 				} else {
 					obj.className = "inputtipspan fred " + "tipfont" + index + "-" + i;
@@ -684,7 +684,7 @@
 			//let line = myobj.getAttribute("lineid");
 			isInputing = true;
 			myobj.setAttribute("nowentered", myobj.value);
-			setcolor(nowFocus);
+			setColor(nowFocus);
 			let nowline = myobj.getAttribute("lineid");
 			// console.log(isenterend(list[nowline]));
 			if ((myobj.value.length >= myobj.getAttribute("enteredtip").length)) {
