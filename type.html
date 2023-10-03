@@ -338,7 +338,7 @@
 						</div>
 
 						<div>单数行颜色：<input class="form-control form-control-sm colortext colortext-line1"
-								oninput="onchangeline1colortext()" />
+								oninput="onChangeLine1ColorText()" />
 
 							<button type="button" class="btn btn-primary"
 								style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
@@ -378,25 +378,25 @@
 
 	</body>
 	<script>
-		function createpage0() {
-			let windowwidth = window.innerWidth;
-			let windowheight = window.innerHeight;
+		function createPage0() {
+			let windowWidth = window.innerWidth;
+			let windowHeight = window.innerHeight;
 
-			$(".title1").width(windowwidth);
+			$(".title1").width(windowWidth);
 			//$(".main").width(windowwidth-25);
 			let title1 = document.getElementsByClassName("title1")[0];
 			let footer = document.getElementsByClassName("footer")[0];
 			//$(".cube1").height(title1.clientHeight);
-			let main2height = windowheight - title1.clientHeight - footer.clientHeight - footer.clientHeight;
+			let main2Height = windowHeight - title1.clientHeight - footer.clientHeight - footer.clientHeight;
 
-			if (main2height <= 0) {
-				main2height = 1;
+			if (main2Height <= 0) {
+				main2Height = 1;
 			}
 
-			$(".main2").height(main2height);
+			$(".main2").height(main2Height);
 
-			let mytitle = document.getElementsByClassName("title1")[0];
-			mytitle.style.backgroundColor = titleColor;
+			let myTitle = document.getElementsByClassName("title1")[0];
+			myTitle.style.backgroundColor = titleColor;
 			setline1color(line1Color);
 			setline2color(line2Color);
 
@@ -412,15 +412,15 @@
 			});
 
 		}
-		createpage0();
+		createPage0();
 
 
 
-		function starttimer() {
+		function startTimer() {
 			var timer1 = self.setInterval("mytime()", 1000); //计算已用时间
 			var timer2 = self.setInterval("mytime2()", 1000); //计算打字速度
 		}
-		starttimer();
+		startTimer();
 
 
 
@@ -574,7 +574,7 @@
 			myInputObj[focusline].focus();
 
 			writetitle(articleTitle, time, getcorrectrate());
-			createpage0();
+			createPage0();
 		}
 		loadtipandinput();
 
@@ -1036,7 +1036,7 @@
 			let windowwidth = window.innerWidth;
 			//window.innerHeight
 			$(".title1").width(windowwidth);
-			createpage0();
+			createPage0();
 		}
 
 		function gettotalinput() {
@@ -1297,7 +1297,7 @@
 			}
 		}
 
-		function onchangeline1colortext() {
+		function onChangeLine1ColorText() {
 			checkline1colortext();
 
 			let colortextline1 = document.getElementsByClassName("colortext-line1")[0];
