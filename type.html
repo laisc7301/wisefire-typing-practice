@@ -425,9 +425,9 @@
 
 
 
-		function texttest() { //测试最大长度
-			var texttest = document.getElementsByClassName("texttest1")[0];
-			texttest.style.fontSize = fontSize + "px";
+		function textTest() { //测试最大长度
+			var textTest = document.getElementsByClassName("texttest1")[0];
+			textTest.style.fontSize = fontSize + "px";
 			for (let i = 0; i < article.length; i++) {
 				for (let i2 = i; i2 <= article.length; i2++) {
 
@@ -445,7 +445,7 @@
 
 					let myline = article.substring(i, i2);
 					$(".texttest1").html(myline);
-					if (texttest.scrollWidth > texttest.clientWidth) {
+					if (textTest.scrollWidth > textTest.clientWidth) {
 						i2 -= 3; //微调每行长度
 						if (i2 <= 0) {
 							break;
@@ -458,9 +458,9 @@
 					}
 				}
 			}
-			texttest.innerHTML = "";
+			textTest.innerHTML = "";
 		}
-		texttest();
+		textTest();
 		//console.log(list);
 
 
