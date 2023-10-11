@@ -10,6 +10,7 @@
 		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
 		<script src="./js/cookie.js"></script>
 		<script src="./js/replacehhf.js"></script>
+		<script src="./js/db.js"></script>
 		<script>
 			var chineselist = "";
 			var englishlist = "";
@@ -202,17 +203,13 @@
 				async: false,
 				success: function(result) {
 					article = result;
-					let articlehhftobr = replacehhfToN(article);
+					let articlehhftobr = replacehhftobr(article);
 					setCookie("article", articlehhftobr, 36500);
 					//console.log(replacebrtohhf(getCookie("article")));
 					setCookie("entered", "", 36500);
 					window.location.href = "type.html";
 				}
 			});
-		}
-
-		function loaddb(){
-			
 		}
 
 		function continuetyping() {
