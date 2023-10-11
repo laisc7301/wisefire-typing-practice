@@ -22,5 +22,9 @@
 	{
         "name": "Changbai Shan",
         "url": "./article/english/Changbai Shan.txt"
+    },
+	{
+        "name": "Chinese film",
+        "url": "./article/english/Chinese film.txt"
     }
 ]

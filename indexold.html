@@ -202,17 +202,13 @@
 				async: false,
 				success: function(result) {
 					article = result;
-					let articlehhftobr = replacehhfToN(article);
+					let articlehhftobr = replacehhftobr(article);
 					setCookie("article", articlehhftobr, 36500);
 					//console.log(replacebrtohhf(getCookie("article")));
 					setCookie("entered", "", 36500);
 					window.location.href = "type.html";
 				}
 			});
-		}
-
-		function loaddb(){
-			
 		}
 
 		function continuetyping() {
