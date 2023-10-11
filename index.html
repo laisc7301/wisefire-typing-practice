@@ -203,6 +203,8 @@
 				async: false,
 				success: function(result) {
 					article = result;
+					let articlehhfToN = replacehhfToN(article);
+					addArticle(setarticleselectname,articlehhfToN);
 					let articlehhftobr = replacehhftobr(article);
 					setCookie("article", articlehhftobr, 36500);
 					//console.log(replacebrtohhf(getCookie("article")));
