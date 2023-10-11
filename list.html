@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>睿火打字练习</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/cookie.js"></script>
+    <script src="./js/replacehhf.js"></script>
+    <script src="./js/db.js"></script>
+</head>
+<body>
+<style>
+    .main1 {
+        text-align: center;
+        /*让div内部文字居中*/
+        /* background-color: #ffffff; */
+        border-radius: 30px;
+        /* border-style: solid; */
+        /* border-color: #ffffff;
+        border-width: 15px; */
+        width: 400px;
+        height: 400px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        backdrop-filter: blur(10px);
+    }
+    .main2 {
+        text-align: center;
+        width: 350px;
+        height: 350px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: white;
+    }
+</style>
+<!-- 网站背景 -->
+<style type="text/css">
+    .bgimg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+</style>
+<img class="bgimg"/>
+<script>
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    var timestamp = Date.parse(new Date());
+    // 传参一个回调函数名给后端，方便后端返回时执行这个在前端定义的回调函数
+    script.src = 'https://laisc7301.github.io/bgimg/!list.js?t=' + timestamp;
+    document.head.appendChild(script);
+</script>
+<div class="main1">
+    <div class="main2"></div>
+</div>
+
+
+</body>
+<script>
+    function load() {
+        let windowWidth = window.innerWidth;
+        let windowHeight = window.innerHeight;
+        if (windowWidth - 200 > 0) {
+            $(".main1").width(windowWidth - 200);
+        }
+        if (windowHeight - 200 > 0) {
+            $(".main1").height(windowHeight - 200);
+        }
+        if (windowWidth - 250 > 0) {
+            $(".main2").width(windowWidth - 250);
+        }
+        if (windowHeight - 250 > 0) {
+            $(".main2").height(windowHeight - 250);
+        }
+
+    }
+
+    load();
+
+    window.onresize = function () {
+        load();
+    }
+</script>
+</html>
