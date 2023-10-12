@@ -121,7 +121,7 @@
     }
 
     window.onload = function () {
-        console.log(allArticle);
+        // console.log(allArticle);
         let mytable = document.getElementsByClassName("article")[0];
         for (let i = 0; i < allArticle.length; i++) {
             let newRow = mytable.insertRow();
@@ -149,7 +149,9 @@
     }
 
     function onOpen(title){
-        alert(title);
+        // alert(title);
+        let article = getArticle(title);
+        console.log(article);
 
     }
 

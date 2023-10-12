@@ -1,6 +1,7 @@
 var request = window.indexedDB.open("article", 1);
 var db;
 var allArticle = new Array();
+
 function loaddb() {
 
     request.onupgradeneeded = function (event) {
@@ -35,7 +36,7 @@ function addArticle(title, article) {
 
 }
 
-function getAllArticle(){
+function getAllArticle() {
     let article;
 
     let objectStore = db.transaction('article').objectStore('article');
@@ -48,7 +49,7 @@ function getAllArticle(){
             // console.log('article: ' + cursor.value.article);
             // console.log('entered: ' + cursor.value.entered);
 
-            article = {title:cursor.key,article:cursor.value.article,entered:cursor.value.entered}
+            article = {title: cursor.key, article: cursor.value.article, entered: cursor.value.entered}
             // console.log(article);
             allArticle.push(article);
 
@@ -60,25 +61,52 @@ function getAllArticle(){
 
     };
 
-   //return allArticle;
+    //return allArticle;
 }
+function getArticle(title) {
 
-function getArticle(title){
-    var transaction = db.transaction(['article']);
-    var objectStore = transaction.objectStore('article');
-    var request = objectStore.get(title);
+    for(let i=0;i<allArticle.length;i++){
+        if(allArticle[i].title==title){
+            let articleObj = {
+                title: allArticle[i].title,
+                article: allArticle[i].article,
+                entered: allArticle[i].entered
+            };
+            return articleObj;
+        }
+    }
+    return "找不到！";
+}
+function getArticleOld(title) {
+    window.articleObj="";
+    let transaction = db.transaction(['article']);
+    let objectStore = transaction.objectStore('article');
+    let request = objectStore.get(title);
 
-    request.onerror = function(event) {
+    request.onerror = function (event) {
         console.log('事务失败');
+        window.articleObj = '事务失败';
     };
 
-    request.onsuccess = function( event) {
+    request.onsuccess = function (event) {
         if (request.result) {
-            console.log('title: ' + request.result.key);
-            console.log('article: ' + request.result.article);
-            console.log('entered: ' + request.result.entered);
+             console.log('title: ' + request.result.title);
+             console.log('article: ' + request.result.article);
+             console.log('entered: ' + request.result.entered);
+            window.articleObj = {
+                title: request.result.title,
+                article: request.result.article,
+                entered: request.result.entered
+            };
+            console.log(articleObj);
+
+
         } else {
             console.log('未获得数据记录');
+            window.articleObj = '未获得数据记录';
         }
     };
+    console.log(articleObj);
+
+    return articleObj;
 }
