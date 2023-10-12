@@ -1,7 +1,6 @@
 var request = window.indexedDB.open("article", 1);
 var db;
-var AllArticle = new Array();
-
+var allArticle = new Array();
 function loaddb() {
 
     request.onupgradeneeded = function (event) {
@@ -19,8 +18,8 @@ function loaddb() {
 
     request.onsuccess = function (event) {
         db = event.target.result;
-
         getAllArticle();
+
     };
 
 }
@@ -37,6 +36,7 @@ function addArticle(title, article) {
 }
 
 function getAllArticle(){
+    let article;
 
     let objectStore = db.transaction('article').objectStore('article');
 
@@ -44,12 +44,25 @@ function getAllArticle(){
         var cursor = event.target.result;
 
         if (cursor) {
-            console.log('title: ' + cursor.key);
-            console.log('article: ' + cursor.value.article);
-            console.log('entered: ' + cursor.value.entered);
+            // console.log('title: ' + cursor.key);
+            // console.log('article: ' + cursor.value.article);
+            // console.log('entered: ' + cursor.value.entered);
+
+            article = {title:cursor.key,article:cursor.value.article,entered:cursor.value.entered}
+            // console.log(article);
+            allArticle.push(article);
+
             cursor.continue();
         } else {
-            console.log('没有更多数据了！');
+            // console.log(allArticle);
+            // console.log('没有更多数据了！');
         }
+
     };
+
+   //return allArticle;
+}
+
+function getArticle(title){
+
 }

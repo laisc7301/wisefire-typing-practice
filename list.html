@@ -31,6 +31,7 @@
         bottom: 0;
         backdrop-filter: blur(10px);
     }
+
     .main2 {
         text-align: center;
         width: 350px;
@@ -42,6 +43,7 @@
         right: 0;
         bottom: 0;
         background: white;
+        overflow: auto;
     }
 </style>
 <!-- 网站背景 -->
@@ -64,7 +66,7 @@
 </script>
 <div class="main1">
     <div class="main2">
-        <table class="table">
+        <table class="table article">
             <thead>
             <tr>
                 <th scope="col">文章名</th>
@@ -86,9 +88,6 @@
 
             </tbody>
         </table>
-
-
-
 
 
     </div>
@@ -119,6 +118,39 @@
 
     window.onresize = function () {
         load();
+    }
+
+    window.onload = function () {
+        console.log(allArticle);
+        let mytable = document.getElementsByClassName("article")[0];
+        for (let i = 0; i < allArticle.length; i++) {
+            let newRow = mytable.insertRow();
+            // 创建三个新单元格
+            let cellTitle = newRow.insertCell();
+            let cellSchedule = newRow.insertCell();
+            let cellOperate = newRow.insertCell();
+
+            let operateStr1 = '<button type="button" class="btn btn-danger" onclick="onDel(\''+allArticle[i].title+'\')">删除</button>';
+            let operateStr2 = '&nbsp;<button type="button" class="btn btn-primary" onclick="onOpen(\''+allArticle[i].title+'\')">继续</button>';
+            let operateStr = operateStr1 + operateStr2;
+
+            // 向表格中插入元素
+            cellTitle.innerHTML = allArticle[i].title;
+            cellSchedule.innerHTML = "0";
+            cellOperate.innerHTML = operateStr;
+        }
+
+
+    }
+
+    function onDel(title){
+        alert(title);
+
+    }
+
+    function onOpen(title){
+        alert(title);
+
     }
 
 </script>
