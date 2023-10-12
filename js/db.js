@@ -64,5 +64,21 @@ function getAllArticle(){
 }
 
 function getArticle(title){
+    var transaction = db.transaction(['article']);
+    var objectStore = transaction.objectStore('article');
+    var request = objectStore.get(title);
 
+    request.onerror = function(event) {
+        console.log('事务失败');
+    };
+
+    request.onsuccess = function( event) {
+        if (request.result) {
+            console.log('title: ' + request.result.key);
+            console.log('article: ' + request.result.article);
+            console.log('entered: ' + request.result.entered);
+        } else {
+            console.log('未获得数据记录');
+        }
+    };
 }
