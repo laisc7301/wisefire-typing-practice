@@ -13,6 +13,7 @@ function loaddb() {
         );
         objectStore.createIndex('article', 'article', {unique: false});
         objectStore.createIndex('entered', 'entered', {unique: false});
+        objectStore.createIndex('time', 'time', {unique: false});
         console.log("run1");
         // indexedDB.deleteDatabase("MyTestDatabase");
     }
@@ -32,7 +33,7 @@ function addArticle(title, article) {
 
     var request = db.transaction(['article'], 'readwrite')
         .objectStore('article')
-        .put({title: title, article: article, entered: ""});
+        .put({title: title, article: article, entered: "",time:0});
 
 }
 
@@ -49,7 +50,7 @@ function getAllArticle() {
             // console.log('article: ' + cursor.value.article);
             // console.log('entered: ' + cursor.value.entered);
 
-            article = {title: cursor.key, article: cursor.value.article, entered: cursor.value.entered}
+            article = {title: cursor.key, article: cursor.value.article, entered: cursor.value.entered,time: cursor.value.time}
             // console.log(article);
             allArticle.push(article);
 
@@ -70,43 +71,44 @@ function getArticle(title) {
             let articleObj = {
                 title: allArticle[i].title,
                 article: allArticle[i].article,
-                entered: allArticle[i].entered
+                entered: allArticle[i].entered,
+                time: allArticle[i].time
             };
             return articleObj;
         }
     }
     return "找不到！";
 }
-function getArticleOld(title) {
-    window.articleObj="";
-    let transaction = db.transaction(['article']);
-    let objectStore = transaction.objectStore('article');
-    let request = objectStore.get(title);
-
-    request.onerror = function (event) {
-        console.log('事务失败');
-        window.articleObj = '事务失败';
-    };
-
-    request.onsuccess = function (event) {
-        if (request.result) {
-             console.log('title: ' + request.result.title);
-             console.log('article: ' + request.result.article);
-             console.log('entered: ' + request.result.entered);
-            window.articleObj = {
-                title: request.result.title,
-                article: request.result.article,
-                entered: request.result.entered
-            };
-            console.log(articleObj);
-
-
-        } else {
-            console.log('未获得数据记录');
-            window.articleObj = '未获得数据记录';
-        }
-    };
-    console.log(articleObj);
-
-    return articleObj;
-}
+// function getArticleOld(title) {
+//     window.articleObj="";
+//     let transaction = db.transaction(['article']);
+//     let objectStore = transaction.objectStore('article');
+//     let request = objectStore.get(title);
+//
+//     request.onerror = function (event) {
+//         console.log('事务失败');
+//         window.articleObj = '事务失败';
+//     };
+//
+//     request.onsuccess = function (event) {
+//         if (request.result) {
+//              console.log('title: ' + request.result.title);
+//              console.log('article: ' + request.result.article);
+//              console.log('entered: ' + request.result.entered);
+//             window.articleObj = {
+//                 title: request.result.title,
+//                 article: request.result.article,
+//                 entered: request.result.entered
+//             };
+//             console.log(articleObj);
+//
+//
+//         } else {
+//             console.log('未获得数据记录');
+//             window.articleObj = '未获得数据记录';
+//         }
+//     };
+//     console.log(articleObj);
+//
+//     return articleObj;
+// }
