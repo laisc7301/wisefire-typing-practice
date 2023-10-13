@@ -10,7 +10,6 @@
 		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
 		<script src="./js/cookie.js"></script>
 		<script src="./js/replacehhf.js"></script>
-		<script src="./js/db.js"></script>
 		<script>
 			var chineselist = "";
 			var englishlist = "";
@@ -203,8 +202,6 @@
 				async: false,
 				success: function(result) {
 					article = result;
-					let articlehhfToN = replacehhfToN(article);
-					addArticle(setarticleselectname,articlehhfToN);
 					let articlehhftobr = replacehhftobr(article);
 					setCookie("article", articlehhftobr, 36500);
 					//console.log(replacebrtohhf(getCookie("article")));
@@ -215,7 +212,7 @@
 		}
 
 		function continuetyping() {
-			window.location.href = "list.html";
+			window.location.href = "type.html";
 		}
 		loadtypinglist();
 	</script>
