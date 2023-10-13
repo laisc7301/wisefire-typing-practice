@@ -754,7 +754,7 @@
         }
 
         entered = getAllEnterContent();
-        let str = replacehhftobr(entered);
+        let str = replacehhfToN(entered);
         localStorage.setItem("entered", str);
 
         //console.log(myobj.selectionStart + "," + myobj.selectionEnd);
@@ -1341,7 +1341,7 @@
 
             let speed0 = speedLengthArray[speedSpacing] - speedLengthArray[0];
 
-            speed = speed0 / speedSpacing * 60;
+            speed = Math.round(speed0 / speedSpacing * 60);
             // console.log(speed);
         }
     }
