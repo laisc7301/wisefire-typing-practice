@@ -194,7 +194,7 @@
 
 			//alert(setarticleselectvalue);
 			localStorage.setItem("articletitle", setarticleselectname);
-			setCookie("time", 0, 36500);
+			localStorage.setItem("time", 0);
 			localStorage.setItem("autonextline", true);
 			let myarticle = $.ajax({
 				type: "GET",

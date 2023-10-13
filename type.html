@@ -102,9 +102,6 @@
         .floatright {
             float: right;
         }
-
-
-        ;
     </style>
     <script>
         var version = "v1.2.1";
@@ -133,7 +130,7 @@
         }
         let autoNextLine0 = localStorage.getItem("autonextline");
         var autoNextLine = true;
-        if (autoNextLine0 == "" || autoNextLine == null) {
+        if (autoNextLine0 == "" || autoNextLine0 == null) {
             autoNextLine = true;
         } else {
             autoNextLine = (autoNextLine0 == "true");
@@ -142,9 +139,9 @@
         var isNum = /^[0-9]+$/;
         var defaultFontSize = 30;
 
-        let fontSize0 = getCookie("fontsize");
+        let fontSize0 = localStorage.getItem("fontsize");
         var fontSize = defaultFontSize;
-        if (fontSize0 == "") {
+        if (fontSize0 == null) {
             fontSize = defaultFontSize;
         } else {
             fontSize = fontSize0;
@@ -153,18 +150,18 @@
         var defaultTitleColor = "#00bfff";
         //var defaulttitlecolor = "green";
 
-        let titleColor0 = getCookie("titlecolor");
+        let titleColor0 = localStorage.getItem("titlecolor");
         var titleColor = defaultTitleColor;
-        if (titleColor0 == "") {
+        if (titleColor0 == null) {
             titleColor = defaultTitleColor;
         } else {
             titleColor = titleColor0;
         }
 
         var defaultLine1Color = "#87cefa";
-        let line1Color0 = getCookie("line1color");
+        let line1Color0 = localStorage.getItem("line1color");
         var line1Color = defaultLine1Color;
-        if (line1Color0 == "") {
+        if (line1Color0 == null) {
             line1Color = defaultLine1Color;
         } else {
             line1Color = line1Color0;
@@ -172,9 +169,9 @@
 
 
         var defaultLine2Color = "#82ff92";
-        let line2Color0 = getCookie("line2color");
+        let line2Color0 = localStorage.getItem("line2color");
         var line2Color = defaultLine2Color;
-        if (line2Color0 == "") {
+        if (line2Color0 == null) {
             line2Color = defaultLine2Color;
         } else {
             line2Color = line2Color0;
@@ -188,6 +185,7 @@
         var isShowSpeed = true;
 
         if (isShowSpeed0 == "true" || isShowSpeed0 == true || isShowSpeed0 == "" || isShowSpeed0 == null) {
+
 
             isShowSpeed = true;
             localStorage.removeItem("isshowspeed");
@@ -941,9 +939,9 @@
     function myTime() {
         if (isInputing) {
             time++;
-            writeTitle(articleTitle, time, getCorrectRate())
+            writeTitle(articleTitle, time, getCorrectRate());
 
-            setCookie("time", time, 36500)
+            localStorage.setItem("time", time);
             //console.log(hour + ":" + formattime(min) + ":" + formattime(second));
         }
     }
@@ -1104,31 +1102,31 @@
 
         let myFontSize = $(".setting-fontsize").val();
         if (myFontSize == defaultFontSize) {
-            setCookie("fontsize", $(".setting-fontsize").val(), 0);
+            localStorage.removeItem("fontsize");
         } else {
-            setCookie("fontsize", $(".setting-fontsize").val(), 36500);
+            localStorage.setItem("fontsize", $(".setting-fontsize").val());
         }
 
         let myTitleColor = document.getElementsByClassName("colortext-title")[0].value;
 
         if (myTitleColor != defaultTitleColor) {
-            setCookie("titlecolor", myTitleColor, 36500);
+            localStorage.setItem("titlecolor", myTitleColor);
         } else {
-            setCookie("titlecolor", "", 0);
+            localStorage.removeItem("titlecolor");
         }
 
         let myLine1Color = document.getElementsByClassName("colortext-line1")[0].value;
         if (myLine1Color != defaultLine1Color) {
-            setCookie("line1color", myLine1Color, 36500);
+            localStorage.setItem("line1color", myLine1Color);
         } else {
-            setCookie("line1color", "", 0);
+            localStorage.removeItem("line1color");
         }
 
         let myLine2Color = document.getElementsByClassName("line2colorset")[0].value;
         if (myLine2Color != defaultLine2Color) {
-            setCookie("line2color", myLine2Color, 36500);
+            localStorage.setItem("line2color", myLine2Color);
         } else {
-            setCookie("line2color", "", 0);
+            localStorage.removeItem("line2color");
         }
 
         let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
@@ -1140,9 +1138,9 @@
 
         let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
         if (ifAutoNextLineCheckbox.checked) {
-            setCookie("autonextline", true, 0);
+            localStorage.removeItem("autonextline");
         } else {
-            setCookie("autonextline", false, 36500);
+            localStorage.setItem("autonextline", false);
         }
 
         $("#settingModal").modal("hide");
