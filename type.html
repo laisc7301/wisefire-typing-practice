@@ -1,1347 +1,1351 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>睿火打字练习</title>
-		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-		<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
-
-		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
-		<script src="./js/cookie.js"></script>
-		<script src="./js/replacehhf.js"></script>
-		<style>
-			.main {
-				background-color: chartreuse;
-			}
-
-			.main2 {
-				/* background-color: deepskyblue; */
-				background-color: lightskyblue;
-
-				overflow: auto;
-
-				/* border-style: solid;
-				border-width: 5px;
-				border-color: white; */
-
-			}
-
-			.main3 {}
-
-			.footer {
-				text-align: center;
-				background-color: lightskyblue;
-			}
-
-
-			.title1 {
-				/* background-color: deepskyblue; */
-				background-color: #00bfff;
-				/* background-color: red; */
-				/* deepskyblue */
-				font-size: 20px;
-				text-align: center;
-
-				top: 0;
-				left: 0;
-				border-style: none none solid none;
-			}
-
-			.inputtipdiv {
-
-				border-style: none none none solid;
-			}
-
-			.texttest1 {
-				font-size: 30px;
-				text-overflow: "";
-				overflow: hidden;
-				white-space: nowrap;
-				/* display: none; */
-
-			}
-
-			.entertext {
-				font-size: 30px;
-			}
-
-			/* .inputdiv1 {
-				color: red;
-			} */
-
-
-
-			.bgline1 {
-				/* background-color: lightskyblue;
-				border-color: lightskyblue; */
-				background-color: #87cefa;
-				/* lightskyblue */
-				border-color: #87cefa;
-			}
-
-			.bgline2 {
-				/* background-color: chartreuse;
-				border-color: chartreuse; */
-				background-color: #87cefa;
-				/* lightskyblue */
-				border-color: #87cefa;
-			}
-
-			.fblack {
-				color: black;
-			}
-
-			.fgrey {
-				color: grey;
-			}
-
-			.fred {
-				color: red;
-			}
-
-			.floatright {
-				float: right;
-			}
-
-
-			;
-		</style>
-		<script>
-			var version = "v1.2.0";
-
-			var article = replacebrtohhf(getCookie("article"));
-			//var entered = "123\nOnce upon a time a little girl tried to make a living by selling matches in the stre";
-			var entered = replacebrtohhf(getCookie("entered"));
-
-			var myInputObj = new Array(); //输入内容列表(input)
-			var inputTipObj = new Array(); //输入提示列表(div)
-			var list = new Array(); //每行要输入的内容
-			var listEntered = new Array(); //已输入的每行的内容，仅加载时更新
-			var nowFocus = 0; //现在的焦点
-			//var onbackspace = false; //是否触发了退格到上一行
-			var articleTitle = getCookie("articletitle"); //文章名
-			var isInputing = false;
-			let time0 = getCookie("time");
-			var time = 0;
-			if (time0 == "") {
-				time = 0;
-			} else {
-				time = time0;
-			}
-			let autoNextLine0 = getCookie("autonextline");
-			var autoNextLine = true;
-			if (autoNextLine0 == "") {
-				autoNextLine = true;
-			} else {
-				autoNextLine = (autoNextLine0 == "true");
-			}
-
-			var isNum = /^[0-9]+$/;
-			var defaultFontSize = 30;
-
-			let fontSize0 = getCookie("fontsize");
-			var fontSize = defaultFontSize;
-			if (fontSize0 == "") {
-				fontSize = defaultFontSize;
-			} else {
-				fontSize = fontSize0;
-			}
-
-			var defaultTitleColor = "#00bfff";
-			//var defaulttitlecolor = "green";
-
-			let titleColor0 = getCookie("titlecolor");
-			var titleColor = defaultTitleColor;
-			if (titleColor0 == "") {
-				titleColor = defaultTitleColor;
-			} else {
-				titleColor = titleColor0;
-			}
-
-			var defaultLine1Color = "#87cefa";
-			let line1Color0 = getCookie("line1color");
-			var line1Color = defaultLine1Color;
-			if (line1Color0 == "") {
-				line1Color = defaultLine1Color;
-			} else {
-				line1Color = line1Color0;
-			}
-
-
-			var defaultLine2Color = "#82ff92";
-			let line2Color0 = getCookie("line2color");
-			var line2Color = defaultLine2Color;
-			if (line2Color0 == "") {
-				line2Color = defaultLine2Color;
-			} else {
-				line2Color = line2Color0;
-			}
-
-			var isColorReg = /^#[0-9A-F]{6}$/i;
-
-
-
-			var isShowSpeed0 = getCookie("isshowspeed");
-
-			var isShowSpeed = true;
-
-			if (isShowSpeed0 == "true" || isShowSpeed0 == true || isShowSpeed0 == "") {
-				isShowSpeed = true;
-				setCookie("isshowspeed", true, 0);
-			} else {
-				isShowSpeed = false;
-			}
-
-
-
-			var speedLengthArray = new Array(); //记录每秒输入字符长度
-
-			var speedSpacing = 15; //测试速度间隔
-
-			for (let i = 0; i <= speedSpacing; i++) {
-				speedLengthArray[i] = entered.length;
-
-			}
-
-			var speed = 0;
-
-			var isSettingModalSaveOnClick = false; //是否点击了设置保存按钮
-
-			// var isfinishdialogshowed = false;
-			// var issettingModalshowed = false;
-		</script>
-
-	</head>
-	<body>
-		<div class="main">
-			<div class="title1">
-				标题栏
-			</div>
-			<div class="main2">
-				<div class="texttest1">
-					Loading...
-				</div>
-				<div class="main3">
-				</div>
-
-			</div>
-			<div class="footer">
-				由&nbsp;<a href="https://laisc7301.github.io/blog/" target="_blank">睿虎</a>&nbsp;开发&nbsp;<span
-					class="version">v1.0.0</span>&nbsp;<a href="https://github.com/laisc7301/wisefire-typing-practice/"
-					target="_blank">源代码</a>
-			</div>
-
-		</div>
-		<style>
-			.finishdialog {
-				top: 0;
-				left: 0;
-				/* right: 0;
-				bottom: 0; */
-
-				position: fixed;
-				z-index: 100;
-
-				background-color: #F4FFEF;
-				border: 1px dotted black;
-				display: none;
-
-			}
-
-			.finishdialog-title {
-				font-weight: bold;
-			}
-
-			.finishdialog-okbutton {
-				text-align: center;
-			}
-		</style>
-		<div class="finishdialog">
-			<div class="finishdialog-title">打字完成！</div>
-			<br />
-			<div class="finishdialog-usedtime">用时：</div>
-			<div class="finishdialog-correctrate">正确率：</div>
-			<div class="finishdialog-totalinput">输入字数：</div>
-			<div class="finishdialog-averagespeed">平均速度：<span class="averageInputSpeed"></span>&nbsp;char/min</div>
-
-			<br />
-			<div class="finishdialog-okbutton">
-
-				<button class="btn btn-primary" onclick="onfinishDialogOk()">确定</button>
-			</div>
-		</div>
-
-		<style>
-			.settingModal-tip1 {
-				border-style: solid none solid none;
-				border-width: 7px;
-				border-color: #ffffff;
-			}
-
-			.colortext {
-				display: inline;
-				width: 120px;
-
-			}
-		</style>
-
-		<div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">设置</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							onclick="onSettingModalCancel()"></button>
-					</div>
-					<div class="modal-body">
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="inputGroup-sizing-default">字体大小(px)：</span>
-							<input type="text" class="form-control setting-fontsize" aria-label="Sizing example input"
-								oninput="onChangeFontSize(this)" aria-describedby="inputGroup-sizing-default"><span
-								class="settingModal-tip1">（默认<span class="defaultFontSizeTip">30</span>）</span>
-						</div>
-
-						<div>
-							显示打字速度：
-							<input class="form-check-input ifshowspeed" type="checkbox" value="" id="flexCheckChecked"
-								checked>
-							<label class="form-check-label" for="flexCheckChecked">
-								开启
-							</label>
-
-						</div><br />
-
-						<div>
-							自动换行：
-							<input class="form-check-input ifautonextline" type="checkbox" value=""
-								id="flexCheckChecked2" checked>
-							<label class="form-check-label" for="flexCheckChecked2">
-								开启
-							</label>
-
-						</div><br />
-
-
-						<!-- is-invalid -->
-
-						<div>标题栏颜色：<input class="form-control form-control-sm colortext colortext-title"
-								oninput="onChangeTitleColorText()" />
-
-							<button type="button" class="btn btn-primary"
-								style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-								onclick="titleColorToDefault()">
-								恢复默认
-							</button>
-
-							<input type="color" class="form-control form-control-color titlecolorset" value="#ff0000"
-								title="标题栏颜色" oninput="onChangeTitleColor(this)" />
-						</div>
-
-						<div>单数行颜色：<input class="form-control form-control-sm colortext colortext-line1"
-								oninput="onChangeLine1ColorText()" />
-
-							<button type="button" class="btn btn-primary"
-								style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-								onclick="line1ColorToDefault()">
-								恢复默认
-							</button>
-
-							<input type="color" class="form-control form-control-color line1colorset" value="#ff0000"
-								title="单数行颜色" oninput="onChangeLine1Color(this)" />
-						</div>
-
-						<div>双数行颜色：<input class="form-control form-control-sm colortext colortext-line2"
-								oninput="onChangeLine2ColorText()" />
-
-							<button type="button" class="btn btn-primary"
-								style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-								onclick="line2ColorToDefault()">
-								恢复默认
-							</button>
-
-							<input type="color" class="form-control form-control-color line2colorset" value="#ff0000"
-								title="双数行颜色" oninput="onChangeLine2Color(this)" />
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" onclick="onSettingModalCancel()"
-							data-bs-dismiss="modal">取消</button>
-						<button type="button" class="btn btn-primary" onclick="onSettingModalSave()">保存</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-
-
-
-	</body>
-	<script>
-		function createPage0() {
-			let windowWidth = window.innerWidth;
-			let windowHeight = window.innerHeight;
-
-			$(".title1").width(windowWidth);
-			//$(".main").width(windowwidth-25);
-			let title1 = document.getElementsByClassName("title1")[0];
-			let footer = document.getElementsByClassName("footer")[0];
-			//$(".cube1").height(title1.clientHeight);
-			let main2Height = windowHeight - title1.clientHeight - footer.clientHeight - footer.clientHeight;
-
-			if (main2Height <= 0) {
-				main2Height = 1;
-			}
-
-			$(".main2").height(main2Height);
-
-			let myTitle = document.getElementsByClassName("title1")[0];
-			myTitle.style.backgroundColor = titleColor;
-			setLine1Color(line1Color);
-			setLine2Color(line2Color);
-
-
-			//$(".entertext").resize(100);
-			// var entertextcss = document.querySelector('.entertext');
-			// entertextcss.style.fontSize = 50;
-
-			$(".version").html(version);
-
-			$('#settingModal').on('hidden.bs.modal', function() {
-				onSettingModalCancel();
-			});
-
-		}
-		createPage0();
-
-
-
-		function startTimer() {
-			var timer1 = self.setInterval("myTime()", 1000); //计算已用时间
-			var timer2 = self.setInterval("myTime2()", 1000); //计算打字速度
-		}
-		startTimer();
-
-
-
-
-		function textTest() { //测试最大长度
-			var textTest = document.getElementsByClassName("texttest1")[0];
-			textTest.style.fontSize = fontSize + "px";
-			for (let i = 0; i < article.length; i++) {
-				for (let i2 = i; i2 <= article.length; i2++) {
-
-					if (i2 >= article.length) {
-						list.push(article.substring(i, i2));
-						i = i2 - 1; //-1是用来抵消掉i++
-						break;
-					}
-
-					if (article.charAt(i2) == "\n") {
-						list.push(article.substring(i, i2 + 1));
-						i = i2 + 1 - 1; //-1是用来抵消掉i++
-						break;
-					}
-
-					let myline = article.substring(i, i2);
-					$(".texttest1").html(myline);
-					if (textTest.scrollWidth > textTest.clientWidth) {
-						i2 -= 3; //微调每行长度
-						if (i2 <= 0) {
-							break;
-						}
-						let myLine2 = article.substring(i, i2);
-						i = i2 - 1; //-1是用来抵消掉i++
-						list.push(myLine2);
-						break;
-
-					}
-				}
-			}
-			textTest.innerHTML = "";
-		}
-		textTest();
-		//console.log(list);
-
-
-		function createPage() { //创建页面
-			for (let i = 0; i < list.length; i++) {
-				var inputTip = document.createElement("div");
-				inputTip.style.fontSize = "50px";
-				inputTip.innerHTML = "11";
-				inputTip.className = "entertext inputtipdiv inputtipdiv" + i;
-				if ((i + 1) % 2 === 0) {
-					//console.log('是偶数');
-					//inputtip.className += " bggreen";
-					inputTip.className += " bgline2";
-				} else {
-					//console.log('是奇数');
-					inputTip.className += " bgline1";
-				}
-				inputTip.setAttribute("lineid", i);
-
-				var myInput = document.createElement("input");
-				myInput.value = "";
-				myInput.className = "entertext myinput myinput" + i;
-				myInput.setAttribute("lineid", i); //当前页的行数，从0开始
-				myInput.oninput = function() {
-					onInput(this);
-				}
-				myInput.onkeydown = function(event) {
-					onKeyDown(event, this);
-				}
-				myInput.onfocus = function() {
-					onFocus(this);
-				}
-
-				$(".main3").append(inputTip);
-				$(".main3").append(myInput);
-				inputTipObj.push(inputTip);
-				myInputObj.push(myInput);
-
-			}
-			$(".myinput").width($(".main3").width() - 10);
-			// 	let main3 = document.getElementsByClassName("main3")[0];
-			// 	$(".main1").height(main3.scrollHeight);
-
-			document.onkeydown = function(event) {
-				windowOnKeyDown(event);
-
-			}
-
-			for (let i = 0; i < list.length; i++) {
-				let tip = document.getElementsByClassName("inputtipdiv")[i];
-				let myInput = document.getElementsByClassName("myinput")[i];
-				tip.style.fontSize = fontSize + "px";
-				myInput.style.fontSize = fontSize + "px";
-			}
-
-
-
-		}
-		createPage();
-
-		function getEnteredList() { //将过去的输入内容转换为列表
-			let myLine = 0;
-			//let mylinelength = 0;
-
-			let now = 0;
-			for (;;) {
-				//console.log(myline);
-				let myLineLength = list[myLine].length;
-				listEntered.push(entered.substring(now, now + myLineLength));
-				//myinputobj[myline].setAttribute("nowentered",
-				now += myLineLength;
-				if (myLine < list.length - 1) {
-					myLine++;
-				}
-				if (now >= entered.length) {
-					break;
-				}
-			}
-			// let endoflistentered = listEntered[listEntered.length - 1];
-			//console.log(endoflistentered);
-		}
-		getEnteredList();
-		//console.log(listentered);
-
-
-		function loadTipAndInput() {
-			for (let i = 0; i < list.length; i++) {
-				inputTipObj[i].innerHTML = "";
-				myInputObj[i].setAttribute("nowentered", strToNoEnterend(getListEntered(i)));
-				myInputObj[i].setAttribute("enteredtip", strToNoEnterend(getList(i)));
-				myInputObj[i].setAttribute("ifneedenter", isEnterend(getList(i)));
-				myInputObj[i].value = strToNoEnterend(getListEntered(i));
-				let myList = strToNoEnterend(getList(i));
-				for (let i2 = 0; i2 < myList.length; i2++) {
-					let inputTipSpan = document.createElement("span");
-					inputTipSpan.className = "inputtipspan fblack " + "tipfont" + i + "-" + i2;
-					let str = myList.charAt(i2);
-					if (str == " ") {
-						str = "&nbsp;";
-					}
-					inputTipSpan.innerHTML = str;
-					inputTipObj[i].appendChild(inputTipSpan);
-				}
-				setColor(i);
-
-			}
-			let focusLine = listEntered.length - 1;
-			if (focusLine > list.length - 1) {
-				focusLine = list.length - 1;
-			}
-			myInputObj[focusLine].focus();
-
-			writeTitle(articleTitle, time, getCorrectRate());
-			createPage0();
-		}
-		loadTipAndInput();
-
-
-
-
-
-		function setColor(index) {
-			let nowEntered = myInputObj[index].getAttribute("nowentered");
-			let enteredTip = myInputObj[index].getAttribute("enteredtip");
-			for (let i = 0; i < enteredTip.length; i++) {
-				let obj = document.getElementsByClassName("tipfont" + index + "-" + i)[0];
-				if (i >= nowEntered.length) {
-					obj.className = "inputtipspan fblack " + "tipfont" + index + "-" + i;
-				} else if (nowEntered.charAt(i) == enteredTip.charAt(i)) {
-					obj.className = "inputtipspan fgrey " + "tipfont" + index + "-" + i;
-				} else {
-					obj.className = "inputtipspan fred " + "tipfont" + index + "-" + i;
-				}
-
-			}
-		}
-
-		function getInputRightNumber(index) {
-			let number = 0;
-			let nowEntered = myInputObj[index].getAttribute("nowentered");
-			let enteredTip = myInputObj[index].getAttribute("enteredtip");
-			for (let i = 0; i < nowEntered.length; i++) {
-				if (nowEntered.charAt(i) == enteredTip.charAt(i)) {
-					number++;
-				}
-			}
-			return number;
-		}
-		//console.log(getinputrightnumber(3));
-
-		function getInputNumber(index) {
-			let nowEntered = myInputObj[index].getAttribute("nowentered");
-			return nowEntered.length;
-		}
-		//console.log(getinputnumber(3));
-
-		function isEnterend(str) { //测试结尾是否为换行符
-			return (str.charAt(str.length - 1) == "\n");
-		}
-
-
-		function strToNoEnterend(str) { //去除结尾的换行符
-			if (isEnterend(str)) {
-				return str.substring(0, str.length - 1);
-			} else {
-				return str;
-			}
-		}
-
-		function getList(index) { //获得list列表
-			if (list[index] == undefined) {
-				return "";
-			} else {
-				return list[index];
-			}
-		}
-
-		function getListEntered(index) { //获得listentered列表,只有初始化时可用
-			if (listEntered[index] == undefined) {
-				return "";
-			} else {
-				return listEntered[index];
-			}
-		}
-
-		function getIfNeedEnter(index) {
-			let booleanStr = myInputObj[index].getAttribute("ifneedenter");
-			let myBoolean = (booleanStr == "true");
-			return myBoolean;
-		}
-
-		function getEnterContent(index) {
-			let nowEntered = myInputObj[index].getAttribute("nowentered");
-			let enteredTip = myInputObj[index].getAttribute("enteredtip");
-			let ifNeedEnter = getIfNeedEnter(index);
-			let enteredTipLength = enteredTip.length;
-			if (nowEntered.length == enteredTipLength) {
-				if (ifNeedEnter) {
-					return nowEntered + "\n";
-				} else {
-					return nowEntered;
-				}
-			} else {
-				return nowEntered;
-			}
-		}
-
-		function getEndLine() {
-			for (let i = list.length - 1; i >= 0; i--) {
-				if (myInputObj[i].value != "") {
-					return i;
-				}
-
-			}
-			return 0;
-		}
-
-		//console.log(getentercontent(4)+"123");
-
-		function onInput(myobj) {
-			//let line = myobj.getAttribute("lineid");
-			isInputing = true;
-			myobj.setAttribute("nowentered", myobj.value);
-			setColor(nowFocus);
-			let nowLine = myobj.getAttribute("lineid");
-			// console.log(isenterend(list[nowline]));
-			if ((myobj.value.length >= myobj.getAttribute("enteredtip").length)) {
-
-				//&& (isenterend(list[nowline]) == false)
-				if (!(isEnterend(list[nowLine]))) {
-					if (autoNextLine == true) {
-
-						if (nowFocus < list.length - 1) { //如果不是最后一行
-							if (myobj.selectionStart >= myobj.value.length) {
-								nowFocus++;
-								myInputObj[nowFocus].focus();
-							}
-						}
-					} else {
-						let endStr = myobj.value.substring(myobj.value.length - 1, myobj.value.length);
-						// if (endstr == " ") {
-						// 	myobj.value = myobj.value.substring(0, myobj.value.length - 1);
-						// 	nowfocus++;
-						// 	myinputobj[nowfocus].focus();
-						// }
-						let myRegular = /[A-Za-zü']+/;
-						if (myRegular.test(endStr)) {
-							// console.log('该字符串是英文' + endstr);
-						} else {
-							// console.log('该字符串不是英文' + endstr);
-							// myobj.value = myobj.value.substring(0, myobj.value.length - 1);
-							if (nowFocus + 1 < list.length) {
-								if (myobj.selectionStart >= myobj.value.length) {
-									nowFocus++;
-									myInputObj[nowFocus].focus();
-								}
-							}
-						}
-					}
-				}
-
-				if (!(isEnterend(list[nowLine]))) {
-
-					if (nowFocus < list.length - 1) { //如果不是最后一行
-
-					} else { //如果是最后一行
-						//onfinish();
-
-						if (autoNextLine == true) {
-							if (myobj.selectionStart >= myobj.value.length) {
-								onFinish();
-							}
-						} else {
-							let endStr = myobj.value.substring(myobj.value.length - 1, myobj.value.length);
-							let myRegular = /[A-Za-zü']+/;
-							if (myRegular.test(endStr)) {
-								// console.log('该字符串是英文' + endstr);
-							} else {
-								// console.log('该字符串不是英文' + endstr);
-								// myobj.value = myobj.value.substring(0, myobj.value.length - 1);
-								if (myobj.selectionStart >= myobj.value.length) {
-									onFinish();
-								}
-							}
-						}
-					}
-				}
-			}
-
-			entered = getAllEnterContent();
-			let str = replacehhftobr(entered);
-			setCookie("entered", str, 36500);
-
-			//console.log(myobj.selectionStart + "," + myobj.selectionEnd);
-
-
-			// if(backspace){
-			// 	backspace=false;
-			// 	console.log(123);
-			// 	nowfocus--;
-			// 	myinputobj[nowfocus].focus();
-			// }
-			// console.log(ifpinyinend(myobj.value));
-		}
-
-
-		function ifpinyinEnd(str) {
-			let endStr = str.substring(str.length - 1, str.length);
-			let myRegular = /[A-Za-zü']+/;
-			return myRegular.test(endStr);
-		}
-
-		function getCorrectRate() { // 获得正确率
-			let allNumber = 0;
-			let rightNumber = 0;
-			for (let i = 0; i < list.length; i++) {
-				allNumber += getInputNumber(i);
-				rightNumber += getInputRightNumber(i);
-			}
-			if (allNumber == 0) {
-				return 100;
-			}
-			let percentage1 = rightNumber / allNumber;
-			let percentage2 = Math.round(percentage1 * 100 * 100) / 100;
-			return percentage2;
-		}
-
-		function onKeyDown(event, myobj) {
-			//console.log(event.keyCode);
-			if (event.keyCode == 13) { // Enter键
-				if (nowFocus < list.length - 1) {
-					nowFocus++;
-					myInputObj[nowFocus].focus();
-				} else {
-					//到达最后一行
-					onFinish();
-				}
-				//console.log(getendline());
-			}
-
-			if (event.keyCode == 8) { // Backspace键
-				//console.log(myobj.selectionEnd);
-				if (myobj.selectionEnd == 0 && nowFocus > 0) {
-					nowFocus--;
-
-					myInputObj[nowFocus].focus();
-					event.preventDefault();
-					let l = myInputObj[nowFocus].value.length;
-					myInputObj[nowFocus].setSelectionRange(l, l);
-				}
-			}
-
-			if (event.keyCode == 40) { // 下方向键
-				if (nowFocus < list.length - 1) { // 如果不是最后一行
-					nowFocus++;
-					myInputObj[nowFocus].focus();
-				}
-			}
-			if (event.keyCode == 38) { // 上方向键
-				if (nowFocus > 0) { // 如果不是第一行
-					nowFocus--;
-					myInputObj[nowFocus].focus();
-				}
-			}
-			if (event.keyCode == 16) { // shift键
-				//console.log(myinputobj[nowfocus].selectionEnd);
-
-			}
-
-			if (event.keyCode == 39) { // 右方向键
-				if (myInputObj[nowFocus].selectionEnd == myInputObj[nowFocus].value.length) {
-					if (myInputObj[nowFocus].selectionStart == myInputObj[nowFocus].selectionEnd) {
-						if (nowFocus < getEndLine()) {
-							nowFocus++;
-							myInputObj[nowFocus].focus();
-						} else if (nowFocus == getEndLine()) {
-							if (getIfNeedEnter(nowFocus) == false) {
-								if (myInputObj[nowFocus].value.length >= list[nowFocus].length) {
-									nowFocus++;
-									myInputObj[nowFocus].focus();
-								}
-
-							}
-
-						}
-
-					}
-
-				}
-
-			}
-			if (event.keyCode == 37) { // 左方向键
-				if (myInputObj[nowFocus].selectionStart == 0) {
-					if (myInputObj[nowFocus].selectionStart == myInputObj[nowFocus].selectionEnd) {
-						if (nowFocus > 0) { // 如果不是第一行
-							nowFocus--;
-							myInputObj[nowFocus].focus();
-							event.preventDefault();
-							let l = myInputObj[nowFocus].value.length;
-							myInputObj[nowFocus].setSelectionRange(l, l);
-						}
-					}
-				}
-			}
-		}
-
-		function onFinish() { //打字完成时运行此处
-			isInputing = false;
-			// isfinishdialogshowed = true;
-
-			let usedTime = secondsToTime(time);
-			$(".finishdialog-usedtime").html("用时：" + usedTime);
-			let correctrate = getCorrectRate();
-			writeTitle(articleTitle, time, correctrate);
-			$(".finishdialog-correctrate").html("正确率：" + correctrate + "%");
-			let allEnterContentLength = getAllEnterContent().length;
-			$(".finishdialog-totalinput").html("输入字数：" + allEnterContentLength);
-
-			let mySpeed = allEnterContentLength;
-			if (time <= 0) {
-				mySpeed = allEnterContentLength;
-			} else {
-				mySpeed = allEnterContentLength / time * 60;
-			}
-
-			$(".averageInputSpeed").html(mySpeed);
-
-
-			$(".finishdialog").show();
-			let windowWidth = window.innerWidth;
-			let windowHeight = window.innerHeight;
-			let finishDialog = document.getElementsByClassName("finishdialog")[0];
-			let finishDialogWidth = finishDialog.scrollWidth;
-			let finishDialogHeight = finishDialog.scrollHeight;
-
-			finishDialog.style.top = parseInt((windowHeight - finishDialogHeight) / 2) + "px";
-			finishDialog.style.left = parseInt((windowWidth - finishDialogWidth) / 2) + "px";
-
-
-		}
-
-		function onFocus(myobj) {
-			let myLineId = myobj.getAttribute("lineid");
-			nowFocus = myLineId;
-			//myobj.scrollIntoView(false);
-
-			//parent.scrollTo(0,100)
-
-		}
-
-
-		function getAllEnterContent() {
-			let all = "";
-			for (let i = 0; i < list.length; i++) {
-				all += getEnterContent(i);
-			}
-			return all;
-
-		}
-		//console.log(getallentercontent());
-		//getAttribute()
-		function formatTime(t) {
-			if (t == 0) {
-				return "00";
-			} else if (t < 10) {
-				return "0" + t;
-			} else {
-				return "" + t;
-			}
-		}
-
-		function myTime() {
-			if (isInputing) {
-				time++;
-				writeTitle(articleTitle, time, getCorrectRate())
-
-				setCookie("time", time, 36500)
-				//console.log(hour + ":" + formattime(min) + ":" + formattime(second));
-			}
-		}
-
-		//var finishdialogshowtype = "first";
-		
-		function pause(){
-			isInputing = false;
-		}
-
-		function windowOnKeyDown(event) {
-			// console.log(event.keyCode);
-			// console.log(event.altKey);
-			if (event.altKey && event.keyCode == 80) { // Alt+P
-				isInputing = false;
-			}
-
-			if (event.keyCode == 13) { // Enter键
-				// console.log(111);
-				// event.preventDefault();
-				// if (isfinishdialogshowed) {
-				// 	if (finishdialogshowtype == "first") {
-				// 		finishdialogshowtype = "second";
-				// 	} else if (finishdialogshowtype == "second") {
-				// 		$(".finishdialog").hide();
-				// 		isfinishdialogshowed = false;
-				// 		finishdialogshowtype = "first";
-				// 	}
-
-				// }
-			}
-		}
-
-		function secondsToTime(seconds) {
-			let hour = parseInt(seconds / (60 * 60));
-			let time2 = seconds - (hour * 60 * 60);
-			let min = parseInt(time2 / 60);
-			let second = time2 - (min * 60);
-			let timeOutput = hour + ":" + formatTime(min) + ":" + formatTime(second);
-			return timeOutput;
-		}
-
-		function autoWriteTitle() {
-			writeTitle(articleTitle, time, getCorrectRate())
-		}
-
-
-		function writeTitle(myTitle, myTime, myCorrectrate) {
-			let autoNextLineText = "";
-
-			let autoNextLineOpenText = '<a onclick="autoNextLineOpen()" href="#">打开自动换行</a>';
-			let autoNextLineCloseText = '<a onclick="autoNextLineClose()" href="#">关闭自动换行</a>';
-			//console.log(autonextline);
-			if (autoNextLine) {
-				autoNextLineText = autoNextLineCloseText;
-			} else {
-				autoNextLineText = autoNextLineOpenText;
-			}
-
-			let timeOutput = secondsToTime(myTime);
-
-			let speedStrOut = "";
-
-			if (isShowSpeed) {
-				let speedStr1 = "速度：";
-				let speedStr2 = "&nbsp;char/min&nbsp;&nbsp;";
-				speedStrOut = speedStr1 + speed + speedStr2;
-			}
-
-			let titleOutput = myTitle + "&nbsp;&nbsp;已用时间:" + timeOutput + "(&nbsp;Alt+P&nbsp;<a href='#' onclick='pause()'>暂停</a>&nbsp;)&nbsp;&nbsp;正确率:" + myCorrectrate +
-				"%&nbsp;&nbsp;" + speedStrOut + autoNextLineText +
-				"&nbsp;&nbsp;<a onclick='onOpenSetting()' href='#'>设置</a>&nbsp;&nbsp;<a class='back' href='index.html'>返回</a>";
-
-			$(".title1").html(titleOutput);
-		}
-
-		window.onresize = function() {
-			let windowWidth = window.innerWidth;
-			//window.innerHeight
-			$(".title1").width(windowWidth);
-			createPage0();
-		}
-
-		function gettotalInput() {
-			return entered.length;
-		}
-
-
-		function onfinishDialogOk() {
-			$(".finishdialog").hide();
-		}
-
-		function autoNextLineOpen() {
-			autoNextLine = true;
-			setCookie("autonextline", autoNextLine, 0);
-			autoWriteTitle();
-		}
-
-		function autoNextLineClose() {
-			autoNextLine = false;
-			setCookie("autonextline", autoNextLine, 36500);
-			autoWriteTitle();
-		}
-
-
-		function onOpenSetting() { //settingModal
-			$("#settingModal").modal("show");
-
-			$(".setting-fontsize").val(fontSize);
-			let myTitleColor = document.getElementsByClassName("titlecolorset")[0];
-			myTitleColor.value = titleColor;
-			$(".colortext-title").val(titleColor);
-
-			let myLine1Color = document.getElementsByClassName("line1colorset")[0];
-			myLine1Color.value = line1Color;
-			$(".colortext-line1").val(line1Color);
-
-			let myLine2Color = document.getElementsByClassName("line2colorset")[0];
-			myLine2Color.value = line2Color;
-			$(".colortext-line2").val(line2Color);
-
-			let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
-
-			ifShowSpeedCheckbox.checked = isShowSpeed;
-
-			let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
-
-			ifAutoNextLineCheckbox.checked = autoNextLine;
-
-			$(".defaultFontSizeTip").html(defaultFontSize)
-
-
-
-		}
-
-
-		function onSettingModalSave() { //"fontsize"setting-fontsize
-			isSettingModalSaveOnClick = true;
-
-			let mySettingFontSize = document.getElementsByClassName("setting-fontsize")[0];
-			if (mySettingFontSize.getAttribute("isinvalid") == "yes") {
-				return;
-			}
-
-			let colorTextTitle = document.getElementsByClassName("colortext-title")[0];
-			if (colorTextTitle.getAttribute("isinvalid") == "yes") {
-				return;
-			}
-
-			let colorTextLine1 = document.getElementsByClassName("colortext-line1")[0];
-			if (colorTextLine1.getAttribute("isinvalid") == "yes") {
-				return;
-			}
-
-			let colorTextLine2 = document.getElementsByClassName("colortext-line2")[0];
-			if (colorTextLine2.getAttribute("isinvalid") == "yes") {
-				return;
-			}
-
-			let myFontSize = $(".setting-fontsize").val();
-			if (myFontSize == defaultFontSize) {
-				setCookie("fontsize", $(".setting-fontsize").val(), 0);
-			} else {
-				setCookie("fontsize", $(".setting-fontsize").val(), 36500);
-			}
-
-			let myTitleColor = document.getElementsByClassName("colortext-title")[0].value;
-
-			if (myTitleColor != defaultTitleColor) {
-				setCookie("titlecolor", myTitleColor, 36500);
-			} else {
-				setCookie("titlecolor", "", 0);
-			}
-
-			let myLine1Color = document.getElementsByClassName("colortext-line1")[0].value;
-			if (myLine1Color != defaultLine1Color) {
-				setCookie("line1color", myLine1Color, 36500);
-			} else {
-				setCookie("line1color", "", 0);
-			}
-
-			let myLine2Color = document.getElementsByClassName("line2colorset")[0].value;
-			if (myLine2Color != defaultLine2Color) {
-				setCookie("line2color", myLine2Color, 36500);
-			} else {
-				setCookie("line2color", "", 0);
-			}
-
-			let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
-			if (ifShowSpeedCheckbox.checked) {
-				setCookie("isshowspeed", true, 0);
-			} else {
-				setCookie("isshowspeed", false, 36500);
-			}
-
-			let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
-			if (ifAutoNextLineCheckbox.checked) {
-				setCookie("autonextline", true, 0);
-			} else {
-				setCookie("autonextline", false, 36500);
-			}
-
-			$("#settingModal").modal("hide");
-
-			location.reload();
-
-		}
-
-		function onSettingModalCancel() {
-			if (isSettingModalSaveOnClick == false) {
-
-				setTitleColor(titleColor);
-				setLine1Color(line1Color);
-				setLine2Color(line2Color);
-			} else {
-				isSettingModalSaveOnClick = false;
-			}
-			//$("#settingModal").modal("hide");
-		}
-
-		function onChangeTitleColor(myobj) {
-			setTitleColor(myobj.value);
-			$(".colortext-title").val(myobj.value);
-			checkTitleColorText();
-
-		}
-
-		function setTitleColor(color) {
-			let myTitle = document.getElementsByClassName("title1")[0];
-			myTitle.style.backgroundColor = color;
-		}
-
-		function titleColorToDefault() {
-			let myColor = document.getElementsByClassName("titlecolorset")[0];
-			myColor.value = defaultTitleColor;
-			setTitleColor(defaultTitleColor);
-			$(".colortext-title").val(defaultTitleColor);
-			checkTitleColorText();
-		}
-
-		function onChangeLine1Color(myobj) {
-			setLine1Color(myobj.value);
-			$(".colortext-line1").val(myobj.value);
-			checkLine1ColorText();
-		}
-
-		function setLine1Color(color) {
-			//inputtipobj
-			for (let i = 0; i < inputTipObj.length; i++) {
-				if ((i + 1) % 2 === 0) {
-					//console.log('是偶数');
-				} else {
-					//console.log('是奇数');
-					inputTipObj[i].style.backgroundColor = color;
-					inputTipObj[i].style.borderColor = color;
-				}
-			}
-		}
-
-		function onChangeLine2Color(myobj) {
-			setLine2Color(myobj.value);
-			$(".colortext-line2").val(myobj.value);
-			checkLine2ColorText();
-		}
-
-		function setLine2Color(color) {
-			//inputtipobj
-			for (let i = 0; i < inputTipObj.length; i++) {
-				if ((i + 1) % 2 === 0) {
-					//console.log('是偶数');
-					inputTipObj[i].style.backgroundColor = color;
-					inputTipObj[i].style.borderColor = color;
-				} else {
-					//console.log('是奇数');
-				}
-			}
-		}
-
-		function line1ColorToDefault() {
-			let line1ColorSet = document.getElementsByClassName("line1colorset")[0];
-			line1ColorSet.value = defaultLine1Color;
-			$(".colortext-line1").val(defaultLine1Color);
-			checkLine1ColorText();
-			setLine1Color(defaultLine1Color);
-		}
-
-		function line2ColorToDefault() {
-			let line2colorset = document.getElementsByClassName("line2colorset")[0];
-			line2colorset.value = defaultLine2Color;
-			$(".colortext-line2").val(defaultLine2Color);
-			checkLine2ColorText();
-			setLine2Color(defaultLine2Color);
-
-		}
-
-		function onChangeFontSize(myobj) {
-			checkSettingFontSizeText();
-		}
-
-		function checkSettingFontSizeText() {
-
-			let settingFontSizeClass = "form-control setting-fontsize";
-			let mySettingFontSize = document.getElementsByClassName("setting-fontsize")[0];
-			if (isNum.test(mySettingFontSize.value)) {
-				mySettingFontSize.className = settingFontSizeClass;
-				mySettingFontSize.setAttribute("isinvalid", "no");
-			} else {
-				mySettingFontSize.className = settingFontSizeClass + " is-invalid";
-				mySettingFontSize.setAttribute("isinvalid", "yes");
-			}
-		}
-
-		function isColorText(val) {
-			return isColorReg.test(val);
-		}
-
-		function onChangeTitleColorText() {
-			checkTitleColorText();
-			let colorTextTitle = document.getElementsByClassName("colortext-title")[0];
-			let myTitleColorSet = document.getElementsByClassName("titlecolorset")[0];
-			if (colorTextTitle.getAttribute("isinvalid") == "no") {
-				myTitleColorSet.value = colorTextTitle.value;
-				setTitleColor(colorTextTitle.value);
-			}
-		}
-
-		function checkTitleColorText() {
-
-			let titleColorClass = "form-control form-control-sm colortext colortext-title";
-			let colorTextTitle = document.getElementsByClassName("colortext-title")[0];
-			if (isColorText(colorTextTitle.value)) {
-				colorTextTitle.className = titleColorClass;
-				colorTextTitle.setAttribute("isinvalid", "no");
-			} else {
-				colorTextTitle.className = titleColorClass + " is-invalid";
-				colorTextTitle.setAttribute("isinvalid", "yes");
-			}
-		}
-
-		function onChangeLine1ColorText() {
-			checkLine1ColorText();
-
-			let colorTextLine1 = document.getElementsByClassName("colortext-line1")[0];
-			let myLine1ColorSet = document.getElementsByClassName("line1colorset")[0];
-			if (colorTextLine1.getAttribute("isinvalid") == "no") {
-				myLine1ColorSet.value = colorTextLine1.value;
-				setLine1Color(colorTextLine1.value);
-
-			}
-		}
-
-		function checkLine1ColorText() {
-			let line1ColorClass = "form-control form-control-sm colortext colortext-line1";
-			let colorTextLine1 = document.getElementsByClassName("colortext-line1")[0];
-			if (isColorText(colorTextLine1.value)) {
-				colorTextLine1.className = line1ColorClass;
-				colorTextLine1.setAttribute("isinvalid", "no");
-			} else {
-				colorTextLine1.className = line1ColorClass + " is-invalid";
-				colorTextLine1.setAttribute("isinvalid", "yes");
-			}
-		}
-
-		function onChangeLine2ColorText() {
-			checkLine2ColorText();
-
-			let colorTextLine2 = document.getElementsByClassName("colortext-line2")[0];
-			let myLine2ColorSet = document.getElementsByClassName("line2colorset")[0];
-			if (colorTextLine2.getAttribute("isinvalid") == "no") {
-				myLine2ColorSet.value = colorTextLine2.value;
-				setLine2Color(colorTextLine2.value);
-			}
-		}
-
-		function checkLine2ColorText() {
-			let Line2ColorClass = "form-control form-control-sm colortext colortext-line2";
-			let colorTextLine2 = document.getElementsByClassName("colortext-line2")[0];
-			if (isColorText(colorTextLine2.value)) {
-				colorTextLine2.className = Line2ColorClass;
-				colorTextLine2.setAttribute("isinvalid", "no");
-			} else {
-				colorTextLine2.className = Line2ColorClass + " is-invalid";
-				colorTextLine2.setAttribute("isinvalid", "yes");
-			}
-		}
-
-		function getSpeedIndex2() {
-
-		}
-
-
-
-		function myTime2() {
-			if (isShowSpeed && isInputing) {
-
-				speedLengthArray.shift();
-
-				speedLengthArray.push(getAllEnterContent().length);
-
-				let speed0 = speedLengthArray[speedSpacing] - speedLengthArray[0];
-
-				speed = speed0 / speedSpacing * 60;
-				// console.log(speed);
-			}
-		}
-	</script>
+<head>
+    <meta charset="utf-8">
+    <title>睿火打字练习</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/cookie.js"></script>
+    <script src="./js/replacehhf.js"></script>
+    <style>
+        .main {
+            background-color: chartreuse;
+        }
+
+        .main2 {
+            /* background-color: deepskyblue; */
+            background-color: lightskyblue;
+
+            overflow: auto;
+
+            /* border-style: solid;
+            border-width: 5px;
+            border-color: white; */
+
+        }
+
+        .main3 {
+        }
+
+        .footer {
+            text-align: center;
+            background-color: lightskyblue;
+        }
+
+
+        .title1 {
+            /* background-color: deepskyblue; */
+            background-color: #00bfff;
+            /* background-color: red; */
+            /* deepskyblue */
+            font-size: 20px;
+            text-align: center;
+
+            top: 0;
+            left: 0;
+            border-style: none none solid none;
+        }
+
+        .inputtipdiv {
+
+            border-style: none none none solid;
+        }
+
+        .texttest1 {
+            font-size: 30px;
+            text-overflow: "";
+            overflow: hidden;
+            white-space: nowrap;
+            /* display: none; */
+
+        }
+
+        .entertext {
+            font-size: 30px;
+        }
+
+        /* .inputdiv1 {
+            color: red;
+        } */
+
+
+        .bgline1 {
+            /* background-color: lightskyblue;
+            border-color: lightskyblue; */
+            background-color: #87cefa;
+            /* lightskyblue */
+            border-color: #87cefa;
+        }
+
+        .bgline2 {
+            /* background-color: chartreuse;
+            border-color: chartreuse; */
+            background-color: #87cefa;
+            /* lightskyblue */
+            border-color: #87cefa;
+        }
+
+        .fblack {
+            color: black;
+        }
+
+        .fgrey {
+            color: grey;
+        }
+
+        .fred {
+            color: red;
+        }
+
+        .floatright {
+            float: right;
+        }
+
+
+        ;
+    </style>
+    <script>
+        var version = "v1.2.1";
+
+        // var article = replacebrtohhf(getCookie("article"));
+        var article = localStorage.getItem("article");
+        console.log(article);
+        //var entered = "123\nOnce upon a time a little girl tried to make a living by selling matches in the stre";
+        // var entered = replacebrtohhf(getCookie("entered"));
+        var entered = localStorage.getItem("entered");
+
+        var myInputObj = new Array(); //输入内容列表(input)
+        var inputTipObj = new Array(); //输入提示列表(div)
+        var list = new Array(); //每行要输入的内容
+        var listEntered = new Array(); //已输入的每行的内容，仅加载时更新
+        var nowFocus = 0; //现在的焦点
+        //var onbackspace = false; //是否触发了退格到上一行
+        var articleTitle = localStorage.getItem("articletitle"); //文章名
+        var isInputing = false;
+        let time0 = localStorage.getItem("time");
+        var time = 0;
+        if (time0 == "" || time0 == null) {
+            time = 0;
+        } else {
+            time = time0;
+        }
+        let autoNextLine0 = localStorage.getItem("autonextline");
+        var autoNextLine = true;
+        if (autoNextLine0 == "" || autoNextLine == null) {
+            autoNextLine = true;
+        } else {
+            autoNextLine = (autoNextLine0 == "true");
+        }
+
+        var isNum = /^[0-9]+$/;
+        var defaultFontSize = 30;
+
+        let fontSize0 = getCookie("fontsize");
+        var fontSize = defaultFontSize;
+        if (fontSize0 == "") {
+            fontSize = defaultFontSize;
+        } else {
+            fontSize = fontSize0;
+        }
+
+        var defaultTitleColor = "#00bfff";
+        //var defaulttitlecolor = "green";
+
+        let titleColor0 = getCookie("titlecolor");
+        var titleColor = defaultTitleColor;
+        if (titleColor0 == "") {
+            titleColor = defaultTitleColor;
+        } else {
+            titleColor = titleColor0;
+        }
+
+        var defaultLine1Color = "#87cefa";
+        let line1Color0 = getCookie("line1color");
+        var line1Color = defaultLine1Color;
+        if (line1Color0 == "") {
+            line1Color = defaultLine1Color;
+        } else {
+            line1Color = line1Color0;
+        }
+
+
+        var defaultLine2Color = "#82ff92";
+        let line2Color0 = getCookie("line2color");
+        var line2Color = defaultLine2Color;
+        if (line2Color0 == "") {
+            line2Color = defaultLine2Color;
+        } else {
+            line2Color = line2Color0;
+        }
+
+        var isColorReg = /^#[0-9A-F]{6}$/i;
+
+
+        var isShowSpeed0 = localStorage.getItem("isshowspeed");
+
+        var isShowSpeed = true;
+
+        if (isShowSpeed0 == "true" || isShowSpeed0 == true || isShowSpeed0 == "" || isShowSpeed0 == null) {
+
+            isShowSpeed = true;
+            localStorage.removeItem("isshowspeed");
+        } else {
+            isShowSpeed = false;
+        }
+
+
+        var speedLengthArray = new Array(); //记录每秒输入字符长度
+
+        var speedSpacing = 15; //测试速度间隔
+
+        for (let i = 0; i <= speedSpacing; i++) {
+            speedLengthArray[i] = entered.length;
+
+        }
+
+        var speed = 0;
+
+        var isSettingModalSaveOnClick = false; //是否点击了设置保存按钮
+
+        // var isfinishdialogshowed = false;
+        // var issettingModalshowed = false;
+    </script>
+
+</head>
+<body>
+<div class="main">
+    <div class="title1">
+        标题栏
+    </div>
+    <div class="main2">
+        <div class="texttest1">
+            Loading...
+        </div>
+        <div class="main3">
+        </div>
+
+    </div>
+    <div class="footer">
+        由&nbsp;<a href="https://laisc7301.github.io/blog/" target="_blank">睿虎</a>&nbsp;开发&nbsp;<span
+            class="version">v1.0.0</span>&nbsp;<a href="https://github.com/laisc7301/wisefire-typing-practice/"
+                                                  target="_blank">源代码</a>
+    </div>
+
+</div>
+<style>
+    .finishdialog {
+        top: 0;
+        left: 0;
+        /* right: 0;
+        bottom: 0; */
+
+        position: fixed;
+        z-index: 100;
+
+        background-color: #F4FFEF;
+        border: 1px dotted black;
+        display: none;
+
+    }
+
+    .finishdialog-title {
+        font-weight: bold;
+    }
+
+    .finishdialog-okbutton {
+        text-align: center;
+    }
+</style>
+<div class="finishdialog">
+    <div class="finishdialog-title">打字完成！</div>
+    <br/>
+    <div class="finishdialog-usedtime">用时：</div>
+    <div class="finishdialog-correctrate">正确率：</div>
+    <div class="finishdialog-totalinput">输入字数：</div>
+    <div class="finishdialog-averagespeed">平均速度：<span class="averageInputSpeed"></span>&nbsp;char/min</div>
+
+    <br/>
+    <div class="finishdialog-okbutton">
+
+        <button class="btn btn-primary" onclick="onfinishDialogOk()">确定</button>
+    </div>
+</div>
+
+<style>
+    .settingModal-tip1 {
+        border-style: solid none solid none;
+        border-width: 7px;
+        border-color: #ffffff;
+    }
+
+    .colortext {
+        display: inline;
+        width: 120px;
+
+    }
+</style>
+
+<div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">设置</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        onclick="onSettingModalCancel()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">字体大小(px)：</span>
+                    <input type="text" class="form-control setting-fontsize" aria-label="Sizing example input"
+                           oninput="onChangeFontSize(this)" aria-describedby="inputGroup-sizing-default"><span
+                        class="settingModal-tip1">（默认<span class="defaultFontSizeTip">30</span>）</span>
+                </div>
+
+                <div>
+                    显示打字速度：
+                    <input class="form-check-input ifshowspeed" type="checkbox" value="" id="flexCheckChecked"
+                           checked>
+                    <label class="form-check-label" for="flexCheckChecked">
+                        开启
+                    </label>
+
+                </div>
+                <br/>
+
+                <div>
+                    自动换行：
+                    <input class="form-check-input ifautonextline" type="checkbox" value=""
+                           id="flexCheckChecked2" checked>
+                    <label class="form-check-label" for="flexCheckChecked2">
+                        开启
+                    </label>
+
+                </div>
+                <br/>
+
+
+                <!-- is-invalid -->
+
+                <div>标题栏颜色：<input class="form-control form-control-sm colortext colortext-title"
+                                       oninput="onChangeTitleColorText()"/>
+
+                    <button type="button" class="btn btn-primary"
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                            onclick="titleColorToDefault()">
+                        恢复默认
+                    </button>
+
+                    <input type="color" class="form-control form-control-color titlecolorset" value="#ff0000"
+                           title="标题栏颜色" oninput="onChangeTitleColor(this)"/>
+                </div>
+
+                <div>单数行颜色：<input class="form-control form-control-sm colortext colortext-line1"
+                                       oninput="onChangeLine1ColorText()"/>
+
+                    <button type="button" class="btn btn-primary"
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                            onclick="line1ColorToDefault()">
+                        恢复默认
+                    </button>
+
+                    <input type="color" class="form-control form-control-color line1colorset" value="#ff0000"
+                           title="单数行颜色" oninput="onChangeLine1Color(this)"/>
+                </div>
+
+                <div>双数行颜色：<input class="form-control form-control-sm colortext colortext-line2"
+                                       oninput="onChangeLine2ColorText()"/>
+
+                    <button type="button" class="btn btn-primary"
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                            onclick="line2ColorToDefault()">
+                        恢复默认
+                    </button>
+
+                    <input type="color" class="form-control form-control-color line2colorset" value="#ff0000"
+                           title="双数行颜色" oninput="onChangeLine2Color(this)"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="onSettingModalCancel()"
+                        data-bs-dismiss="modal">取消
+                </button>
+                <button type="button" class="btn btn-primary" onclick="onSettingModalSave()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script>
+    function createPage0() {
+        let windowWidth = window.innerWidth;
+        let windowHeight = window.innerHeight;
+
+        $(".title1").width(windowWidth);
+        //$(".main").width(windowwidth-25);
+        let title1 = document.getElementsByClassName("title1")[0];
+        let footer = document.getElementsByClassName("footer")[0];
+        //$(".cube1").height(title1.clientHeight);
+        let main2Height = windowHeight - title1.clientHeight - footer.clientHeight - footer.clientHeight;
+
+        if (main2Height <= 0) {
+            main2Height = 1;
+        }
+
+        $(".main2").height(main2Height);
+
+        let myTitle = document.getElementsByClassName("title1")[0];
+        myTitle.style.backgroundColor = titleColor;
+        setLine1Color(line1Color);
+        setLine2Color(line2Color);
+
+
+        //$(".entertext").resize(100);
+        // var entertextcss = document.querySelector('.entertext');
+        // entertextcss.style.fontSize = 50;
+
+        $(".version").html(version);
+
+        $('#settingModal').on('hidden.bs.modal', function () {
+            onSettingModalCancel();
+        });
+
+    }
+
+    createPage0();
+
+
+    function startTimer() {
+        var timer1 = self.setInterval("myTime()", 1000); //计算已用时间
+        var timer2 = self.setInterval("myTime2()", 1000); //计算打字速度
+    }
+
+    startTimer();
+
+
+    function textTest() { //测试最大长度
+        var textTest = document.getElementsByClassName("texttest1")[0];
+        textTest.style.fontSize = fontSize + "px";
+        for (let i = 0; i < article.length; i++) {
+            for (let i2 = i; i2 <= article.length; i2++) {
+
+                if (i2 >= article.length) {
+                    list.push(article.substring(i, i2));
+                    i = i2 - 1; //-1是用来抵消掉i++
+                    break;
+                }
+
+                if (article.charAt(i2) == "\n") {
+                    list.push(article.substring(i, i2 + 1));
+                    i = i2 + 1 - 1; //-1是用来抵消掉i++
+                    break;
+                }
+
+                let myline = article.substring(i, i2);
+                $(".texttest1").html(myline);
+                if (textTest.scrollWidth > textTest.clientWidth) {
+                    i2 -= 3; //微调每行长度
+                    if (i2 <= 0) {
+                        break;
+                    }
+                    let myLine2 = article.substring(i, i2);
+                    i = i2 - 1; //-1是用来抵消掉i++
+                    list.push(myLine2);
+                    break;
+
+                }
+            }
+        }
+        textTest.innerHTML = "";
+    }
+
+    textTest();
+
+    //console.log(list);
+
+
+    function createPage() { //创建页面
+        for (let i = 0; i < list.length; i++) {
+            var inputTip = document.createElement("div");
+            inputTip.style.fontSize = "50px";
+            inputTip.innerHTML = "11";
+            inputTip.className = "entertext inputtipdiv inputtipdiv" + i;
+            if ((i + 1) % 2 === 0) {
+                //console.log('是偶数');
+                //inputtip.className += " bggreen";
+                inputTip.className += " bgline2";
+            } else {
+                //console.log('是奇数');
+                inputTip.className += " bgline1";
+            }
+            inputTip.setAttribute("lineid", i);
+
+            var myInput = document.createElement("input");
+            myInput.value = "";
+            myInput.className = "entertext myinput myinput" + i;
+            myInput.setAttribute("lineid", i); //当前页的行数，从0开始
+            myInput.oninput = function () {
+                onInput(this);
+            }
+            myInput.onkeydown = function (event) {
+                onKeyDown(event, this);
+            }
+            myInput.onfocus = function () {
+                onFocus(this);
+            }
+
+            $(".main3").append(inputTip);
+            $(".main3").append(myInput);
+            inputTipObj.push(inputTip);
+            myInputObj.push(myInput);
+
+        }
+        $(".myinput").width($(".main3").width() - 10);
+        // 	let main3 = document.getElementsByClassName("main3")[0];
+        // 	$(".main1").height(main3.scrollHeight);
+
+        document.onkeydown = function (event) {
+            windowOnKeyDown(event);
+
+        }
+
+        for (let i = 0; i < list.length; i++) {
+            let tip = document.getElementsByClassName("inputtipdiv")[i];
+            let myInput = document.getElementsByClassName("myinput")[i];
+            tip.style.fontSize = fontSize + "px";
+            myInput.style.fontSize = fontSize + "px";
+        }
+
+
+    }
+
+    createPage();
+
+    function getEnteredList() { //将过去的输入内容转换为列表
+        let myLine = 0;
+        //let mylinelength = 0;
+
+        let now = 0;
+        for (; ;) {
+            //console.log(myline);
+            let myLineLength = list[myLine].length;
+            listEntered.push(entered.substring(now, now + myLineLength));
+            //myinputobj[myline].setAttribute("nowentered",
+            now += myLineLength;
+            if (myLine < list.length - 1) {
+                myLine++;
+            }
+            if (now >= entered.length) {
+                break;
+            }
+        }
+        // let endoflistentered = listEntered[listEntered.length - 1];
+        //console.log(endoflistentered);
+    }
+
+    getEnteredList();
+
+    //console.log(listentered);
+
+
+    function loadTipAndInput() {
+        for (let i = 0; i < list.length; i++) {
+            inputTipObj[i].innerHTML = "";
+            myInputObj[i].setAttribute("nowentered", strToNoEnterend(getListEntered(i)));
+            myInputObj[i].setAttribute("enteredtip", strToNoEnterend(getList(i)));
+            myInputObj[i].setAttribute("ifneedenter", isEnterend(getList(i)));
+            myInputObj[i].value = strToNoEnterend(getListEntered(i));
+            let myList = strToNoEnterend(getList(i));
+            for (let i2 = 0; i2 < myList.length; i2++) {
+                let inputTipSpan = document.createElement("span");
+                inputTipSpan.className = "inputtipspan fblack " + "tipfont" + i + "-" + i2;
+                let str = myList.charAt(i2);
+                if (str == " ") {
+                    str = "&nbsp;";
+                }
+                inputTipSpan.innerHTML = str;
+                inputTipObj[i].appendChild(inputTipSpan);
+            }
+            setColor(i);
+
+        }
+        let focusLine = listEntered.length - 1;
+        if (focusLine > list.length - 1) {
+            focusLine = list.length - 1;
+        }
+        myInputObj[focusLine].focus();
+
+        writeTitle(articleTitle, time, getCorrectRate());
+        createPage0();
+    }
+
+    loadTipAndInput();
+
+
+    function setColor(index) {
+        let nowEntered = myInputObj[index].getAttribute("nowentered");
+        let enteredTip = myInputObj[index].getAttribute("enteredtip");
+        for (let i = 0; i < enteredTip.length; i++) {
+            let obj = document.getElementsByClassName("tipfont" + index + "-" + i)[0];
+            if (i >= nowEntered.length) {
+                obj.className = "inputtipspan fblack " + "tipfont" + index + "-" + i;
+            } else if (nowEntered.charAt(i) == enteredTip.charAt(i)) {
+                obj.className = "inputtipspan fgrey " + "tipfont" + index + "-" + i;
+            } else {
+                obj.className = "inputtipspan fred " + "tipfont" + index + "-" + i;
+            }
+
+        }
+    }
+
+    function getInputRightNumber(index) {
+        let number = 0;
+        let nowEntered = myInputObj[index].getAttribute("nowentered");
+        let enteredTip = myInputObj[index].getAttribute("enteredtip");
+        for (let i = 0; i < nowEntered.length; i++) {
+            if (nowEntered.charAt(i) == enteredTip.charAt(i)) {
+                number++;
+            }
+        }
+        return number;
+    }
+
+    //console.log(getinputrightnumber(3));
+
+    function getInputNumber(index) {
+        let nowEntered = myInputObj[index].getAttribute("nowentered");
+        return nowEntered.length;
+    }
+
+    //console.log(getinputnumber(3));
+
+    function isEnterend(str) { //测试结尾是否为换行符
+        return (str.charAt(str.length - 1) == "\n");
+    }
+
+
+    function strToNoEnterend(str) { //去除结尾的换行符
+        if (isEnterend(str)) {
+            return str.substring(0, str.length - 1);
+        } else {
+            return str;
+        }
+    }
+
+    function getList(index) { //获得list列表
+        if (list[index] == undefined) {
+            return "";
+        } else {
+            return list[index];
+        }
+    }
+
+    function getListEntered(index) { //获得listentered列表,只有初始化时可用
+        if (listEntered[index] == undefined) {
+            return "";
+        } else {
+            return listEntered[index];
+        }
+    }
+
+    function getIfNeedEnter(index) {
+        let booleanStr = myInputObj[index].getAttribute("ifneedenter");
+        let myBoolean = (booleanStr == "true");
+        return myBoolean;
+    }
+
+    function getEnterContent(index) {
+        let nowEntered = myInputObj[index].getAttribute("nowentered");
+        let enteredTip = myInputObj[index].getAttribute("enteredtip");
+        let ifNeedEnter = getIfNeedEnter(index);
+        let enteredTipLength = enteredTip.length;
+        if (nowEntered.length == enteredTipLength) {
+            if (ifNeedEnter) {
+                return nowEntered + "\n";
+            } else {
+                return nowEntered;
+            }
+        } else {
+            return nowEntered;
+        }
+    }
+
+    function getEndLine() {
+        for (let i = list.length - 1; i >= 0; i--) {
+            if (myInputObj[i].value != "") {
+                return i;
+            }
+
+        }
+        return 0;
+    }
+
+    //console.log(getentercontent(4)+"123");
+
+    function onInput(myobj) {
+        //let line = myobj.getAttribute("lineid");
+        isInputing = true;
+        myobj.setAttribute("nowentered", myobj.value);
+        setColor(nowFocus);
+        let nowLine = myobj.getAttribute("lineid");
+        // console.log(isenterend(list[nowline]));
+        if ((myobj.value.length >= myobj.getAttribute("enteredtip").length)) {
+
+            //&& (isenterend(list[nowline]) == false)
+            if (!(isEnterend(list[nowLine]))) {
+                if (autoNextLine == true) {
+
+                    if (nowFocus < list.length - 1) { //如果不是最后一行
+                        if (myobj.selectionStart >= myobj.value.length) {
+                            nowFocus++;
+                            myInputObj[nowFocus].focus();
+                        }
+                    }
+                } else {
+                    let endStr = myobj.value.substring(myobj.value.length - 1, myobj.value.length);
+                    // if (endstr == " ") {
+                    // 	myobj.value = myobj.value.substring(0, myobj.value.length - 1);
+                    // 	nowfocus++;
+                    // 	myinputobj[nowfocus].focus();
+                    // }
+                    let myRegular = /[A-Za-zü']+/;
+                    if (myRegular.test(endStr)) {
+                        // console.log('该字符串是英文' + endstr);
+                    } else {
+                        // console.log('该字符串不是英文' + endstr);
+                        // myobj.value = myobj.value.substring(0, myobj.value.length - 1);
+                        if (nowFocus + 1 < list.length) {
+                            if (myobj.selectionStart >= myobj.value.length) {
+                                nowFocus++;
+                                myInputObj[nowFocus].focus();
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!(isEnterend(list[nowLine]))) {
+
+                if (nowFocus < list.length - 1) { //如果不是最后一行
+
+                } else { //如果是最后一行
+                    //onfinish();
+
+                    if (autoNextLine == true) {
+                        if (myobj.selectionStart >= myobj.value.length) {
+                            onFinish();
+                        }
+                    } else {
+                        let endStr = myobj.value.substring(myobj.value.length - 1, myobj.value.length);
+                        let myRegular = /[A-Za-zü']+/;
+                        if (myRegular.test(endStr)) {
+                            // console.log('该字符串是英文' + endstr);
+                        } else {
+                            // console.log('该字符串不是英文' + endstr);
+                            // myobj.value = myobj.value.substring(0, myobj.value.length - 1);
+                            if (myobj.selectionStart >= myobj.value.length) {
+                                onFinish();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        entered = getAllEnterContent();
+        let str = replacehhftobr(entered);
+        localStorage.setItem("entered", str);
+
+        //console.log(myobj.selectionStart + "," + myobj.selectionEnd);
+
+
+        // if(backspace){
+        // 	backspace=false;
+        // 	console.log(123);
+        // 	nowfocus--;
+        // 	myinputobj[nowfocus].focus();
+        // }
+        // console.log(ifpinyinend(myobj.value));
+    }
+
+
+    function ifpinyinEnd(str) {
+        let endStr = str.substring(str.length - 1, str.length);
+        let myRegular = /[A-Za-zü']+/;
+        return myRegular.test(endStr);
+    }
+
+    function getCorrectRate() { // 获得正确率
+        let allNumber = 0;
+        let rightNumber = 0;
+        for (let i = 0; i < list.length; i++) {
+            allNumber += getInputNumber(i);
+            rightNumber += getInputRightNumber(i);
+        }
+        if (allNumber == 0) {
+            return 100;
+        }
+        let percentage1 = rightNumber / allNumber;
+        let percentage2 = Math.round(percentage1 * 100 * 100) / 100;
+        return percentage2;
+    }
+
+    function onKeyDown(event, myobj) {
+        //console.log(event.keyCode);
+        if (event.keyCode == 13) { // Enter键
+            if (nowFocus < list.length - 1) {
+                nowFocus++;
+                myInputObj[nowFocus].focus();
+            } else {
+                //到达最后一行
+                onFinish();
+            }
+            //console.log(getendline());
+        }
+
+        if (event.keyCode == 8) { // Backspace键
+            //console.log(myobj.selectionEnd);
+            if (myobj.selectionEnd == 0 && nowFocus > 0) {
+                nowFocus--;
+
+                myInputObj[nowFocus].focus();
+                event.preventDefault();
+                let l = myInputObj[nowFocus].value.length;
+                myInputObj[nowFocus].setSelectionRange(l, l);
+            }
+        }
+
+        if (event.keyCode == 40) { // 下方向键
+            if (nowFocus < list.length - 1) { // 如果不是最后一行
+                nowFocus++;
+                myInputObj[nowFocus].focus();
+            }
+        }
+        if (event.keyCode == 38) { // 上方向键
+            if (nowFocus > 0) { // 如果不是第一行
+                nowFocus--;
+                myInputObj[nowFocus].focus();
+            }
+        }
+        if (event.keyCode == 16) { // shift键
+            //console.log(myinputobj[nowfocus].selectionEnd);
+
+        }
+
+        if (event.keyCode == 39) { // 右方向键
+            if (myInputObj[nowFocus].selectionEnd == myInputObj[nowFocus].value.length) {
+                if (myInputObj[nowFocus].selectionStart == myInputObj[nowFocus].selectionEnd) {
+                    if (nowFocus < getEndLine()) {
+                        nowFocus++;
+                        myInputObj[nowFocus].focus();
+                    } else if (nowFocus == getEndLine()) {
+                        if (getIfNeedEnter(nowFocus) == false) {
+                            if (myInputObj[nowFocus].value.length >= list[nowFocus].length) {
+                                nowFocus++;
+                                myInputObj[nowFocus].focus();
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+        if (event.keyCode == 37) { // 左方向键
+            if (myInputObj[nowFocus].selectionStart == 0) {
+                if (myInputObj[nowFocus].selectionStart == myInputObj[nowFocus].selectionEnd) {
+                    if (nowFocus > 0) { // 如果不是第一行
+                        nowFocus--;
+                        myInputObj[nowFocus].focus();
+                        event.preventDefault();
+                        let l = myInputObj[nowFocus].value.length;
+                        myInputObj[nowFocus].setSelectionRange(l, l);
+                    }
+                }
+            }
+        }
+    }
+
+    function onFinish() { //打字完成时运行此处
+        isInputing = false;
+        // isfinishdialogshowed = true;
+
+        let usedTime = secondsToTime(time);
+        $(".finishdialog-usedtime").html("用时：" + usedTime);
+        let correctrate = getCorrectRate();
+        writeTitle(articleTitle, time, correctrate);
+        $(".finishdialog-correctrate").html("正确率：" + correctrate + "%");
+        let allEnterContentLength = getAllEnterContent().length;
+        $(".finishdialog-totalinput").html("输入字数：" + allEnterContentLength);
+
+        let mySpeed = allEnterContentLength;
+        if (time <= 0) {
+            mySpeed = allEnterContentLength;
+        } else {
+            mySpeed = allEnterContentLength / time * 60;
+        }
+
+        $(".averageInputSpeed").html(mySpeed);
+
+
+        $(".finishdialog").show();
+        let windowWidth = window.innerWidth;
+        let windowHeight = window.innerHeight;
+        let finishDialog = document.getElementsByClassName("finishdialog")[0];
+        let finishDialogWidth = finishDialog.scrollWidth;
+        let finishDialogHeight = finishDialog.scrollHeight;
+
+        finishDialog.style.top = parseInt((windowHeight - finishDialogHeight) / 2) + "px";
+        finishDialog.style.left = parseInt((windowWidth - finishDialogWidth) / 2) + "px";
+
+
+    }
+
+    function onFocus(myobj) {
+        let myLineId = myobj.getAttribute("lineid");
+        nowFocus = myLineId;
+        //myobj.scrollIntoView(false);
+
+        //parent.scrollTo(0,100)
+
+    }
+
+
+    function getAllEnterContent() {
+        let all = "";
+        for (let i = 0; i < list.length; i++) {
+            all += getEnterContent(i);
+        }
+        return all;
+
+    }
+
+    //console.log(getallentercontent());
+    //getAttribute()
+    function formatTime(t) {
+        if (t == 0) {
+            return "00";
+        } else if (t < 10) {
+            return "0" + t;
+        } else {
+            return "" + t;
+        }
+    }
+
+    function myTime() {
+        if (isInputing) {
+            time++;
+            writeTitle(articleTitle, time, getCorrectRate())
+
+            setCookie("time", time, 36500)
+            //console.log(hour + ":" + formattime(min) + ":" + formattime(second));
+        }
+    }
+
+    //var finishdialogshowtype = "first";
+
+    function pause() {
+        isInputing = false;
+    }
+
+    function windowOnKeyDown(event) {
+        // console.log(event.keyCode);
+        // console.log(event.altKey);
+        if (event.altKey && event.keyCode == 80) { // Alt+P
+            isInputing = false;
+        }
+
+        if (event.keyCode == 13) { // Enter键
+            // console.log(111);
+            // event.preventDefault();
+            // if (isfinishdialogshowed) {
+            // 	if (finishdialogshowtype == "first") {
+            // 		finishdialogshowtype = "second";
+            // 	} else if (finishdialogshowtype == "second") {
+            // 		$(".finishdialog").hide();
+            // 		isfinishdialogshowed = false;
+            // 		finishdialogshowtype = "first";
+            // 	}
+
+            // }
+        }
+    }
+
+    function secondsToTime(seconds) {
+        let hour = parseInt(seconds / (60 * 60));
+        let time2 = seconds - (hour * 60 * 60);
+        let min = parseInt(time2 / 60);
+        let second = time2 - (min * 60);
+        let timeOutput = hour + ":" + formatTime(min) + ":" + formatTime(second);
+        return timeOutput;
+    }
+
+    function autoWriteTitle() {
+        writeTitle(articleTitle, time, getCorrectRate())
+    }
+
+
+    function writeTitle(myTitle, myTime, myCorrectrate) {
+        let autoNextLineText = "";
+
+        let autoNextLineOpenText = '<a onclick="autoNextLineOpen()" href="#">打开自动换行</a>';
+        let autoNextLineCloseText = '<a onclick="autoNextLineClose()" href="#">关闭自动换行</a>';
+        //console.log(autonextline);
+        if (autoNextLine) {
+            autoNextLineText = autoNextLineCloseText;
+        } else {
+            autoNextLineText = autoNextLineOpenText;
+        }
+
+        let timeOutput = secondsToTime(myTime);
+
+        let speedStrOut = "";
+
+        if (isShowSpeed) {
+            let speedStr1 = "速度：";
+            let speedStr2 = "&nbsp;char/min&nbsp;&nbsp;";
+            speedStrOut = speedStr1 + speed + speedStr2;
+        }
+
+        let titleOutput = myTitle + "&nbsp;&nbsp;已用时间:" + timeOutput + "(&nbsp;Alt+P&nbsp;<a href='#' onclick='pause()'>暂停</a>&nbsp;)&nbsp;&nbsp;正确率:" + myCorrectrate +
+            "%&nbsp;&nbsp;" + speedStrOut + autoNextLineText +
+            "&nbsp;&nbsp;<a onclick='onOpenSetting()' href='#'>设置</a>&nbsp;&nbsp;<a class='back' href='index.html'>返回</a>";
+
+        $(".title1").html(titleOutput);
+    }
+
+    window.onresize = function () {
+        let windowWidth = window.innerWidth;
+        //window.innerHeight
+        $(".title1").width(windowWidth);
+        createPage0();
+    }
+
+    function gettotalInput() {
+        return entered.length;
+    }
+
+
+    function onfinishDialogOk() {
+        $(".finishdialog").hide();
+    }
+
+    function autoNextLineOpen() {
+        autoNextLine = true;
+        localStorage.removeItem("autonextline");
+        autoWriteTitle();
+    }
+
+    function autoNextLineClose() {
+        autoNextLine = false;
+        localStorage.setItem("autonextline", autoNextLine);
+        autoWriteTitle();
+    }
+
+
+    function onOpenSetting() { //settingModal
+        $("#settingModal").modal("show");
+
+        $(".setting-fontsize").val(fontSize);
+        let myTitleColor = document.getElementsByClassName("titlecolorset")[0];
+        myTitleColor.value = titleColor;
+        $(".colortext-title").val(titleColor);
+
+        let myLine1Color = document.getElementsByClassName("line1colorset")[0];
+        myLine1Color.value = line1Color;
+        $(".colortext-line1").val(line1Color);
+
+        let myLine2Color = document.getElementsByClassName("line2colorset")[0];
+        myLine2Color.value = line2Color;
+        $(".colortext-line2").val(line2Color);
+
+        let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
+
+        ifShowSpeedCheckbox.checked = isShowSpeed;
+
+        let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
+
+        ifAutoNextLineCheckbox.checked = autoNextLine;
+
+        $(".defaultFontSizeTip").html(defaultFontSize)
+
+
+    }
+
+
+    function onSettingModalSave() { //"fontsize"setting-fontsize
+        isSettingModalSaveOnClick = true;
+
+        let mySettingFontSize = document.getElementsByClassName("setting-fontsize")[0];
+        if (mySettingFontSize.getAttribute("isinvalid") == "yes") {
+            return;
+        }
+
+        let colorTextTitle = document.getElementsByClassName("colortext-title")[0];
+        if (colorTextTitle.getAttribute("isinvalid") == "yes") {
+            return;
+        }
+
+        let colorTextLine1 = document.getElementsByClassName("colortext-line1")[0];
+        if (colorTextLine1.getAttribute("isinvalid") == "yes") {
+            return;
+        }
+
+        let colorTextLine2 = document.getElementsByClassName("colortext-line2")[0];
+        if (colorTextLine2.getAttribute("isinvalid") == "yes") {
+            return;
+        }
+
+        let myFontSize = $(".setting-fontsize").val();
+        if (myFontSize == defaultFontSize) {
+            setCookie("fontsize", $(".setting-fontsize").val(), 0);
+        } else {
+            setCookie("fontsize", $(".setting-fontsize").val(), 36500);
+        }
+
+        let myTitleColor = document.getElementsByClassName("colortext-title")[0].value;
+
+        if (myTitleColor != defaultTitleColor) {
+            setCookie("titlecolor", myTitleColor, 36500);
+        } else {
+            setCookie("titlecolor", "", 0);
+        }
+
+        let myLine1Color = document.getElementsByClassName("colortext-line1")[0].value;
+        if (myLine1Color != defaultLine1Color) {
+            setCookie("line1color", myLine1Color, 36500);
+        } else {
+            setCookie("line1color", "", 0);
+        }
+
+        let myLine2Color = document.getElementsByClassName("line2colorset")[0].value;
+        if (myLine2Color != defaultLine2Color) {
+            setCookie("line2color", myLine2Color, 36500);
+        } else {
+            setCookie("line2color", "", 0);
+        }
+
+        let ifShowSpeedCheckbox = document.getElementsByClassName("ifshowspeed")[0];
+        if (ifShowSpeedCheckbox.checked) {
+            localStorage.removeItem("isshowspeed");
+        } else {
+            localStorage.setItem("isshowspeed", false);
+        }
+
+        let ifAutoNextLineCheckbox = document.getElementsByClassName("ifautonextline")[0];
+        if (ifAutoNextLineCheckbox.checked) {
+            setCookie("autonextline", true, 0);
+        } else {
+            setCookie("autonextline", false, 36500);
+        }
+
+        $("#settingModal").modal("hide");
+
+        location.reload();
+
+    }
+
+    function onSettingModalCancel() {
+        if (isSettingModalSaveOnClick == false) {
+
+            setTitleColor(titleColor);
+            setLine1Color(line1Color);
+            setLine2Color(line2Color);
+        } else {
+            isSettingModalSaveOnClick = false;
+        }
+        //$("#settingModal").modal("hide");
+    }
+
+    function onChangeTitleColor(myobj) {
+        setTitleColor(myobj.value);
+        $(".colortext-title").val(myobj.value);
+        checkTitleColorText();
+
+    }
+
+    function setTitleColor(color) {
+        let myTitle = document.getElementsByClassName("title1")[0];
+        myTitle.style.backgroundColor = color;
+    }
+
+    function titleColorToDefault() {
+        let myColor = document.getElementsByClassName("titlecolorset")[0];
+        myColor.value = defaultTitleColor;
+        setTitleColor(defaultTitleColor);
+        $(".colortext-title").val(defaultTitleColor);
+        checkTitleColorText();
+    }
+
+    function onChangeLine1Color(myobj) {
+        setLine1Color(myobj.value);
+        $(".colortext-line1").val(myobj.value);
+        checkLine1ColorText();
+    }
+
+    function setLine1Color(color) {
+        //inputtipobj
+        for (let i = 0; i < inputTipObj.length; i++) {
+            if ((i + 1) % 2 === 0) {
+                //console.log('是偶数');
+            } else {
+                //console.log('是奇数');
+                inputTipObj[i].style.backgroundColor = color;
+                inputTipObj[i].style.borderColor = color;
+            }
+        }
+    }
+
+    function onChangeLine2Color(myobj) {
+        setLine2Color(myobj.value);
+        $(".colortext-line2").val(myobj.value);
+        checkLine2ColorText();
+    }
+
+    function setLine2Color(color) {
+        //inputtipobj
+        for (let i = 0; i < inputTipObj.length; i++) {
+            if ((i + 1) % 2 === 0) {
+                //console.log('是偶数');
+                inputTipObj[i].style.backgroundColor = color;
+                inputTipObj[i].style.borderColor = color;
+            } else {
+                //console.log('是奇数');
+            }
+        }
+    }
+
+    function line1ColorToDefault() {
+        let line1ColorSet = document.getElementsByClassName("line1colorset")[0];
+        line1ColorSet.value = defaultLine1Color;
+        $(".colortext-line1").val(defaultLine1Color);
+        checkLine1ColorText();
+        setLine1Color(defaultLine1Color);
+    }
+
+    function line2ColorToDefault() {
+        let line2colorset = document.getElementsByClassName("line2colorset")[0];
+        line2colorset.value = defaultLine2Color;
+        $(".colortext-line2").val(defaultLine2Color);
+        checkLine2ColorText();
+        setLine2Color(defaultLine2Color);
+
+    }
+
+    function onChangeFontSize(myobj) {
+        checkSettingFontSizeText();
+    }
+
+    function checkSettingFontSizeText() {
+
+        let settingFontSizeClass = "form-control setting-fontsize";
+        let mySettingFontSize = document.getElementsByClassName("setting-fontsize")[0];
+        if (isNum.test(mySettingFontSize.value)) {
+            mySettingFontSize.className = settingFontSizeClass;
+            mySettingFontSize.setAttribute("isinvalid", "no");
+        } else {
+            mySettingFontSize.className = settingFontSizeClass + " is-invalid";
+            mySettingFontSize.setAttribute("isinvalid", "yes");
+        }
+    }
+
+    function isColorText(val) {
+        return isColorReg.test(val);
+    }
+
+    function onChangeTitleColorText() {
+        checkTitleColorText();
+        let colorTextTitle = document.getElementsByClassName("colortext-title")[0];
+        let myTitleColorSet = document.getElementsByClassName("titlecolorset")[0];
+        if (colorTextTitle.getAttribute("isinvalid") == "no") {
+            myTitleColorSet.value = colorTextTitle.value;
+            setTitleColor(colorTextTitle.value);
+        }
+    }
+
+    function checkTitleColorText() {
+
+        let titleColorClass = "form-control form-control-sm colortext colortext-title";
+        let colorTextTitle = document.getElementsByClassName("colortext-title")[0];
+        if (isColorText(colorTextTitle.value)) {
+            colorTextTitle.className = titleColorClass;
+            colorTextTitle.setAttribute("isinvalid", "no");
+        } else {
+            colorTextTitle.className = titleColorClass + " is-invalid";
+            colorTextTitle.setAttribute("isinvalid", "yes");
+        }
+    }
+
+    function onChangeLine1ColorText() {
+        checkLine1ColorText();
+
+        let colorTextLine1 = document.getElementsByClassName("colortext-line1")[0];
+        let myLine1ColorSet = document.getElementsByClassName("line1colorset")[0];
+        if (colorTextLine1.getAttribute("isinvalid") == "no") {
+            myLine1ColorSet.value = colorTextLine1.value;
+            setLine1Color(colorTextLine1.value);
+
+        }
+    }
+
+    function checkLine1ColorText() {
+        let line1ColorClass = "form-control form-control-sm colortext colortext-line1";
+        let colorTextLine1 = document.getElementsByClassName("colortext-line1")[0];
+        if (isColorText(colorTextLine1.value)) {
+            colorTextLine1.className = line1ColorClass;
+            colorTextLine1.setAttribute("isinvalid", "no");
+        } else {
+            colorTextLine1.className = line1ColorClass + " is-invalid";
+            colorTextLine1.setAttribute("isinvalid", "yes");
+        }
+    }
+
+    function onChangeLine2ColorText() {
+        checkLine2ColorText();
+
+        let colorTextLine2 = document.getElementsByClassName("colortext-line2")[0];
+        let myLine2ColorSet = document.getElementsByClassName("line2colorset")[0];
+        if (colorTextLine2.getAttribute("isinvalid") == "no") {
+            myLine2ColorSet.value = colorTextLine2.value;
+            setLine2Color(colorTextLine2.value);
+        }
+    }
+
+    function checkLine2ColorText() {
+        let Line2ColorClass = "form-control form-control-sm colortext colortext-line2";
+        let colorTextLine2 = document.getElementsByClassName("colortext-line2")[0];
+        if (isColorText(colorTextLine2.value)) {
+            colorTextLine2.className = Line2ColorClass;
+            colorTextLine2.setAttribute("isinvalid", "no");
+        } else {
+            colorTextLine2.className = Line2ColorClass + " is-invalid";
+            colorTextLine2.setAttribute("isinvalid", "yes");
+        }
+    }
+
+    function getSpeedIndex2() {
+
+    }
+
+
+    function myTime2() {
+        if (isShowSpeed && isInputing) {
+
+            speedLengthArray.shift();
+
+            speedLengthArray.push(getAllEnterContent().length);
+
+            let speed0 = speedLengthArray[speedSpacing] - speedLengthArray[0];
+
+            speed = speed0 / speedSpacing * 60;
+            // console.log(speed);
+        }
+    }
+</script>
 </html>

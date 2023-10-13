@@ -59,12 +59,16 @@
 			let article = $(".myarticle").val();
 			//console.log(myarticle);
 			let articlehhftobr = replacehhftobr(article);
-			setCookie("article",articlehhftobr,36500);
-			setCookie("entered","",36500);
-			setCookie("articletitle","自定义打字",36500);
-			setCookie("time", 0, 36500);
-			setCookie("autonextline",true,36500);
+			localStorage.setItem("article",articlehhftobr);
+			localStorage.setItem("entered","");
+			localStorage.setItem("articletitle","自定义打字");
+			localStorage.setItem("time", 0);
+			localStorage.setItem("autonextline",true);
 			window.location.href = "type.html";
 		}
+
+		// setCookie("bl",true,36500);
+		// console.log(getCookie("bl"));
+		// console.log(true);
 	</script>
 </html>

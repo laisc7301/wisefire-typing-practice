@@ -193,19 +193,22 @@
 			let setarticleselectname = setarticleselect.options[setarticleselectid].innerHTML;
 
 			//alert(setarticleselectvalue);
-			setCookie("articletitle", setarticleselectname, 36500);
+			localStorage.setItem("articletitle", setarticleselectname);
 			setCookie("time", 0, 36500);
-			setCookie("autonextline", true, 36500);
+			localStorage.setItem("autonextline", true);
 			let myarticle = $.ajax({
 				type: "GET",
 				url: setarticleselectvalue,
 				async: false,
 				success: function(result) {
 					article = result;
-					let articlehhftobr = replacehhftobr(article);
-					setCookie("article", articlehhftobr, 36500);
+					let articlehhfToN = replacehhfToN(article);
+					localStorage.setItem("article",articlehhfToN);
+					// setCookie("article", articlehhfToN, 36500);
 					//console.log(replacebrtohhf(getCookie("article")));
-					setCookie("entered", "", 36500);
+					// setCookie("entered", "", 36500);
+					localStorage.setItem("entered","");
+
 					window.location.href = "type.html";
 				}
 			});
